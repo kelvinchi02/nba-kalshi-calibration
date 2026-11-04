@@ -39,7 +39,7 @@ class RetryableHTTPError(Exception):
 class KalshiClient:
     def __init__(self, base_url: str | None = None, max_requests_per_sec: float = 10.0,
                  timeout: float = 30.0):
-        load_dotenv(REPO_ROOT / ".env")
+        load_dotenv(REPO_ROOT / ".env", encoding="utf-8")
         self.base_url = (base_url or os.getenv("KALSHI_BASE_URL") or DEFAULT_BASE_URL).rstrip("/")
         self.base_path = urlparse(self.base_url).path  # e.g. /trade-api/v2, needed for signing
         self.timeout = timeout

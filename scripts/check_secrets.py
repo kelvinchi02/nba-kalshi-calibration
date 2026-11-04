@@ -19,7 +19,7 @@ PUBLIC_KEYS = ["KALSHI_PRIVATE_KEY_PATH", "KALSHI_BASE_URL"]
 
 def main() -> None:
     if ENV_PATH.exists():
-        load_dotenv(ENV_PATH)
+        load_dotenv(ENV_PATH, encoding="utf-8")
         print(f".env found at {ENV_PATH}")
     else:
         print(f".env NOT found at {ENV_PATH} (copy .env.example to .env)")
