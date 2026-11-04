@@ -3,14 +3,14 @@
 Source: nba_api ScheduleLeagueV2 (official stats.nba.com endpoint). No unofficial fallback:
 if stats.nba.com cannot be reached after retries, the script stops with an error.
 
-Output: data/processed/nba_games_2025_26.parquet, one row per regular-season game
+Output: data/processed/nba_games_2025_26.csv, one row per regular-season game
 (NBA game ID prefix 002). The NBA Cup final (prefix 006) does not count toward the regular
 season and is excluded. Postponed games appear once, at their replayed date and tipoff.
 
 Columns:
   game_id        NBA game ID, e.g. 0022500529
   game_date      US Eastern game date
-  tipoff_utc     official scheduled tipoff, UTC (tz-aware)
+  tipoff_utc     official scheduled tipoff, UTC (ISO 8601 with Z in the CSV)
   away_team      NBA tricode, e.g. MIA
   home_team      NBA tricode, e.g. CHI
   away_score, home_score   final scores
@@ -20,23 +20,31 @@ Columns:
   game_subtype   e.g. "in-season", "Global Games" (empty for ordinary games)
   arena_city
 
+The raw stats.nba.com response is cached in data/raw/nba_schedule_2025_26.json, so the
+table can be rebuilt offline with --cached.
+
 Usage:
-    python src/nba_schedule.py
+    python src/nba_schedule.py            # fetch from stats.nba.com
+    python src/nba_schedule.py --cached   # rebuild from the cached raw response
 """
 from __future__ import annotations
 
+import argparse
 import json
 import logging
 from pathlib import Path
 
 import pandas as pd
 from nba_api.stats.endpoints import scheduleleaguev2
+from nba_api.stats.library.http import NBAStatsResponse
 from tenacity import before_sleep_log, retry, stop_after_attempt, wait_exponential
+
+from csv_io import write_csv
 
 SEASON = "2025-26"
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RAW_PATH = REPO_ROOT / "data" / "raw" / "nba_schedule_2025_26.json"
-OUT_PATH = REPO_ROOT / "data" / "processed" / "nba_games_2025_26.parquet"
+OUT_PATH = REPO_ROOT / "data" / "processed" / "nba_games_2025_26.csv"
 EXPECTED_GAMES = 1230
 
 # Headers: stats.nba.com silently drops requests that do not look like a current browser
@@ -53,6 +61,15 @@ log = logging.getLogger("nba_schedule")
 def fetch_schedule(season: str = SEASON) -> scheduleleaguev2.ScheduleLeagueV2:
     """Fetch ScheduleLeagueV2 from stats.nba.com, retrying with backoff."""
     return scheduleleaguev2.ScheduleLeagueV2(season=season, headers=HEADERS, timeout=60)
+
+
+def load_cached_schedule(season: str = SEASON) -> scheduleleaguev2.ScheduleLeagueV2:
+    """Rebuild the endpoint object from the cached raw response, without a request."""
+    endpoint = scheduleleaguev2.ScheduleLeagueV2(season=season, get_request=False)
+    endpoint.nba_response = NBAStatsResponse(response=RAW_PATH.read_text(encoding="utf-8"),
+                                             status_code=200, url=str(RAW_PATH))
+    endpoint.load_response()
+    return endpoint
 
 
 def build_regular_season(sched: pd.DataFrame) -> pd.DataFrame:
@@ -106,16 +123,25 @@ def check(games: pd.DataFrame) -> list[str]:
 
 def main() -> None:
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
-    try:
-        endpoint = fetch_schedule()
-    except Exception as exc:  # noqa: BLE001 - report and stop, no silent fallback
-        raise SystemExit(
-            f"stats.nba.com request failed after retries: {exc!r}\n"
-            "Not switching to an unofficial source. Try again later or from another network."
-        ) from exc
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--cached", action="store_true",
+                        help=f"rebuild from {RAW_PATH.relative_to(REPO_ROOT)} instead of fetching")
+    args = parser.parse_args()
 
-    RAW_PATH.parent.mkdir(parents=True, exist_ok=True)
-    RAW_PATH.write_text(json.dumps(endpoint.get_dict()))
+    if args.cached:
+        endpoint = load_cached_schedule()
+        print(f"Using cached response {RAW_PATH.relative_to(REPO_ROOT)}")
+    else:
+        try:
+            endpoint = fetch_schedule()
+        except Exception as exc:  # noqa: BLE001 - report and stop, no silent fallback
+            raise SystemExit(
+                f"stats.nba.com request failed after retries: {exc!r}\n"
+                "Not switching to an unofficial source. Try again later, from another "
+                "network, or rebuild from the cached response with --cached."
+            ) from exc
+        RAW_PATH.parent.mkdir(parents=True, exist_ok=True)
+        RAW_PATH.write_text(json.dumps(endpoint.get_dict()), encoding="utf-8")
 
     sched = endpoint.get_data_frames()[0]  # full schedule, all game types
     print("All games by NBA game ID prefix (001 pre, 002 regular, 003 all-star, "
@@ -124,7 +150,7 @@ def main() -> None:
 
     games = build_regular_season(sched)
     OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    games.to_parquet(OUT_PATH, index=False)
+    write_csv(games, OUT_PATH)
 
     print(f"\nSaved {len(games)} regular-season games to {OUT_PATH.relative_to(REPO_ROOT)}")
     print(f"Date range: {games['game_date'].min()} to {games['game_date'].max()}")

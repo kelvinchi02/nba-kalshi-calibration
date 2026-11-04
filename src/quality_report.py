@@ -16,9 +16,11 @@ from pathlib import Path
 
 import pandas as pd
 
+from csv_io import read_csv
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.parquet"
-SNAP_PATH = REPO_ROOT / "data" / "processed" / "snapshots.parquet"
+GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.csv"
+SNAP_PATH = REPO_ROOT / "data" / "processed" / "snapshots.csv"
 CACHE_DIR = REPO_ROOT / "data" / "raw" / "kalshi" / "markets"
 FAILURES_PATH = REPO_ROOT / "logs" / "pull_kalshi_failures.csv"
 OUT_PATH = REPO_ROOT / "data" / "processed" / "quality_report.md"
@@ -40,15 +42,16 @@ def md_table(df: pd.DataFrame, floatfmt: str = "{:.3f}") -> list[str]:
 
 
 def main() -> None:
-    gm = pd.read_parquet(GAME_MAP_PATH)
-    sn = pd.read_parquet(SNAP_PATH)
+    gm = read_csv(GAME_MAP_PATH)
+    sn = read_csv(SNAP_PATH)
     L = ["# Data quality report (2025-26 regular season)", "",
          "Coverage and data quality only. No calibration results.", ""]
 
     # ------------------------------------------------------------ matching and cache
     expected = set(gm.loc[gm["matched"], "home_market"]) | set(gm.loc[gm["matched"], "away_market"])
     cached = {p.name.removesuffix(".json.gz") for p in CACHE_DIR.glob("*.json.gz")}
-    failures = list(csv.DictReader(FAILURES_PATH.open())) if FAILURES_PATH.exists() else []
+    failures = (list(csv.DictReader(FAILURES_PATH.open(encoding="utf-8")))
+                if FAILURES_PATH.exists() else [])
     L += ["## Games and markets", "",
           f"- NBA regular-season games: {len(gm)}",
           f"- Matched to Kalshi: {gm['matched'].sum()} "

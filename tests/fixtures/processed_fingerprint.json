@@ -1,0 +1,488 @@
+{
+ "nba_games_2025_26.csv": {
+  "rows": 1230,
+  "columns": [
+   "game_id",
+   "game_date",
+   "tipoff_utc",
+   "away_team",
+   "home_team",
+   "away_score",
+   "home_score",
+   "home_win",
+   "status",
+   "game_label",
+   "game_subtype",
+   "arena_city"
+  ],
+  "column_fingerprints": {
+   "game_id": {
+    "kind": "string",
+    "sha256": "9600a76b5b05a6807f60e0966539de51a73d72281b7b4851529133cee5e5724d"
+   },
+   "game_date": {
+    "kind": "date",
+    "sha256": "2ca31dfaa05e3e5b7971f418b681c885dbc01ce62c1cb5dc8864bcffc2e821e1"
+   },
+   "tipoff_utc": {
+    "kind": "datetime",
+    "sha256": "fdf28ee4a15e274e4c752e57d864e7be3ff1db5c2fc9b8c28d9a7d486138dbbf"
+   },
+   "away_team": {
+    "kind": "string",
+    "sha256": "9372c16008e0aa698f644819d309719c46aa774deac7df3079e41bf769fbd869"
+   },
+   "home_team": {
+    "kind": "string",
+    "sha256": "73f94e073709c104ca020666ee6c0f1136e90c983345c0e15c7b8d613597f2c2"
+   },
+   "away_score": {
+    "kind": "int",
+    "sha256": "0154754ea3467c511b6b840382de142eca66980ae226a0da437357561f6ed479"
+   },
+   "home_score": {
+    "kind": "int",
+    "sha256": "7664262925303281397efeecb92856e310b534090f14dda20c9efd5ac639ab18"
+   },
+   "home_win": {
+    "kind": "int",
+    "sha256": "0941fa95c40becff4dc17fff7c0c8328d7b1a440d5a6ea1418904e1ff0a22b11"
+   },
+   "status": {
+    "kind": "string",
+    "sha256": "dcfd84b01c85451908c6db1c86fc7aa13f208533b26ea3f7c8c48ce400da6366"
+   },
+   "game_label": {
+    "kind": "string",
+    "sha256": "911c6e71dcf2404ed5e7d98ff6f099d072a3a5e406168a485c891caa438fa9ce"
+   },
+   "game_subtype": {
+    "kind": "string",
+    "sha256": "d43eb61383f0fabb55a6e837b9cf7e6004def0f998f69b9fd582cb89e5502fa3"
+   },
+   "arena_city": {
+    "kind": "string",
+    "sha256": "87a9fd845b4f4fc048b1c6e2d85cf5039a5dd491606c3131bde7e6cc4a855410"
+   }
+  }
+ },
+ "game_map.csv": {
+  "rows": 1230,
+  "columns": [
+   "game_id",
+   "game_date",
+   "tipoff_utc",
+   "away_team",
+   "home_team",
+   "away_score",
+   "home_score",
+   "home_win",
+   "status",
+   "game_label",
+   "game_subtype",
+   "arena_city",
+   "event_ticker",
+   "kalshi_game_date",
+   "home_market",
+   "away_market",
+   "kalshi_tipoff_estimate",
+   "market_open_time",
+   "kalshi_volume",
+   "match_type",
+   "tipoff_shift_hours",
+   "postponed_window",
+   "tipoff_moved",
+   "hours_open_before_tipoff",
+   "matched",
+   "kalshi_home_win",
+   "main_sample"
+  ],
+  "column_fingerprints": {
+   "game_id": {
+    "kind": "string",
+    "sha256": "9600a76b5b05a6807f60e0966539de51a73d72281b7b4851529133cee5e5724d"
+   },
+   "game_date": {
+    "kind": "date",
+    "sha256": "2ca31dfaa05e3e5b7971f418b681c885dbc01ce62c1cb5dc8864bcffc2e821e1"
+   },
+   "tipoff_utc": {
+    "kind": "datetime",
+    "sha256": "fdf28ee4a15e274e4c752e57d864e7be3ff1db5c2fc9b8c28d9a7d486138dbbf"
+   },
+   "away_team": {
+    "kind": "string",
+    "sha256": "9372c16008e0aa698f644819d309719c46aa774deac7df3079e41bf769fbd869"
+   },
+   "home_team": {
+    "kind": "string",
+    "sha256": "73f94e073709c104ca020666ee6c0f1136e90c983345c0e15c7b8d613597f2c2"
+   },
+   "away_score": {
+    "kind": "int",
+    "sha256": "0154754ea3467c511b6b840382de142eca66980ae226a0da437357561f6ed479"
+   },
+   "home_score": {
+    "kind": "int",
+    "sha256": "7664262925303281397efeecb92856e310b534090f14dda20c9efd5ac639ab18"
+   },
+   "home_win": {
+    "kind": "int",
+    "sha256": "0941fa95c40becff4dc17fff7c0c8328d7b1a440d5a6ea1418904e1ff0a22b11"
+   },
+   "status": {
+    "kind": "string",
+    "sha256": "dcfd84b01c85451908c6db1c86fc7aa13f208533b26ea3f7c8c48ce400da6366"
+   },
+   "game_label": {
+    "kind": "string",
+    "sha256": "911c6e71dcf2404ed5e7d98ff6f099d072a3a5e406168a485c891caa438fa9ce"
+   },
+   "game_subtype": {
+    "kind": "string",
+    "sha256": "d43eb61383f0fabb55a6e837b9cf7e6004def0f998f69b9fd582cb89e5502fa3"
+   },
+   "arena_city": {
+    "kind": "string",
+    "sha256": "87a9fd845b4f4fc048b1c6e2d85cf5039a5dd491606c3131bde7e6cc4a855410"
+   },
+   "event_ticker": {
+    "kind": "string",
+    "sha256": "8db0990333abb1b74584d9003eeac72a27fb3be9a2abefa30a25895bd73b720c"
+   },
+   "kalshi_game_date": {
+    "kind": "date",
+    "sha256": "3cbb067e9bf9695dd34118083aa83954ad708ab84ad158a566ddaa5918706bbd"
+   },
+   "home_market": {
+    "kind": "string",
+    "sha256": "883705fb036064118a266ea0eacf679432ec4a3244ad9651b7e39d8a6a2c7af5"
+   },
+   "away_market": {
+    "kind": "string",
+    "sha256": "1bd7b40882a57dcda1947ad715c1c3b26fbb3c2cfbae6dadb0ce3c602ee4d12f"
+   },
+   "kalshi_tipoff_estimate": {
+    "kind": "datetime",
+    "sha256": "5f9932891351884eb890897da1459859103e3efa8a0f82bb27586a05c46f9e10"
+   },
+   "market_open_time": {
+    "kind": "datetime",
+    "sha256": "f6b761555a1b47c5148a90fa07e59a7064323b831e4a061a8cac18f584805b05"
+   },
+   "kalshi_volume": {
+    "kind": "float",
+    "sha256": "4bddc79bd5ab811508a3fed592f4c131277da19a3f9dba6b391fb3a18a71f4bf"
+   },
+   "match_type": {
+    "kind": "string",
+    "sha256": "129dc29b2d306512d6b090f170b1bdcf5246520a55f3443767a6b8a8c9cfbc30"
+   },
+   "tipoff_shift_hours": {
+    "kind": "float",
+    "sha256": "1b5d8e90a6f5955df7ec7a3e067a0c5c76414e70bab64a0833c57d4893805a19"
+   },
+   "postponed_window": {
+    "kind": "bool",
+    "sha256": "91708f7ffaf9ac30070d2fb8fe6414acc0be62897bf12f6acd92073e3a843ad3"
+   },
+   "tipoff_moved": {
+    "kind": "bool",
+    "sha256": "079631a61c223232849a9ca83a4fac461393564ddb702412ef6fc5f80774f257"
+   },
+   "hours_open_before_tipoff": {
+    "kind": "float",
+    "sha256": "c97aed1b18b48f7562535965bbe3695531fbb245ed52f25b71603b707cc2d43d"
+   },
+   "matched": {
+    "kind": "bool",
+    "sha256": "1f0d1cba0fad3c81649465a56730c496d72b74c1ff4cf6a65b4135db18bec284"
+   },
+   "kalshi_home_win": {
+    "kind": "int",
+    "sha256": "0941fa95c40becff4dc17fff7c0c8328d7b1a440d5a6ea1418904e1ff0a22b11"
+   },
+   "main_sample": {
+    "kind": "bool",
+    "sha256": "faa37831c223d7da8b7d4f0c522f81b346fe17dbc4d55ac6589fd4285716aa4f"
+   }
+  }
+ },
+ "snapshots.csv": {
+  "rows": 4920,
+  "columns": [
+   "game_id",
+   "event_ticker",
+   "game_date",
+   "tipoff_utc",
+   "home_team",
+   "away_team",
+   "home_market",
+   "away_market",
+   "home_win",
+   "postponed_window",
+   "tipoff_moved",
+   "main_sample",
+   "market_open_time",
+   "horizon_h",
+   "snapshot_utc",
+   "market_open_before_snapshot",
+   "cache_missing",
+   "home_pregame_contracts",
+   "home_mid",
+   "home_bid",
+   "home_ask",
+   "home_spread",
+   "home_quote_age_min",
+   "home_mid_carried_forward",
+   "home_one_sided",
+   "home_last",
+   "home_last_trade_age_min",
+   "home_vwap_10m",
+   "home_n_trades_10m",
+   "home_contracts_10m",
+   "home_cum_contracts",
+   "away_pregame_contracts",
+   "away_mid",
+   "away_bid",
+   "away_ask",
+   "away_spread",
+   "away_quote_age_min",
+   "away_mid_carried_forward",
+   "away_one_sided",
+   "away_last",
+   "away_last_trade_age_min",
+   "away_vwap_10m",
+   "away_n_trades_10m",
+   "away_contracts_10m",
+   "away_cum_contracts",
+   "max_spread",
+   "p_home_mid",
+   "sum_mid",
+   "p_home_last",
+   "sum_last",
+   "p_home_vwap_10m",
+   "sum_vwap_10m",
+   "p_home",
+   "price_source"
+  ],
+  "column_fingerprints": {
+   "game_id": {
+    "kind": "string",
+    "sha256": "84b330188d24c2a9b0f2d957a9c1a73a9e9551fb473fe2cf00899d45cfd584ca"
+   },
+   "event_ticker": {
+    "kind": "string",
+    "sha256": "34f39978d2c853dba65d34e52072633daff84c174d888877892c271cfa26d241"
+   },
+   "game_date": {
+    "kind": "date",
+    "sha256": "24e322c881d0ab291a69d3511c26b7eac70a8cd50839dce4f7c4afcd64548773"
+   },
+   "tipoff_utc": {
+    "kind": "datetime",
+    "sha256": "dc92e10911cace3f7892d0833dec76f9305a0ff27ba1bd72050b5bcef482737e"
+   },
+   "home_team": {
+    "kind": "string",
+    "sha256": "2540ddded784d28f93b732bc021335ed6953461de487a0bf5159c5afe2ddeb8f"
+   },
+   "away_team": {
+    "kind": "string",
+    "sha256": "6c37a9d4287e7e1ed83d2e687d676266c347f779ba388c949450be84424b95f3"
+   },
+   "home_market": {
+    "kind": "string",
+    "sha256": "4d2e0a2129cdd7f9f43761f4a17728fea0603a01b03fbc17206f636c47421e28"
+   },
+   "away_market": {
+    "kind": "string",
+    "sha256": "1446dabe2c44e7c27022a1d24bc16715ce86d41177ed675e282c80023124f65e"
+   },
+   "home_win": {
+    "kind": "int",
+    "sha256": "4602396906bb473f32b5b9a05d99e2704bb996ef1e4971e4b4e5951dc90ba04d"
+   },
+   "postponed_window": {
+    "kind": "bool",
+    "sha256": "a798726209215ca2ac5906eec9fa30ebe5bf24a3c9ea8554ace3663ad2027e67"
+   },
+   "tipoff_moved": {
+    "kind": "bool",
+    "sha256": "14f456e514ff171f058701b99bc227ca935ba1c9b1c0e65ba5b032f17d0f8c27"
+   },
+   "main_sample": {
+    "kind": "bool",
+    "sha256": "3e7abdc33d078bd810e2d27f110cefa04f4e5ca84e084b2a7007738ccbb0cf49"
+   },
+   "market_open_time": {
+    "kind": "datetime",
+    "sha256": "f361f5399dba28b209cca92a962e2c446c10ddfeda295aad4ea6797e22a2b3ec"
+   },
+   "horizon_h": {
+    "kind": "int",
+    "sha256": "61d46aadc12b052dfd0e4e91203f3510300fe7c1359e6c7c5a8bbe64c00877e4"
+   },
+   "snapshot_utc": {
+    "kind": "datetime",
+    "sha256": "f2094a0ddb046b0157cbd239280f0cf968f8389e290e9d52fe6f1781ed037a79"
+   },
+   "market_open_before_snapshot": {
+    "kind": "bool",
+    "sha256": "b8248e30aa77a96ff3582c8bbd2c31b3d5d48ce2a449037cf4c433a517ff3904"
+   },
+   "cache_missing": {
+    "kind": "bool",
+    "sha256": "f36d4becbf4fd7d34347c381978beef459be587768fabfc5043a845ca7cabb00"
+   },
+   "home_pregame_contracts": {
+    "kind": "float",
+    "sha256": "9478cd3edecfc6f9e8f663cf34b3daefa53f37ea8057bce47849b2f3db078e5f"
+   },
+   "home_mid": {
+    "kind": "float",
+    "sha256": "15aab0ac02f34efbe8c187d42df37f1d8580f77e8e21122b7b795189edf7f3e0"
+   },
+   "home_bid": {
+    "kind": "float",
+    "sha256": "6e806bef5006bb45af46b383c0b2bd2f9b96f8f3fc39cc91abc0255efd846481"
+   },
+   "home_ask": {
+    "kind": "float",
+    "sha256": "046e7c30bbf59c730537f8b7cb36d9037b50e04ccb570c1dbef851204b3fab12"
+   },
+   "home_spread": {
+    "kind": "float",
+    "sha256": "c64f756ab3c562aff1cec7514b2f0931a9f5295cb488db3e7e953ab64e3faadf"
+   },
+   "home_quote_age_min": {
+    "kind": "float",
+    "sha256": "5ddaf2a924e1924e190fd06678583f6e8bb46e49136946f176ba6e33f9f826b2"
+   },
+   "home_mid_carried_forward": {
+    "kind": "bool",
+    "sha256": "4a01658b397e133ae3c8549ca22c2eead4b45191dde966733019adbe1dd56be5"
+   },
+   "home_one_sided": {
+    "kind": "bool",
+    "sha256": "f36d4becbf4fd7d34347c381978beef459be587768fabfc5043a845ca7cabb00"
+   },
+   "home_last": {
+    "kind": "float",
+    "sha256": "29be71afaa51adbbcd4bb39791aa440f7d3698e4ff375952301bf3ed71a2506e"
+   },
+   "home_last_trade_age_min": {
+    "kind": "float",
+    "sha256": "085f8012f3273878d6a045c32cdcf0440970862ee3cb82a1631456af47b97030"
+   },
+   "home_vwap_10m": {
+    "kind": "float",
+    "sha256": "b4d81d408971b08a2228ff272d30b77f8279a314f9cb561ba0395285685aa68f"
+   },
+   "home_n_trades_10m": {
+    "kind": "int",
+    "sha256": "ff42f6e2ba1089758edcb15153b7854673c945df5a5c7f2770071a6de41e3e4e"
+   },
+   "home_contracts_10m": {
+    "kind": "float",
+    "sha256": "c28eb70aac0adee1d7f9e2943ba6093e0022cf7550073458474c5e5ba6414827"
+   },
+   "home_cum_contracts": {
+    "kind": "float",
+    "sha256": "7a60b1e1ad6c48a78739d576db4693f87c85b9d3bfdee618c013c01948435585"
+   },
+   "away_pregame_contracts": {
+    "kind": "float",
+    "sha256": "9a8d2552a8ea5c3f5982c8e1054b074dba98208571caa203b6e189fd2e369fee"
+   },
+   "away_mid": {
+    "kind": "float",
+    "sha256": "346b0d52c93a162eb7c48f02266bf7d4e0b71f77249e6b71e16acd43591eda39"
+   },
+   "away_bid": {
+    "kind": "float",
+    "sha256": "87700902b01eb6ce1e4d29a51b79e5b9c9e0e2feeb352114a769bb8da15197ef"
+   },
+   "away_ask": {
+    "kind": "float",
+    "sha256": "88345f06bf62845082b769d9576c87bbd7b707d87a3a1a0aa0c663b807422b26"
+   },
+   "away_spread": {
+    "kind": "float",
+    "sha256": "66b9139709a4e6fb18eb80c5e5cac67ff3a10e86f6170e7ec3e7634bd081c526"
+   },
+   "away_quote_age_min": {
+    "kind": "float",
+    "sha256": "ee3c85cf901b4689696b5de672669dc839a0d9fdbcb56bf46d480f231e0acc49"
+   },
+   "away_mid_carried_forward": {
+    "kind": "bool",
+    "sha256": "3e23007760fcfff779ec166d58f69d15c02f82e8e2e2ffe906714f4c103e6216"
+   },
+   "away_one_sided": {
+    "kind": "bool",
+    "sha256": "f36d4becbf4fd7d34347c381978beef459be587768fabfc5043a845ca7cabb00"
+   },
+   "away_last": {
+    "kind": "float",
+    "sha256": "ad979ceb0e902b78eb65c4e1ebf6ee51dee1a6ad3bf1c39ada8735b14b936064"
+   },
+   "away_last_trade_age_min": {
+    "kind": "float",
+    "sha256": "eeaa1b256169efa5c2948a4c1624730653b92e1cb968cf7a19aec0cc5f881c44"
+   },
+   "away_vwap_10m": {
+    "kind": "float",
+    "sha256": "bce1c525d3c46ea068b65b982bc225d975d6f04feb5ac1819679b611fc78b1f0"
+   },
+   "away_n_trades_10m": {
+    "kind": "int",
+    "sha256": "02629ef78156c0f1a3c9382ab28d645ea69d626b39322f077788d4f4c64da94a"
+   },
+   "away_contracts_10m": {
+    "kind": "float",
+    "sha256": "df23f07fbe5df7ca83bc35fe5fe79a48bf480e1b980dc228a78afd82d5d35dd7"
+   },
+   "away_cum_contracts": {
+    "kind": "float",
+    "sha256": "52ca399ed9683c15e60c503f7263e0b2bd95572fab3b9fbc2b5f045912f1c99c"
+   },
+   "max_spread": {
+    "kind": "float",
+    "sha256": "da300e632c09a08207c90ee5f8b00cbdca00be6a5dad1664f8ebf0dedc77d586"
+   },
+   "p_home_mid": {
+    "kind": "float",
+    "sha256": "b39b5d083b2242364b0ef1f7fccbb2a8540b3722ff6dcaa091f0c4f2b9eb93d7"
+   },
+   "sum_mid": {
+    "kind": "float",
+    "sha256": "ed2b054ee067c852e9717fe605fb9b71cc5af4f9eaba2f73cd2f83abd0ecfaf7"
+   },
+   "p_home_last": {
+    "kind": "float",
+    "sha256": "63610e4a3369df8ddf5f266d11d717374d2b409a367264316a0d812e3756de7a"
+   },
+   "sum_last": {
+    "kind": "float",
+    "sha256": "040e17f2fa75b826d37401346948c2415b09f01a46a7260610e6878eb972c9d6"
+   },
+   "p_home_vwap_10m": {
+    "kind": "float",
+    "sha256": "a222014ef5a27521bf5c844e043f696891080dbf12bcc2b6739379953003f05c"
+   },
+   "sum_vwap_10m": {
+    "kind": "float",
+    "sha256": "adcd9fd9843cca631a5745f637b6f910ce3f5e36fb62bbd0928cbb684ee967d7"
+   },
+   "p_home": {
+    "kind": "float",
+    "sha256": "b39b5d083b2242364b0ef1f7fccbb2a8540b3722ff6dcaa091f0c4f2b9eb93d7"
+   },
+   "price_source": {
+    "kind": "string",
+    "sha256": "c26333dd0e4aabcc4607bfc0fc6f993fc24f2decfbaeacb15bae4bcb6934ef25"
+   }
+  }
+ }
+}

@@ -41,12 +41,13 @@ from pathlib import Path
 
 import pandas as pd
 
+from csv_io import read_csv
 from kalshi_client import KalshiClient
 
 SERIES = "KXNBAGAME"
 WINDOW_HOURS = 30
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.parquet"
+GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.csv"
 MARKETS_CACHE = REPO_ROOT / "data" / "raw" / f"kalshi_markets_{SERIES}.json"
 CACHE_DIRS = {
     "window": REPO_ROOT / "data" / "raw" / "kalshi" / "markets",
@@ -60,7 +61,7 @@ log = logging.getLogger("pull_kalshi")
 
 def build_jobs() -> list[dict]:
     """One job per team market of every matched game."""
-    games = pd.read_parquet(GAME_MAP_PATH)
+    games = read_csv(GAME_MAP_PATH)
     games = games[games["matched"]]
     jobs = []
     for g in games.itertuples(index=False):

@@ -366,7 +366,7 @@ def main() -> None:
                     "phase": e["phase"], "markets": list(e["markets"].values())}
                    for e in sorted(events.values(), key=lambda e: e["event_ticker"])],
         "samples": samples,
-    }, indent=1, default=str))
+    }, indent=1, default=str), encoding="utf-8")
     print(f"\nSaved event list and sample results to {out.relative_to(REPO_ROOT)}")
 
 

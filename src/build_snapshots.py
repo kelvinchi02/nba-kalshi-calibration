@@ -1,7 +1,7 @@
 """Stage 6: build pre-tipoff price snapshots for every matched game.
 
 For each game and horizon h in (24, 6, 1, 0) hours, the snapshot time is
-S = official NBA tipoff - h (tipoff_utc from game_map.parquet). For each team market:
+S = official NBA tipoff - h (tipoff_utc from game_map.csv). For each team market:
 
   mid        bid/ask midpoint from the last 1-minute candle that ENDS strictly before S
              (main price). Missing candles mean the quote did not change (checked in
@@ -28,7 +28,7 @@ raw pair sum (kept as sum_<type>). p_home is the main estimate: the midpoint pai
 sides have one, else last trade, else 10-min VWAP. price_source says which. Both sides
 always come from the same source.
 
-Output: data/processed/snapshots.parquet, one row per game per horizon, with home_win.
+Output: data/processed/snapshots.csv, one row per game per horizon, with home_win.
 
 Usage:
     python src/build_snapshots.py
@@ -42,11 +42,13 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
+from csv_io import read_csv, write_csv
+
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.parquet"
+GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.csv"
 CACHE_DIR = REPO_ROOT / "data" / "raw" / "kalshi" / "markets"
 PREGAME_DIR = REPO_ROOT / "data" / "raw" / "kalshi" / "pregame"
-OUT_PATH = REPO_ROOT / "data" / "processed" / "snapshots.parquet"
+OUT_PATH = REPO_ROOT / "data" / "processed" / "snapshots.csv"
 
 HORIZONS_H = (24, 6, 1, 0)
 VWAP_MINUTES = 10
@@ -248,9 +250,9 @@ def build(game_map: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
 
 
 def main() -> None:
-    game_map = pd.read_parquet(GAME_MAP_PATH)
+    game_map = read_csv(GAME_MAP_PATH)
     snaps, missing = build(game_map)
-    snaps.to_parquet(OUT_PATH, index=False)
+    write_csv(snaps, OUT_PATH)
     print(f"Saved {len(snaps)} rows ({snaps['game_id'].nunique()} games x "
           f"{len(HORIZONS_H)} horizons) to {OUT_PATH.relative_to(REPO_ROOT)}")
     if missing:

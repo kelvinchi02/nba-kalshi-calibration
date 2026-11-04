@@ -15,11 +15,11 @@ Rules (agreed with the project owner):
   * Nothing is dropped silently: every unmatched game on either side is in the report.
 
 Inputs:
-  data/processed/nba_games_2025_26.parquet          (Stage 3)
+  data/processed/nba_games_2025_26.csv              (Stage 3)
   Kalshi /historical/markets for KXNBAGAME          (cached to data/raw/kalshi_markets_KXNBAGAME.json)
 Outputs:
   data/processed/team_code_map.csv
-  data/processed/game_map.parquet     one row per NBA regular-season game
+  data/processed/game_map.csv         one row per NBA regular-season game
   data/processed/match_report.md
 
 Usage:
@@ -35,15 +35,16 @@ from pathlib import Path
 
 import pandas as pd
 
+from csv_io import read_csv, write_csv
 from kalshi_client import KalshiClient
 
 SERIES = "KXNBAGAME"
 SEASON_START, SEASON_END = date(2025, 10, 1), date(2026, 6, 30)
 REPO_ROOT = Path(__file__).resolve().parents[1]
-NBA_PATH = REPO_ROOT / "data" / "processed" / "nba_games_2025_26.parquet"
+NBA_PATH = REPO_ROOT / "data" / "processed" / "nba_games_2025_26.csv"
 MARKETS_CACHE = REPO_ROOT / "data" / "raw" / f"kalshi_markets_{SERIES}.json"
 TEAM_MAP_PATH = REPO_ROOT / "data" / "processed" / "team_code_map.csv"
-GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.parquet"
+GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.csv"
 REPORT_PATH = REPO_ROOT / "data" / "processed" / "match_report.md"
 
 # Kalshi team code -> (NBA tricode, names Kalshi uses in yes_sub_title).
@@ -88,10 +89,10 @@ TIPOFF_MOVED_MIN_H, TIPOFF_MOVED_MAX_H = 1, 12
 
 def load_markets(refresh: bool) -> list[dict]:
     if MARKETS_CACHE.exists() and not refresh:
-        return json.loads(MARKETS_CACHE.read_text())
+        return json.loads(MARKETS_CACHE.read_text(encoding="utf-8"))
     markets = KalshiClient().historical_markets(SERIES)
     MARKETS_CACHE.parent.mkdir(parents=True, exist_ok=True)
-    MARKETS_CACHE.write_text(json.dumps(markets))
+    MARKETS_CACHE.write_text(json.dumps(markets), encoding="utf-8")
     return markets
 
 
@@ -282,17 +283,18 @@ def main() -> None:
     parser.add_argument("--refresh", action="store_true", help="re-download the Kalshi market list")
     args = parser.parse_args()
 
-    nba = pd.read_parquet(NBA_PATH)
+    nba = read_csv(NBA_PATH)
     ev = kalshi_events(load_markets(args.refresh))
 
     pd.DataFrame([{"kalshi_code": k, "nba_tricode": v[0], "kalshi_names": "|".join(v[1])}
-                  for k, v in TEAM_MAP.items()]).to_csv(TEAM_MAP_PATH, index=False)
+                  for k, v in TEAM_MAP.items()]).to_csv(TEAM_MAP_PATH, index=False,
+                                                          encoding="utf-8", lineterminator="\n")
     unknown_nba = set(TEAM_MAP[k][0] for k in TEAM_MAP) - set(nba["home_team"])
     if unknown_nba:
         raise ValueError(f"TEAM_MAP values not in NBA schedule: {unknown_nba}")
 
     game_map, ev = match(nba, ev)
-    game_map.to_parquet(GAME_MAP_PATH, index=False)
+    write_csv(game_map, GAME_MAP_PATH)
     print(write_report(game_map, ev, check_team_names(ev)))
     print(f"Saved {GAME_MAP_PATH.relative_to(REPO_ROOT)}, {TEAM_MAP_PATH.relative_to(REPO_ROOT)}, "
           f"{REPORT_PATH.relative_to(REPO_ROOT)}")
