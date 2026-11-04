@@ -1,0 +1,8 @@
+requests
+pandas
+pyarrow
+nba_api
+python-dotenv
+cryptography
+tenacity
+pytest
