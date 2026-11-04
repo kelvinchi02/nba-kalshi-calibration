@@ -224,7 +224,7 @@ def summarize_events(events: dict) -> None:
 # ---------------------------------------------------------------- 2. open time vs tipoff
 
 def summarize_open_lead(events: dict) -> None:
-    print(f"\n=== 2. Market open time relative to tipoff proxy (regular season) ===")
+    print("\n=== 2. Market open time relative to tipoff proxy (regular season) ===")
     leads = []
     short = []
     for e in events.values():
