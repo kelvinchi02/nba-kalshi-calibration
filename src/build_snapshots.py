@@ -15,6 +15,10 @@ S = official NBA tipoff - h (tipoff_utc from game_map.parquet). For each team ma
   n_trades_10m, contracts_10m   activity in [S - 10 min, S)
   cum_contracts                 contracts traded from the start of the pulled 30h window
                                 (tipoff - 30h) up to S. Not since market open.
+  pregame_contracts             contracts traded from market open to the official tipoff,
+                                strictly before tipoff (same value at every horizon).
+                                Window and pregame pulls are combined and de-duplicated by
+                                trade_id.
 
 Only data strictly before S is used. Values stay missing when no data exists; nothing is
 filled forward without a flag.
@@ -41,6 +45,7 @@ import pandas as pd
 REPO_ROOT = Path(__file__).resolve().parents[1]
 GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.parquet"
 CACHE_DIR = REPO_ROOT / "data" / "raw" / "kalshi" / "markets"
+PREGAME_DIR = REPO_ROOT / "data" / "raw" / "kalshi" / "pregame"
 OUT_PATH = REPO_ROOT / "data" / "processed" / "snapshots.parquet"
 
 HORIZONS_H = (24, 6, 1, 0)
@@ -50,10 +55,20 @@ CANDLE_SECONDS = 60
 
 # ---------------------------------------------------------------- loading
 
-def load_market(ticker: str) -> tuple[pd.DataFrame, pd.DataFrame] | None:
-    """Return (trades, candles) for a cached market, or None if not cached.
+def trades_frame(raw_trades: list[dict]) -> pd.DataFrame:
+    """trade_id, ts (unix seconds, float), price (YES price, dollars), count (contracts)."""
+    created = pd.to_datetime([t["created_time"] for t in raw_trades], utc=True, format="ISO8601")
+    return pd.DataFrame({
+        "trade_id": [t["trade_id"] for t in raw_trades],
+        "ts": (created - pd.Timestamp(0, tz="UTC")).total_seconds(),
+        "price": [float(t["yes_price_dollars"]) for t in raw_trades],
+        "count": [float(t["count_fp"]) for t in raw_trades],
+    }, columns=["trade_id", "ts", "price", "count"]).sort_values("ts", ignore_index=True)
 
-    trades:  ts (unix seconds, float), price (YES price in dollars), count (contracts)
+
+def load_market(ticker: str) -> tuple[pd.DataFrame, pd.DataFrame] | None:
+    """Return (trades, candles) from the 30h window cache, or None if not cached.
+
     candles: end_ts (unix seconds, int), bid, ask (YES bid/ask close, dollars)
     """
     path = CACHE_DIR / f"{ticker}.json.gz"
@@ -61,12 +76,7 @@ def load_market(ticker: str) -> tuple[pd.DataFrame, pd.DataFrame] | None:
         return None
     with gzip.open(path, "rt", encoding="utf-8") as f:
         rec = json.load(f)
-    created = pd.to_datetime([t["created_time"] for t in rec["trades"]], utc=True, format="ISO8601")
-    trades = pd.DataFrame({
-        "ts": (created - pd.Timestamp(0, tz="UTC")).total_seconds(),
-        "price": [float(t["yes_price_dollars"]) for t in rec["trades"]],
-        "count": [float(t["count_fp"]) for t in rec["trades"]],
-    }, columns=["ts", "price", "count"]).sort_values("ts", ignore_index=True)
+    trades = trades_frame(rec["trades"])
 
     def close(c: dict, side: str) -> float:
         value = (c.get(side) or {}).get("close")
@@ -78,6 +88,24 @@ def load_market(ticker: str) -> tuple[pd.DataFrame, pd.DataFrame] | None:
         "ask": [close(c, "yes_ask") for c in rec["candlesticks"]],
     }, columns=["end_ts", "bid", "ask"]).sort_values("end_ts", ignore_index=True)
     return trades, candles
+
+
+def load_pregame(ticker: str) -> pd.DataFrame | None:
+    """Trades from market open to the window start, or None if not cached."""
+    path = PREGAME_DIR / f"{ticker}.json.gz"
+    if not path.exists():
+        return None
+    with gzip.open(path, "rt", encoding="utf-8") as f:
+        return trades_frame(json.load(f)["trades"])
+
+
+def pregame_contracts(window: pd.DataFrame, pregame: pd.DataFrame, tipoff: float) -> float:
+    """Contracts traded from market open to tipoff, strictly before tipoff.
+
+    The two pulls can share trades at the window boundary, so de-duplicate by trade_id.
+    """
+    both = pd.concat([pregame, window], ignore_index=True).drop_duplicates("trade_id")
+    return float(both.loc[both["ts"] < tipoff, "count"].sum())
 
 
 # ---------------------------------------------------------------- per-market measures
@@ -186,20 +214,24 @@ def build(game_map: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
     for g in game_map[game_map["matched"]][GAME_COLS].itertuples(index=False):
         tip = g.tipoff_utc.timestamp()
         window_start = tip - 30 * 3600
-        data = {}
+        data, pregame = {}, {}
         for side, ticker in (("home", g.home_market), ("away", g.away_market)):
-            loaded = load_market(ticker)
-            if loaded is None:
+            data[side] = load_market(ticker)
+            pre = load_pregame(ticker)
+            if data[side] is None or pre is None:
                 missing_cache.append(ticker)
-            data[side] = loaded
+            pregame[side] = (pregame_contracts(data[side][0], pre, tip)
+                             if data[side] is not None and pre is not None else np.nan)
         for h in HORIZONS_H:
             s = tip - h * 3600
             row = {c: getattr(g, c) for c in GAME_COLS}
             row.update({"horizon_h": h,
                         "snapshot_utc": pd.Timestamp(s, unit="s", tz="UTC"),
                         "market_open_before_snapshot": g.market_open_time.timestamp() < s,
-                        "cache_missing": any(d is None for d in data.values())})
+                        "cache_missing": any(d is None for d in data.values())
+                                         or any(np.isnan(v) for v in pregame.values())})
             for side in ("home", "away"):
+                row[f"{side}_pregame_contracts"] = pregame[side]
                 if data[side] is None:
                     continue
                 for k, v in market_snapshot(*data[side], s, window_start).items():

@@ -6,7 +6,7 @@ import pandas as pd
 import pytest
 
 from build_snapshots import (choose_price, last_trade, market_snapshot, normalize,
-                             quote_before, vwap, window_trades)
+                             pregame_contracts, quote_before, vwap, window_trades)
 
 S = 1_000_000.0  # snapshot time, unix seconds
 
@@ -145,3 +145,23 @@ def test_choose_price_prefers_mid_then_last_then_vwap():
     assert choose_price(row) == (0.52, "mid")
     assert choose_price({"p_home_mid": np.nan, "p_home_last": np.nan,
                          "p_home_vwap_10m": np.nan})[1] is None
+
+
+# ---------------------------------------------------------------- pregame volume
+
+def id_trades(*rows):
+    """rows of (trade_id, ts, count)."""
+    df = pd.DataFrame(rows, columns=["trade_id", "ts", "count"])
+    df["price"] = 0.5
+    return df
+
+
+def test_pregame_contracts_dedupes_boundary_and_excludes_tipoff():
+    pre = id_trades(("a", S - 50_000, 10), ("b", S - 30 * 3600, 5))   # b also in window
+    win = id_trades(("b", S - 30 * 3600, 5), ("c", S - 100, 7), ("d", S, 100), ("e", S + 5, 1))
+    assert pregame_contracts(win, pre, S) == 10 + 5 + 7  # b counted once; d, e not before S
+
+
+def test_pregame_contracts_with_empty_pregame():
+    win = id_trades(("c", S - 100, 7))
+    assert pregame_contracts(win, id_trades(), S) == 7

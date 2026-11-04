@@ -119,6 +119,20 @@ Games at or below the 2% quantile (204,220 contracts):
 
 Games with no trade in the 10 minutes before tipoff (either side): 0
 
+## Full pregame volume (market open to tipoff)
+
+Contracts traded (both markets), strictly before the official tipoff:
+
+min 108,232, p1 183,930, p5 252,955, p25 463,077, median 752,060, max 5,100,644
+
+Share of pregame volume traded in the last 30h: median 0.988, min 0.744
+
+Consistency checks (each should be 0):
+
+- games with pregame volume missing: 0
+- games where pregame < 30h-window volume: 0
+- games where pregame > Kalshi lifetime volume (incl. in-game): 0
+
 ## Two-sided sums before normalization (home + away)
 
 Far from 1 means the two markets disagree (spread, stale price or thin book).

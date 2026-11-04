@@ -136,6 +136,24 @@ def main() -> None:
     L += [f"Games with no trade in the 10 minutes before tipoff (either side): "
           f"{int(((at0['home_n_trades_10m'] == 0) | (at0['away_n_trades_10m'] == 0)).sum())}", ""]
 
+    # ------------------------------------------------------------ full pregame volume
+    games0 = at0.merge(gm[["game_id", "kalshi_volume"]], on="game_id", how="left")
+    games0["pregame_contracts"] = games0["home_pregame_contracts"] + games0["away_pregame_contracts"]
+    pq = games0["pregame_contracts"].describe(percentiles=[0.01, 0.05, 0.25, 0.5])
+    share = (games0["window_contracts"] / games0["pregame_contracts"]).describe()
+    L += ["## Full pregame volume (market open to tipoff)", "",
+          "Contracts traded (both markets), strictly before the official tipoff:", "",
+          f"min {pq['min']:,.0f}, p1 {pq['1%']:,.0f}, p5 {pq['5%']:,.0f}, p25 {pq['25%']:,.0f}, "
+          f"median {pq['50%']:,.0f}, max {pq['max']:,.0f}", "",
+          f"Share of pregame volume traded in the last 30h: median {share['50%']:.3f}, "
+          f"min {share['min']:.3f}", "",
+          "Consistency checks (each should be 0):", "",
+          f"- games with pregame volume missing: {int(games0['pregame_contracts'].isna().sum())}",
+          f"- games where pregame < 30h-window volume: "
+          f"{int((games0['pregame_contracts'] < games0['window_contracts'] - 1e-6).sum())}",
+          f"- games where pregame > Kalshi lifetime volume (incl. in-game): "
+          f"{int((games0['pregame_contracts'] > games0['kalshi_volume'] + 1e-6).sum())}", ""]
+
     # ------------------------------------------------------------ two-sided sums
     L += ["## Two-sided sums before normalization (home + away)", "",
           "Far from 1 means the two markets disagree (spread, stale price or thin book).", ""]
