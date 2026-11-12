@@ -1,5 +1,9 @@
 requests
 pandas
+numpy
+scipy
+statsmodels
+matplotlib
 nba_api
 python-dotenv
 cryptography

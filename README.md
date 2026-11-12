@@ -2,7 +2,7 @@
 
 Data pipeline for the STSCI 4981/5981 final project. The research question: are Kalshi NBA game prices before tipoff well calibrated, and are popular teams overpriced?
 
-This repo collects and cleans the data only. It does not compute calibration results.
+Stages 2 to 7 collect and clean the data. The data used for analysis is frozen at git tag `data-v1`. Stage 8 runs the analysis pre-registered in [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which was committed before any result was computed. So far that covers calibration at tipoff (horizon 0) only.
 
 ## Setup
 
@@ -41,19 +41,22 @@ Run each command from the repo root with the venv's Python and `PYTHONUTF8=1`. S
 | 3 | 4 | `python src/pull_kalshi.py` | Two resumable phases per market: `window` (trades + 1-minute candles, tipoff minus 30h to tipoff) and `pregame` (trades from market open to the window start). Cached markets are skipped. `--phase window\|pregame` runs one phase. |
 | 4 | 6 | `python src/build_snapshots.py` | Snapshot table at 24h, 6h, 1h and 0h before tipoff. |
 | 5 | 7 | `python src/quality_report.py` | Data quality report. |
-| 6 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, and CSV-vs-parquet equality. |
+| 6 | 8 | `python src/calibration.py` | Calibration at horizon 0, exactly as in `ANALYSIS_PLAN.md`: binned calibration plot, Brier score, logistic recalibration, LR test and date-block bootstrap. Writes `results/`. |
+| 7 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, and the calibration statistics (Wilson, Brier, LR test, bootstrap) on synthetic data. |
 
 With the raw cache present, rebuilding from Stage 3 makes no network calls apart from the Kalshi cutoff check in Stage 4:
 
 ```bash
 python src/nba_schedule.py --cached && python src/match_games.py && python src/pull_kalshi.py \
-  && python src/build_snapshots.py && python src/quality_report.py && python -m pytest -q
+  && python src/build_snapshots.py && python src/quality_report.py && python src/calibration.py \
+  && python -m pytest -q
 ```
 
 Whole-season runtimes on a home connection:
 - Stage 3: a few seconds.
 - Stage 4 from scratch: about 20 minutes for the window phase and 5 minutes for the pregame phase (2,460 markets at 10 requests/s).
 - Stage 6: under a minute.
+- Stage 8: about 10 seconds, most of it the 2,000 bootstrap replicates.
 
 ## Repo layout
 
@@ -65,8 +68,10 @@ nba-kalshi-calibration/
     pull_kalshi.py       Stage 4: Kalshi trades and candles (window + pregame)
     build_snapshots.py   Stage 6: 24h/6h/1h/0h snapshots
     quality_report.py    Stage 7: data quality report
+    calibration.py       Stage 8: calibration at horizon 0 (ANALYSIS_PLAN.md)
     kalshi_client.py     shared: Kalshi client (rate limit, retries, pagination, optional signing)
-    csv_io.py            shared: CSV read/write conventions for data/processed
+    csv_io.py            shared: CSV read/write conventions for data/processed and results
+    plot_style.py        shared: figure colors and matplotlib style
   scripts/
     check_secrets.py     reports which .env values are set, never prints them
     probe_kalshi.py      Stage 2 feasibility probe
@@ -75,7 +80,9 @@ nba-kalshi-calibration/
     fingerprint.py       type-aware DataFrame fingerprint helper
     test_snapshots.py    time windows, VWAP, spread, normalization, pregame volume
     test_csv_outputs.py  CSV round trip and equality with the replaced parquet files
+    test_calibration.py  Stage 8 statistics on known values and synthetic data
     fixtures/processed_fingerprint.json
+  results/               committed analysis tables (CSV) and figures (PNG)
   data/
     processed/           committed outputs (below)
     raw/                 gitignored raw cache (below)
@@ -84,6 +91,7 @@ nba-kalshi-calibration/
   secrets/               gitignored, only if you add a Kalshi key
   .env.example
   .gitignore
+  ANALYSIS_PLAN.md       pre-registered analysis plan
   requirements.txt
   README.md
 ```
@@ -158,6 +166,17 @@ Row-level flags:
 - low-volume games (30h window);
 - full pregame volume, with consistency checks;
 - pre-normalization sums.
+
+### `results/` (committed, Stage 8)
+
+All of these use the main sample at horizon 0: 1,229 games, price `p_home`, outcome `home_win`. Section numbers refer to `ANALYSIS_PLAN.md`.
+
+- `calibration_bins.csv`: the 10 equal-count bins (section 2.1). Columns: n, p range, mean p, home wins, win rate, 95% Wilson interval, and the bootstrap interval with bin edges fixed (`boot_lo`, `boot_hi`).
+- `calibration_plot.png`: observed win rate against mean price per bin, with the 45° line.
+- `brier.csv`: Brier score, constant baseline, difference and skill score (section 2.2).
+- `logistic.csv`: intercept `a` and slope `b` of home_win on logit(p_home), with SEs clustered by home team and Wald tests of a = 0 and b = 1 (section 2.3).
+- `lr_test.csv`: likelihood ratio test of a = 0 and b = 1 jointly (section 2.4).
+- `bootstrap_summary.csv`: date-block bootstrap with B = 2,000 and seed 4981. Gives percentile intervals for every statistic above (section 3).
 
 ### `data/raw/` (gitignored, needed to rebuild without re-pulling)
 
