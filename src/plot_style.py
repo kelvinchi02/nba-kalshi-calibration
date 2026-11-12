@@ -25,6 +25,7 @@ def apply_style() -> None:
         "axes.titlesize": 11,
         "axes.labelsize": 9.5,
         "axes.grid": True,
+        "axes.axisbelow": True,
         "axes.spines.top": False,
         "axes.spines.right": False,
         "grid.color": COLORS["grid"],

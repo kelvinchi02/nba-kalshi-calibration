@@ -42,14 +42,15 @@ Run each command from the repo root with the venv's Python and `PYTHONUTF8=1`. S
 | 4 | 6 | `python src/build_snapshots.py` | Snapshot table at 24h, 6h, 1h and 0h before tipoff. |
 | 5 | 7 | `python src/quality_report.py` | Data quality report. |
 | 6 | 8 | `python src/calibration.py` | Calibration at horizon 0, exactly as in `ANALYSIS_PLAN.md`: binned calibration plot, Brier score, logistic recalibration, LR test and date-block bootstrap. Writes `results/`. |
-| 7 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, and the calibration statistics (Wilson, Brier, LR test, bootstrap) on synthetic data. |
+| 7 | 8 | `python src/eda.py` | EDA figures: one example game's 30-hour price path from the raw cache, and average pregame volume by team. `--event <ticker>` plots a different game. |
+| 8 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, and the calibration statistics (Wilson, Brier, LR test, bootstrap) on synthetic data. |
 
 With the raw cache present, rebuilding from Stage 3 makes no network calls apart from the Kalshi cutoff check in Stage 4:
 
 ```bash
 python src/nba_schedule.py --cached && python src/match_games.py && python src/pull_kalshi.py \
   && python src/build_snapshots.py && python src/quality_report.py && python src/calibration.py \
-  && python -m pytest -q
+  && python src/eda.py && python -m pytest -q
 ```
 
 Whole-season runtimes on a home connection:
@@ -69,6 +70,7 @@ nba-kalshi-calibration/
     build_snapshots.py   Stage 6: 24h/6h/1h/0h snapshots
     quality_report.py    Stage 7: data quality report
     calibration.py       Stage 8: calibration at horizon 0 (ANALYSIS_PLAN.md)
+    eda.py               Stage 8: EDA figures (example price path, pregame volume by team)
     kalshi_client.py     shared: Kalshi client (rate limit, retries, pagination, optional signing)
     csv_io.py            shared: CSV read/write conventions for data/processed and results
     plot_style.py        shared: figure colors and matplotlib style
@@ -177,6 +179,11 @@ All of these use the main sample at horizon 0: 1,229 games, price `p_home`, outc
 - `logistic.csv`: intercept `a` and slope `b` of home_win on logit(p_home), with SEs clustered by home team and Wald tests of a = 0 and b = 1 (section 2.3).
 - `lr_test.csv`: likelihood ratio test of a = 0 and b = 1 jointly (section 2.4).
 - `bootstrap_summary.csv`: date-block bootstrap with B = 2,000 and seed 4981. Gives percentile intervals for every statistic above (section 3).
+
+EDA files are descriptive and use no outcomes:
+- `eda_price_path.png`: one example game. It shows both markets' bid/ask midpoint and band over the 30 hours before tipoff, the four snapshot times, and contracts traded per 30 minutes.
+  - The default game is chosen by rule: among games with above-median pregame volume, the one whose `p_home` moved most from 24h to tipoff.
+- `eda_team_pregame_volume.csv` / `.png`: each team's average `pregame_contracts` on its own market per game, ranked. This is the popularity measure from section 4.
 
 ### `data/raw/` (gitignored, needed to rebuild without re-pulling)
 
