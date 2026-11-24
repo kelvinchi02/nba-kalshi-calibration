@@ -227,6 +227,38 @@ One rule only, fixed now. Nothing is tuned.
 - Separate analyses of the backup price types (last trade, 10-minute VWAP).
 - Any model or test not listed above. Ideas that come up are listed as suggestions and are not run.
 
+## Exploratory, added after Stage 9 results
+
+Added on 2026-11-23, after the Stage 9 results were seen. Nothing in this section was planned in advance, so its results are exploratory and carry less weight than the planned tests in sections 1 to 9. This text was committed before either check was run. The planned results and their files are not changed.
+
+### E1. Volume model with a past-games-only measure (notebook 03)
+
+Reason: the volume result in 9.1 (c = 0.611) uses a leave-one-out season average, which includes games played after the one being priced. That measure may carry information that was not available at tipoff. This check asks whether c stays positive when the measure uses earlier games only.
+
+- Measure: the expanding mean of 9.3, step 1. For each game and each team, the mean of the team's own market volume over its main-sample games with an earlier tipoff. gap = log(home) − log(away).
+- Sample: the eligible games of 9.3, where both teams have at least 10 earlier games. Notebook 05 found 1,074 of them. Price `p_home` at horizon 0.
+- Model, clustering and bootstrap: exactly as in 9.1. logit P(y = 1) = a + b · logit(p) + c · gap, standard errors clustered by home team, block bootstrap by game date with B = 2,000 and seed 4981.
+- Report a, b and c with clustered standard errors, Wald tests and bootstrap intervals, and c in plain terms as in 9.1: the SD of the gap, c · SD, and the average effect on win probability.
+- Limit on the reading: this sample leaves out the early-season games that 9.1 includes. A difference between this c and the 9.1 c can come from the measure or from the sample. No further model is run to separate the two.
+
+### E2. Strategy profit and return before fees (notebook 05)
+
+Reason: to show how much of each strategy's loss is fees.
+
+- For each of the three strategies of 9.3 (the volume rule, the benchmark and the metro rule):
+  - profit before fees = total payout − total cost, which equals profit + total fees;
+  - return before fees = profit before fees / total cost.
+- The trades are the ones already made in 9.3. No new rule is run and no new bootstrap is added.
+
+### Not run
+
+- The opposite rule (buying the more popular team). These results suggest it, so testing it on the same season would not be a fair test.
+
+### Outputs
+
+- `results/exploratory_volume_expanding_logistic.csv`, `exploratory_volume_expanding_effects.csv`, `exploratory_volume_expanding_bootstrap.csv`
+- `results/exploratory_strategy_before_fees.csv`
+
 ## Deviations
 
 Stage 8: none.
