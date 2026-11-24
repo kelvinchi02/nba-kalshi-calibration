@@ -1,0 +1,21 @@
+event_id,report_file,prev_report_file,game_date,matchup,team_name,player_name,prev_status,scheduled_time_et,text_status,text_prev_status,text_report_time,agrees
+9,Injury-Report_2025-11-05_05PM.pdf,Injury-Report_2025-11-05_04PM.pdf,11/05/2025,GSW@SAC,Golden State Warriors,"Butler III, Jimmy",Questionable,2025-11-05T17:30:00,Out,Questionable,2025-11-05T17:30:00,1
+15,Injury-Report_2025-11-09_06PM.pdf,Injury-Report_2025-11-09_05PM.pdf,11/09/2025,IND@GSW,Golden State Warriors,"Curry, Stephen",Questionable,2025-11-09T18:30:00,Out,Questionable,2025-11-09T18:30:00,1
+31,Injury-Report_2025-11-19_08PM.pdf,Injury-Report_2025-11-19_07PM.pdf,11/19/2025,NYK@DAL,Dallas Mavericks,"Flagg, Cooper",Questionable,2025-11-19T20:30:00,Out,Questionable,2025-11-19T20:30:00,1
+33,Injury-Report_2025-11-21_03PM.pdf,Injury-Report_2025-11-21_02PM.pdf,11/21/2025,POR@GSW,Portland Trail Blazers,"Holiday, Jrue",Questionable,2025-11-21T15:30:00,Out,Questionable,2025-11-21T15:30:00,1
+39,Injury-Report_2025-11-25_05PM.pdf,Injury-Report_2025-11-25_04PM.pdf,11/25/2025,ATL@WAS,Washington Wizards,"George, Kyshawn",Questionable,2025-11-25T17:30:00,Out,Questionable,2025-11-25T17:30:00,1
+42,Injury-Report_2025-11-29_06PM.pdf,Injury-Report_2025-11-29_05PM.pdf,11/29/2025,CHI@IND,Chicago Bulls,"White, Coby",Questionable,2025-11-29T18:30:00,Out,Questionable,2025-11-29T18:30:00,1
+55,Injury-Report_2025-12-06_06PM.pdf,Injury-Report_2025-12-06_05PM.pdf,12/06/2025,SAC@MIA,Miami Heat,"Herro, Tyler",Doubtful,2025-12-06T18:30:00,Out,Doubtful,2025-12-06T18:30:00,1
+65,Injury-Report_2025-12-18_01PM.pdf,Injury-Report_2025-12-18_12PM.pdf,12/18/2025,LAL@UTA,Utah Jazz,"Markkanen, Lauri",Questionable,2025-12-18T13:30:00,Out,Questionable,2025-12-18T13:30:00,1
+83,Injury-Report_2025-12-29_09_15PM.pdf,Injury-Report_2025-12-29_09_00PM.pdf,12/29/2025,DAL@POR,Dallas Mavericks,"Davis, Anthony",Questionable,2025-12-29T21:15:00,Out,Questionable,2025-12-29T21:15:00,1
+136,Injury-Report_2026-01-23_08_00PM.pdf,Injury-Report_2026-01-23_07_45PM.pdf,01/23/2026,DEN@MIL,Milwaukee Bucks,"Green, AJ",Questionable,2026-01-23T20:00:00,Out,Questionable,2026-01-23T20:00:00,1
+146,Injury-Report_2026-01-28_07_00PM.pdf,Injury-Report_2026-01-28_06_45PM.pdf,01/28/2026,CHA@MEM,Memphis Grizzlies,"Aldama, Santi",,2026-01-28T19:00:00,Out,,2026-01-28T19:00:00,1
+158,Injury-Report_2026-02-01_07_45PM.pdf,Injury-Report_2026-02-01_07_30PM.pdf,02/01/2026,ORL@SAS,San Antonio Spurs,"Castle, Stephon",Questionable,2026-02-01T19:45:00,Out,Questionable,2026-02-01T19:45:00,1
+159,Injury-Report_2026-02-03_04_00PM.pdf,Injury-Report_2026-02-03_03_45PM.pdf,02/03/2026,PHX@POR,Portland Trail Blazers,"Avdija, Deni",Doubtful,2026-02-03T16:00:00,Out,Doubtful,2026-02-03T16:00:00,1
+161,Injury-Report_2026-02-03_05_00PM.pdf,Injury-Report_2026-02-03_04_45PM.pdf,02/03/2026,CHI@MIL,Chicago Bulls,"Vucevic, Nikola",Questionable,2026-02-03T17:00:00,Out,Questionable,2026-02-03T17:00:00,1
+167,Injury-Report_2026-02-08_11_45AM.pdf,Injury-Report_2026-02-08_11_30AM.pdf,02/08/2026,NYK@BOS,New York Knicks,"Anunoby, OG",Questionable,2026-02-08T11:45:00,Out,Questionable,2026-02-08T11:45:00,1
+171,Injury-Report_2026-02-10_06_45PM.pdf,Injury-Report_2026-02-10_06_30PM.pdf,02/10/2026,IND@NYK,New York Knicks,"Anunoby, OG",Questionable,2026-02-10T18:45:00,Out,Questionable,2026-02-10T18:45:00,1
+234,Injury-Report_2026-03-14_05_00PM.pdf,Injury-Report_2026-03-14_04_45PM.pdf,03/14/2026,WAS@BOS,Washington Wizards,"Black, Leaky",,2026-03-14T17:00:00,Out,,2026-03-14T17:00:00,1
+245,Injury-Report_2026-03-19_06_45PM.pdf,Injury-Report_2026-03-19_06_30PM.pdf,03/19/2026,PHX@SAS,Phoenix Suns,"Allen, Grayson",Questionable,2026-03-19T18:45:00,Out,Questionable,2026-03-19T18:45:00,1
+252,Injury-Report_2026-03-21_04_15PM.pdf,Injury-Report_2026-03-21_04_00PM.pdf,03/21/2026,MIL@PHX,Phoenix Suns,"Allen, Grayson",Questionable,2026-03-21T16:15:00,Out,Questionable,2026-03-21T16:15:00,1
+292,Injury-Report_2026-04-09_02_45PM.pdf,Injury-Report_2026-04-09_02_30PM.pdf,04/09/2026,LAL@GSW,Golden State Warriors,"Curry, Stephen",Questionable,2026-04-09T14:45:00,Out,Questionable,2026-04-09T14:45:00,1

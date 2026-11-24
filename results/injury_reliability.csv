@@ -1,0 +1,4 @@
+check,count,out_of,share,required_share,passes
+snapshots on the server that were fetched and parsed,11753,11753,1.0,0.95,1
+main-sample games in a parsed snapshot with both teams,1229,1229,1.0,0.95,1
+events of the hand check that agree with the report files,20,20,1.0,1.0,1

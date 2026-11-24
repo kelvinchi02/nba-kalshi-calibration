@@ -2,7 +2,7 @@
 
 Data pipeline for the STSCI 4981/5981 final project. The research question: are Kalshi NBA game prices before tipoff well calibrated, and are popular teams overpriced?
 
-Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. Stage 8 covers the EDA and calibration at tipoff (horizon 0). Stage 9 covers the popularity bias test, the comparison of horizons and a trading strategy backtest. Two exploratory checks were added after the Stage 9 results were seen. They are labeled as exploratory in the plan and in the notebooks.
+Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. Stage 8 covers the EDA and calibration at tipoff (horizon 0). Stage 9 covers the popularity bias test, the comparison of horizons and a trading strategy backtest. Two exploratory checks were added after the Stage 9 results were seen. They are labeled as exploratory in the plan and in the notebooks. Stage 10 adds four extensions: line movement, information arrival (with an injury report event study), subgroups, and a replication on the start of the 2026-27 season. The 2026-27 data is frozen at git tag `data-v2`.
 
 ## Setup
 
@@ -35,7 +35,7 @@ cp .env.example .env
 python scripts/check_secrets.py   # reports what is set, never prints values
 ```
 
-An API key is not required. Every Kalshi endpoint used here is public: series, events, markets, `/historical/markets`, `/historical/trades` and `/historical/markets/{ticker}/candlesticks`.
+An API key is not required. Every Kalshi endpoint used here is public: series, events, markets, `/historical/markets`, `/historical/trades` and `/historical/markets/{ticker}/candlesticks`, and for the 2026-27 season the live versions `/markets`, `/markets/trades` and `/series/{series}/markets/{ticker}/candlesticks`.
 
 If you add a key, put the key ID in `.env` and the private key at `secrets/kalshi_private_key.pem`. Both are gitignored. `src/kalshi_client.py` signs requests only when both are present.
 
@@ -53,8 +53,13 @@ Run each command from the repo root with the venv's Python and `PYTHONUTF8=1`. S
 | 5 | 7 | `python src/quality_report.py` | Data quality report. |
 | 6 | 8 | `python src/export_price_path.py` | Saves one example game's 30-hour price path (quotes and volume per minute) to `data/processed/example_price_path.csv`. This is the last step that needs the raw cache. `--event <ticker>` exports a different game. |
 | 7 | 9 | `python src/metro_population.py` | Metro area population per team, from the US Census Bureau (Vintage 2025) and Statistics Canada (Toronto). Writes `data/processed/team_metro_population.csv`. The two source files are downloaded once to `data/raw/population/`. `--refresh` downloads them again. |
-| 8 | 8, 9 | `python scripts/run_notebooks.py` | Runs every notebook in `notebooks/` top to bottom, in name order, and saves each with its outputs. Writes `results/`. See [Notebooks](#notebooks). |
-| 9 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, the statistics in `stats_tools.py` (Wilson, Brier, clustered logit, LR test, block bootstrap) on synthetic data, the EDA and calibration tables, the Stage 9 code (popularity gaps and model, horizon comparison, strategy rule and fees) on hand-made data, the notebook runner, and that `requirements.txt` matches `pyproject.toml`. |
+| 8 | 10 | `python src/build_price_paths.py` | Every game's price path on a 5-minute grid over the 30 hours before tipoff. Writes `data/processed/price_paths.csv.gz`. Needs the raw cache. |
+| 9 | 10 | `uv run --project envs/injuries python envs/injuries/fetch_injury_reports.py` | Downloads and parses every official NBA injury report snapshot of 2025-26. Runs in its own environment (see [The injury report environment](#the-injury-report-environment)). Needs Java. |
+| 10 | 10 | `python src/player_minutes.py` | Minutes per player per game, from stats.nba.com via `nba_api`. `--cached` rebuilds without a request. |
+| 11 | 10 | `python src/injury_events.py` | Turns the parsed injury reports into one row per status change. Writes `data/processed/injury_status_changes_2025_26.csv`. |
+| 12 | 10 | the 2026-27 season (below) | Steps 1 to 5 again with `--season 2026-27`. |
+| 13 | 8, 9, 10 | `python scripts/run_notebooks.py` | Runs every notebook in `notebooks/` top to bottom, in name order, and saves each with its outputs. Writes `results/`. See [Notebooks](#notebooks). |
+| 14 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, the statistics in `stats_tools.py` (Wilson, Brier, clustered logit, LR test, block bootstrap, bootstrap p value, joint Wald test, Holm) on synthetic data, the EDA and calibration tables, the Stage 9 code (popularity gaps and model, horizon comparison, strategy rule and fees) and the Stage 10 code (season settings, price paths, line movement, subgroups, replication, injury events, event study, the common tests table) on hand-made data, the notebook runner, and that `requirements.txt` matches `pyproject.toml`. |
 
 With the raw cache present, rebuilding from Stage 3 makes no network calls apart from the Kalshi cutoff check in Stage 4:
 
@@ -67,11 +72,39 @@ python src/nba_schedule.py --cached && python src/match_games.py && python src/p
 
 The notebooks and the tests need only the committed CSVs in `data/processed/`. On a clone without the raw cache, skip to `python scripts/run_notebooks.py`.
 
+### The 2026-27 season
+
+The pipeline scripts take `--season`. Everything that differs between seasons is in `src/seasons.py`: file names, the date range, and which Kalshi endpoints hold the data. 2025-26 is the default and keeps its file names. Another season carries the season in its file names (`game_map_2026_27.csv`, `snapshots_2026_27.csv`, ...).
+
+```bash
+python src/nba_schedule.py --season 2026-27 --through 2026-11-22   # final games up to that date
+python src/match_games.py --season 2026-27 --refresh
+python src/pull_kalshi.py --season 2026-27
+python src/build_snapshots.py --season 2026-27
+python src/quality_report.py --season 2026-27
+```
+
+A season still being played needs `--through`. The games table then holds the final games up to that US Eastern date, and that date ends the season for every later step. The committed 2026-27 files were pulled once, on November 23, 2026, with the cutoff November 22 (248 games). They are frozen at tag `data-v2` and are not extended.
+
+### The injury report environment
+
+`nbainjuries`, the package that reads the NBA's injury report files, needs pandas below 3.0, and this project uses pandas 3. So the fetch runs in its own small uv project in `envs/injuries/` (its own `pyproject.toml`, `uv.lock` and `.venv`). It only writes files. It needs a Java runtime on the PATH, because the PDF tables are read with tabula.
+
+```bash
+uv run --project envs/injuries python envs/injuries/fetch_injury_reports.py              # download, parse, combine
+uv run --project envs/injuries python envs/injuries/fetch_injury_reports.py --step parse # one step
+```
+
+The download is slow on purpose (two workers with a pause): the NBA's delivery network answers a burst of requests with temporary 403 blocks. The script tells those from a file that does not exist and never records a blocked file as missing. The PDFs (about 1 GB) and the parsed rows stay in `data/raw/injury_reports/`, which is not in git.
+
 Whole-season runtimes on a home connection:
 - Stage 3: a few seconds.
 - Stage 4 from scratch: about 20 minutes for the window phase and 5 minutes for the pregame phase (2,460 markets at 10 requests/s).
 - Stage 6: under a minute.
-- Notebooks: about 20 seconds in total, most of it the bootstrap replicates.
+- Price paths: about 3 minutes.
+- Injury reports: about 25 minutes to download and 15 minutes to parse.
+- 2026-27 pull: about 15 minutes for 496 markets (the live trade endpoint is rate-limited more tightly).
+- Notebooks: about a minute in total, most of it the bootstrap replicates.
 
 ## Notebooks
 
@@ -85,6 +118,12 @@ The analysis lives in `notebooks/`. Read and run them in this order:
 | `04_horizons.ipynb` | How do the 24h, 6h and 1h prices compare with tipoff? Brier score and calibration at each horizon, paired bootstrap of the Brier differences, and a tight-spread check. | 9.2 |
 | `05_strategy.ipynb` | Does buying the less popular team at tipoff make money after fees? One fixed rule, a benchmark without the filter, and the same rule with metro population. | 9.3 |
 
+| `06_line_movement.ipynb` | Does the price move from 24h before tipoff to tipoff hold information the tipoff price missed? | 10.3 |
+| `07_information_arrival.ipynb` | When do prices move in the 24 hours before tipoff? How does a team's price move when the injury report rules a key player Out? | 10.4 |
+| `08_subgroups.ipynb` | Is the tipoff price differently calibrated by trading volume, season half, or back to back games? | 10.5 |
+| `09_replication.ipynb` | Do calibration, the popularity effect and the opposite trading rule hold on the start of 2026-27? | 10.6 |
+| `10_all_tests.ipynb` | Every Stage 10 test in one table, with Holm adjusted p values across the 8 primary tests. Fits no model. | 10.1, 10.7 |
+
 Notebooks 03 and 05 each end with a section headed "Exploratory (not in the Stage 9 plan)". Those sections follow the plan's "Exploratory, added after Stage 9 results" heading and were added after the planned results were seen.
 
 To run all of them from the repo root:
@@ -97,7 +136,7 @@ python scripts/run_notebooks.py 02_calibration    # only the named ones
 The script executes each notebook in a fresh kernel with nbconvert and saves it in place with its outputs. If any cell raises an error, it prints the error and exits with code 1. You can also open a notebook in Jupyter or VS Code and run it yourself. Use the project's `.venv` as the kernel.
 
 How the notebooks are organized:
-- They read only the CSVs in `data/processed/`, so they run on a fresh clone without the raw cache. The example price path in notebook 01 comes from `data/processed/example_price_path.csv`.
+- They read only the CSVs in `data/processed/`, so they run on a fresh clone without the raw cache. The example price path in notebook 01 comes from `data/processed/example_price_path.csv`. Notebook 10 reads the test tables that notebooks 06 to 09 save in `results/`, so it runs after them.
 - The statistics are imported from `src/` and are not written out in the notebooks. `src/stats_tools.py` holds the shared ones: Wilson interval, Brier score, logistic regression with clustered standard errors, likelihood ratio test and block bootstrap by date.
 - Each notebook opens with its question and the plan section it follows. Each result is followed by a short explanation.
 - Random steps use seed 4981, as in the plan.
@@ -116,15 +155,29 @@ nba-kalshi-calibration/
     quality_report.py    Stage 7: data quality report
     export_price_path.py Stage 8: example game price path, raw cache -> CSV
     metro_population.py  Stage 9: metro area population per team (Census, Statistics Canada)
-    stats_tools.py       shared statistics: Wilson, Brier, clustered logit, LR test, block bootstrap
+    stats_tools.py       shared statistics: Wilson, Brier, clustered logit, LR test, block bootstrap,
+                         bootstrap p value, joint Wald test, Holm
     calibration.py       calibration tables and plot, used by notebook 02
     eda.py               EDA tables and figures, used by notebook 01
     popularity.py        popularity gaps, model and tables, used by notebook 03
     horizons.py          horizon comparison, used by notebook 04
     strategy.py          trading rule, fees and backtest, used by notebook 05
+    seasons.py           Stage 10: what differs between seasons (file names, dates, Kalshi endpoints)
+    build_price_paths.py Stage 10: 5-minute price paths, raw cache -> CSV
+    player_minutes.py    Stage 10: minutes per player per game (stats.nba.com)
+    injury_events.py     Stage 10: injury report status changes and events, used by notebook 07
+    all_tests.py         Stage 10: the common tests table and the Holm adjustment, used by notebooks 06 to 10
+    line_movement.py     Stage 10: move model and tables, used by notebook 06
+    information_arrival.py  Stage 10: when prices move, and the event study, used by notebook 07
+    subgroups.py         Stage 10: splits and interaction models, used by notebook 08
+    replication.py       Stage 10: the 2026-27 checks, used by notebook 09
     kalshi_client.py     shared: Kalshi client (rate limit, retries, pagination, optional signing)
     csv_io.py            shared: CSV read/write conventions for data/processed and results
     plot_style.py        shared: figure colors and matplotlib style
+  envs/
+    injuries/            separate uv project for the injury reports (pandas below 3.0)
+      fetch_injury_reports.py  download and parse the NBA injury report snapshots
+      pyproject.toml, uv.lock
   scripts/
     check_secrets.py     reports which .env values are set, never prints them
     probe_kalshi.py      Stage 2 feasibility probe
@@ -135,6 +188,11 @@ nba-kalshi-calibration/
     03_popularity.ipynb  popularity bias test
     04_horizons.ipynb    24h, 6h and 1h compared with tipoff
     05_strategy.ipynb    trading strategy backtest after fees
+    06_line_movement.ipynb        price move before tipoff
+    07_information_arrival.ipynb  when prices move, injury report event study
+    08_subgroups.ipynb            calibration by volume, season half and rest
+    09_replication.ipynb          2026-27 replication
+    10_all_tests.ipynb            all Stage 10 tests with Holm adjusted p values
   tests/
     conftest.py          puts src/ and tests/ on the import path
     fingerprint.py       type-aware DataFrame fingerprint helper
@@ -147,6 +205,14 @@ nba-kalshi-calibration/
     test_popularity.py   popularity gaps, gap model, metro population table
     test_horizons.py     horizon sample, metrics, paired bootstrap, spread filter
     test_strategy.py     fee, order size, expanding mean and threshold, trades, summary
+    test_stage10_tools.py  bootstrap p value, joint Wald test, Holm, the common tests table
+    test_seasons.py      season file names, endpoints by source, the season in progress
+    test_price_paths.py  5-minute grid, strictly-before rule, carried quotes, gzip output
+    test_line_movement.py  move, sample, model, bins
+    test_subgroups.py    group definitions, interaction model, joint test, bootstrap
+    test_replication.py  2025-26 measure and threshold, opposite rule, benchmark
+    test_injury_events.py  status changes, release time, name matching, key players, events
+    test_information_arrival.py  step changes, window shares, event windows, placebo, paths
     test_dependencies.py requirements.txt and pyproject.toml list the same packages
     fixtures/processed_fingerprint.json
   results/               committed analysis tables (CSV) and figures (PNG)
@@ -173,7 +239,7 @@ nba-kalshi-calibration/
 - Timestamps are ISO 8601 in UTC with a Z suffix, for example `2026-01-25T22:30:00Z`. Dates are `YYYY-MM-DD`.
 - Booleans are `1` or `0`. Missing values are empty cells.
 - Files are UTF-8, with no index column.
-- Read them with `csv_io.read_csv`, which restores the column types: zero-padded `game_id` as text, timestamps as UTC, and booleans as bool.
+- Read them with `csv_io.read_csv`, which restores the column types: zero-padded `game_id` as text, timestamps as UTC, and booleans as bool. It also reads the gzipped `price_paths.csv.gz`.
 - Plain `pandas.read_csv` also works, but you need `dtype={"game_id": str}` and you must parse the timestamps yourself.
 
 ### `data/processed/` (committed)
@@ -188,7 +254,7 @@ nba-kalshi-calibration/
 
 **`game_map.csv`**: one row per NBA game, with its Kalshi event and the two market tickers (`home_market`, `away_market`). It also holds:
 - `match_type`: `exact`, or `date_shift_1d` for a match within one day.
-- `kalshi_tipoff_estimate`: Kalshi's listed time, `expiration_time` minus 14 days. Kept for reference only.
+- `kalshi_tipoff_estimate`: Kalshi's listed time, the market's expiration time minus 14 days (minus 2 days in 2026-27, when Kalshi changed the rule). The market list now calls the field `latest_expiration_time`. Kept for reference only.
 - `tipoff_shift_hours`: official tipoff minus that estimate.
 - `market_open_time` and `hours_open_before_tipoff`: when the market opened, and how long before tipoff that was.
 - `kalshi_volume`: lifetime contracts for both markets, including in-game trading.
@@ -249,6 +315,20 @@ Row-level flags:
 - full pregame volume, with consistency checks;
 - pre-normalization sums.
 
+**`price_paths.csv.gz`** (Stage 10): one row per matched 2025-26 game per 5-minute step from 30 hours before tipoff to tipoff (361 steps per game). Written by `src/build_price_paths.py`. The step at `minutes_to_tipoff` uses only data strictly before that time, with the same rules as the snapshots, and equals the snapshot table at 24h, 6h, 1h and 0h.
+- `home_mid`, `away_mid`, `p_home_mid`, `max_spread`: as in `snapshots.csv`.
+- `home_mid_carried_forward`, `away_mid_carried_forward`: 1 when the quote is older than one minute.
+- `contracts`: contracts traded in both markets in the 5 minutes before the step.
+- `market_open`: 1 when the market had opened before the step. Steps before that are empty. The quote columns are also empty before the first candle of the pulled 30h window.
+
+**2026-27 files** (Stage 10, tag `data-v2`): `nba_games_2026_27.csv`, `game_map_2026_27.csv`, `snapshots_2026_27.csv`, `match_report_2026_27.md` and `quality_report_2026_27.md`. Same columns and rules as the 2025-26 files, for the 248 final games up to November 22, 2026.
+
+**Injury report files** (Stage 10):
+- `injury_report_snapshots_2025_26.csv`: one row per snapshot file of the official NBA injury report. `scheduled_time_et` is the report time in the file name, `posted_utc` the time the file was posted on the server, `on_server` and `parsed` say whether it exists and was read.
+- `injury_status_changes_2025_26.csv`: one row each time a player's status for a game differs between two consecutive parsed snapshots. `prev_status` and `status` are empty when the player is not listed. `team_submitted_prev` says whether his team had already submitted its report in the earlier snapshot, and `first_out` marks the first snapshot in which he is Out for that game.
+- `injury_report_games_2025_26.csv`: every game and team that appears in a parsed snapshot, for the coverage check.
+- `player_minutes_2025_26.csv`: minutes per player per game played, from `src/player_minutes.py`.
+
 ### `results/` (committed, written by the notebooks)
 
 From notebook 02. All of these use the main sample at horizon 0: 1,229 games, price `p_home`, outcome `home_win`. Section numbers refer to `ANALYSIS_PLAN.md`.
@@ -291,12 +371,22 @@ Exploratory, added after the Stage 9 results (plan heading "Exploratory, added a
 - `exploratory_volume_expanding_logistic.csv`, `exploratory_volume_expanding_effects.csv`, `exploratory_volume_expanding_bootstrap.csv`: the 9.1 volume model refitted with the past-games-only volume measure on the 1,074 eligible games of 9.3 (check E1, notebook 03).
 - `exploratory_strategy_before_fees.csv`: profit and return of the three strategies before fees (check E2, notebook 05).
 
+Stage 10 (plan sections 10.3 to 10.7):
+- `stage10_all_tests.csv`: every Stage 10 test with its estimate, interval, raw p value and, for the 8 primary tests, the Holm adjusted p value (notebook 10). `stage10_tests_<part>.csv` are the same rows per notebook, before the adjustment.
+- Notebook 06, 1,222 games: `line_movement_sample_counts.csv`, `line_movement_summary.csv` and `line_movement_distribution.png` (the moves), `line_movement_logistic.csv`, `line_movement_effects.csv` and `line_movement_bootstrap.csv` (a, b and d of the four models), `line_movement_bins.csv` and `line_movement_bins.png` (win rate minus tipoff price by size of the move).
+- Notebook 07: `arrival_by_minutes.csv` / `.png`, `arrival_by_clock.csv` / `.png` and `arrival_window_shares.csv` (when prices move); `injury_reliability.csv`, `injury_event_counts.csv`, `injury_events.csv` (one row per event, with its release time and price changes), `injury_event_test.csv`, `injury_event_path.csv` and `injury_event_path.png` (the event study).
+- Notebook 08, 1,229 games: `subgroups_groups.csv` (the groups), `subgroups_metrics.csv` (Brier, a and b per group), `subgroups_interaction.csv` (the interaction models), `subgroups_brier_diff.csv`, `subgroups_bootstrap.csv`, `subgroups_calibration_bins.csv` and one calibration figure per split.
+- Notebook 09, 248 games of 2026-27: `replication_sample_counts.csv`, `replication_brier.csv`, `replication_logistic.csv`, `replication_lr_test.csv`, `replication_bootstrap.csv`, `replication_calibration_bins.csv` and `replication_calibration_plot.png` (calibration); `replication_popularity_*.csv` (the popularity model); `replication_opposite_rule.csv` and `replication_opposite_trades.csv` (the opposite rule and its benchmark); `replication_slope_width.csv`.
+
 ### `data/raw/` (gitignored, needed to rebuild without re-pulling)
 
 - `kalshi_markets_KXNBAGAME.json`: the Kalshi market list.
 - `kalshi/markets/<ticker>.json.gz`: one gzipped file per market for the window phase, holding the raw trades and candlesticks returned for its window, plus market metadata.
 - `kalshi/pregame/<ticker>.json.gz`: one gzipped file per market for the pregame phase, holding the raw trades from market open to the window start.
 - `nba_schedule_2025_26.json`: the raw stats.nba.com response, used by `--cached`.
+- `kalshi_markets_KXNBAGAME_2026_27.json`, `nba_schedule_2026_27.json`: the same for 2026-27. The 2026-27 market files share the two `kalshi/` folders.
+- `player_gamelog_2025_26.json`: the raw player game log response.
+- `injury_reports/`: the downloaded report PDFs, the download and parse logs, and every parsed row (`injury_report_rows_2025_26.csv.gz`).
 
 ### `logs/` (gitignored)
 

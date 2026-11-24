@@ -1,0 +1,2471 @@
+game_date,matchup,team_name
+10/21/2025,HOU@OKC,Houston Rockets
+10/21/2025,HOU@OKC,Oklahoma City Thunder
+10/21/2025,GSW@LAL,Golden State Warriors
+10/21/2025,GSW@LAL,Los Angeles Lakers
+10/22/2025,BKN@CHA,Brooklyn Nets
+10/22/2025,BKN@CHA,Charlotte Hornets
+10/22/2025,CLE@NYK,Cleveland Cavaliers
+10/22/2025,CLE@NYK,New York Knicks
+10/22/2025,MIA@ORL,Miami Heat
+10/22/2025,MIA@ORL,Orlando Magic
+10/22/2025,PHI@BOS,Philadelphia 76ers
+10/22/2025,PHI@BOS,Boston Celtics
+10/22/2025,TOR@ATL,Toronto Raptors
+10/22/2025,TOR@ATL,Atlanta Hawks
+10/22/2025,DET@CHI,Detroit Pistons
+10/22/2025,DET@CHI,Chicago Bulls
+10/22/2025,NOP@MEM,New Orleans Pelicans
+10/22/2025,NOP@MEM,Memphis Grizzlies
+10/22/2025,WAS@MIL,Washington Wizards
+10/22/2025,WAS@MIL,Milwaukee Bucks
+10/22/2025,LAC@UTA,LA Clippers
+10/22/2025,LAC@UTA,Utah Jazz
+10/22/2025,SAS@DAL,San Antonio Spurs
+10/22/2025,SAS@DAL,Dallas Mavericks
+10/22/2025,MIN@POR,Minnesota Timberwolves
+10/22/2025,MIN@POR,Portland Trail Blazers
+10/22/2025,SAC@PHX,Sacramento Kings
+10/22/2025,SAC@PHX,Phoenix Suns
+10/23/2025,OKC@IND,Oklahoma City Thunder
+10/23/2025,OKC@IND,Indiana Pacers
+10/23/2025,DEN@GSW,Denver Nuggets
+10/23/2025,DEN@GSW,Golden State Warriors
+10/24/2025,MIL@TOR,Milwaukee Bucks
+10/24/2025,MIL@TOR,Toronto Raptors
+10/24/2025,ATL@ORL,Atlanta Hawks
+10/24/2025,ATL@ORL,Orlando Magic
+10/24/2025,BOS@NYK,Boston Celtics
+10/24/2025,BOS@NYK,New York Knicks
+10/24/2025,CLE@BKN,Cleveland Cavaliers
+10/24/2025,CLE@BKN,Brooklyn Nets
+10/24/2025,DET@HOU,Detroit Pistons
+10/24/2025,DET@HOU,Houston Rockets
+10/24/2025,MIA@MEM,Miami Heat
+10/24/2025,MIA@MEM,Memphis Grizzlies
+10/24/2025,SAS@NOP,San Antonio Spurs
+10/24/2025,SAS@NOP,New Orleans Pelicans
+10/24/2025,WAS@DAL,Washington Wizards
+10/24/2025,WAS@DAL,Dallas Mavericks
+10/24/2025,GSW@POR,Golden State Warriors
+10/24/2025,GSW@POR,Portland Trail Blazers
+10/24/2025,MIN@LAL,Minnesota Timberwolves
+10/24/2025,MIN@LAL,Los Angeles Lakers
+10/24/2025,UTA@SAC,Utah Jazz
+10/24/2025,UTA@SAC,Sacramento Kings
+10/24/2025,PHX@LAC,Phoenix Suns
+10/24/2025,PHX@LAC,LA Clippers
+10/25/2025,CHI@ORL,Chicago Bulls
+10/25/2025,CHI@ORL,Orlando Magic
+10/25/2025,CHA@PHI,Charlotte Hornets
+10/25/2025,CHA@PHI,Philadelphia 76ers
+10/25/2025,OKC@ATL,Oklahoma City Thunder
+10/25/2025,OKC@ATL,Atlanta Hawks
+10/25/2025,IND@MEM,Indiana Pacers
+10/25/2025,IND@MEM,Memphis Grizzlies
+10/25/2025,PHX@DEN,Phoenix Suns
+10/25/2025,PHX@DEN,Denver Nuggets
+10/26/2025,BKN@SAS,Brooklyn Nets
+10/26/2025,BKN@SAS,San Antonio Spurs
+10/26/2025,BOS@DET,Boston Celtics
+10/26/2025,BOS@DET,Detroit Pistons
+10/26/2025,CHA@WAS,Charlotte Hornets
+10/26/2025,CHA@WAS,Washington Wizards
+10/26/2025,MIL@CLE,Milwaukee Bucks
+10/26/2025,MIL@CLE,Cleveland Cavaliers
+10/26/2025,NYK@MIA,New York Knicks
+10/26/2025,NYK@MIA,Miami Heat
+10/26/2025,IND@MIN,Indiana Pacers
+10/26/2025,IND@MIN,Minnesota Timberwolves
+10/26/2025,TOR@DAL,Toronto Raptors
+10/26/2025,TOR@DAL,Dallas Mavericks
+10/26/2025,LAL@SAC,Los Angeles Lakers
+10/26/2025,LAL@SAC,Sacramento Kings
+10/26/2025,POR@LAC,Portland Trail Blazers
+10/26/2025,POR@LAC,LA Clippers
+10/27/2025,CLE@DET,Cleveland Cavaliers
+10/27/2025,CLE@DET,Detroit Pistons
+10/27/2025,ORL@PHI,Orlando Magic
+10/27/2025,ORL@PHI,Philadelphia 76ers
+10/27/2025,ATL@CHI,Atlanta Hawks
+10/27/2025,ATL@CHI,Chicago Bulls
+10/27/2025,BKN@HOU,Brooklyn Nets
+10/27/2025,BKN@HOU,Houston Rockets
+10/27/2025,BOS@NOP,Boston Celtics
+10/27/2025,BOS@NOP,New Orleans Pelicans
+10/27/2025,TOR@SAS,Toronto Raptors
+10/27/2025,TOR@SAS,San Antonio Spurs
+10/27/2025,OKC@DAL,Oklahoma City Thunder
+10/27/2025,OKC@DAL,Dallas Mavericks
+10/27/2025,PHX@UTA,Phoenix Suns
+10/27/2025,PHX@UTA,Utah Jazz
+10/27/2025,DEN@MIN,Denver Nuggets
+10/27/2025,DEN@MIN,Minnesota Timberwolves
+10/27/2025,MEM@GSW,Memphis Grizzlies
+10/27/2025,MEM@GSW,Golden State Warriors
+10/27/2025,POR@LAL,Portland Trail Blazers
+10/27/2025,POR@LAL,Los Angeles Lakers
+10/28/2025,PHI@WAS,Philadelphia 76ers
+10/28/2025,PHI@WAS,Washington Wizards
+10/28/2025,CHA@MIA,Charlotte Hornets
+10/28/2025,CHA@MIA,Miami Heat
+10/28/2025,NYK@MIL,New York Knicks
+10/28/2025,NYK@MIL,Milwaukee Bucks
+10/28/2025,SAC@OKC,Sacramento Kings
+10/28/2025,SAC@OKC,Oklahoma City Thunder
+10/28/2025,LAC@GSW,LA Clippers
+10/28/2025,LAC@GSW,Golden State Warriors
+10/29/2025,HOU@TOR,Houston Rockets
+10/29/2025,HOU@TOR,Toronto Raptors
+10/29/2025,CLE@BOS,Cleveland Cavaliers
+10/29/2025,CLE@BOS,Boston Celtics
+10/29/2025,ORL@DET,Orlando Magic
+10/29/2025,ORL@DET,Detroit Pistons
+10/29/2025,ATL@BKN,Atlanta Hawks
+10/29/2025,ATL@BKN,Brooklyn Nets
+10/29/2025,SAC@CHI,Sacramento Kings
+10/29/2025,SAC@CHI,Chicago Bulls
+10/29/2025,IND@DAL,Indiana Pacers
+10/29/2025,IND@DAL,Dallas Mavericks
+10/29/2025,NOP@DEN,New Orleans Pelicans
+10/29/2025,NOP@DEN,Denver Nuggets
+10/29/2025,POR@UTA,Portland Trail Blazers
+10/29/2025,POR@UTA,Utah Jazz
+10/29/2025,LAL@MIN,Los Angeles Lakers
+10/29/2025,LAL@MIN,Minnesota Timberwolves
+10/29/2025,MEM@PHX,Memphis Grizzlies
+10/29/2025,MEM@PHX,Phoenix Suns
+10/30/2025,ORL@CHA,Orlando Magic
+10/30/2025,ORL@CHA,Charlotte Hornets
+10/30/2025,GSW@MIL,Golden State Warriors
+10/30/2025,GSW@MIL,Milwaukee Bucks
+10/30/2025,WAS@OKC,Washington Wizards
+10/30/2025,WAS@OKC,Oklahoma City Thunder
+10/30/2025,MIA@SAS,Miami Heat
+10/30/2025,MIA@SAS,San Antonio Spurs
+10/31/2025,ATL@IND,Atlanta Hawks
+10/31/2025,ATL@IND,Indiana Pacers
+10/31/2025,BOS@PHI,Boston Celtics
+10/31/2025,BOS@PHI,Philadelphia 76ers
+10/31/2025,TOR@CLE,Toronto Raptors
+10/31/2025,TOR@CLE,Cleveland Cavaliers
+10/31/2025,NYK@CHI,New York Knicks
+10/31/2025,NYK@CHI,Chicago Bulls
+10/31/2025,LAL@MEM,Los Angeles Lakers
+10/31/2025,LAL@MEM,Memphis Grizzlies
+10/31/2025,DEN@POR,Denver Nuggets
+10/31/2025,DEN@POR,Portland Trail Blazers
+10/31/2025,UTA@PHX,Utah Jazz
+10/31/2025,UTA@PHX,Phoenix Suns
+10/31/2025,NOP@LAC,New Orleans Pelicans
+10/31/2025,NOP@LAC,LA Clippers
+11/01/2025,SAC@MIL,Sacramento Kings
+11/01/2025,SAC@MIL,Milwaukee Bucks
+11/01/2025,MIN@CHA,Minnesota Timberwolves
+11/01/2025,MIN@CHA,Charlotte Hornets
+11/01/2025,GSW@IND,Golden State Warriors
+11/01/2025,GSW@IND,Indiana Pacers
+11/01/2025,ORL@WAS,Orlando Magic
+11/01/2025,ORL@WAS,Washington Wizards
+11/01/2025,HOU@BOS,Houston Rockets
+11/01/2025,HOU@BOS,Boston Celtics
+11/01/2025,DAL@DET,Dallas Mavericks
+11/01/2025,DAL@DET,Detroit Pistons
+11/02/2025,NOP@OKC,New Orleans Pelicans
+11/02/2025,NOP@OKC,Oklahoma City Thunder
+11/02/2025,ATL@CLE,Atlanta Hawks
+11/02/2025,ATL@CLE,Cleveland Cavaliers
+11/02/2025,MEM@TOR,Memphis Grizzlies
+11/02/2025,MEM@TOR,Toronto Raptors
+11/02/2025,PHI@BKN,Philadelphia 76ers
+11/02/2025,PHI@BKN,Brooklyn Nets
+11/02/2025,UTA@CHA,Utah Jazz
+11/02/2025,UTA@CHA,Charlotte Hornets
+11/02/2025,CHI@NYK,Chicago Bulls
+11/02/2025,CHI@NYK,New York Knicks
+11/02/2025,SAS@PHX,San Antonio Spurs
+11/02/2025,SAS@PHX,Phoenix Suns
+11/02/2025,MIA@LAL,Miami Heat
+11/02/2025,MIA@LAL,Los Angeles Lakers
+11/03/2025,MIL@IND,Milwaukee Bucks
+11/03/2025,MIL@IND,Indiana Pacers
+11/03/2025,MIN@BKN,Minnesota Timberwolves
+11/03/2025,MIN@BKN,Brooklyn Nets
+11/03/2025,UTA@BOS,Utah Jazz
+11/03/2025,UTA@BOS,Boston Celtics
+11/03/2025,WAS@NYK,Washington Wizards
+11/03/2025,WAS@NYK,New York Knicks
+11/03/2025,DAL@HOU,Dallas Mavericks
+11/03/2025,DAL@HOU,Houston Rockets
+11/03/2025,DET@MEM,Detroit Pistons
+11/03/2025,DET@MEM,Memphis Grizzlies
+11/03/2025,SAC@DEN,Sacramento Kings
+11/03/2025,SAC@DEN,Denver Nuggets
+11/03/2025,LAL@POR,Los Angeles Lakers
+11/03/2025,LAL@POR,Portland Trail Blazers
+11/03/2025,MIA@LAC,Miami Heat
+11/03/2025,MIA@LAC,LA Clippers
+11/04/2025,MIL@TOR,Milwaukee Bucks
+11/04/2025,MIL@TOR,Toronto Raptors
+11/04/2025,CHA@NOP,Charlotte Hornets
+11/04/2025,CHA@NOP,New Orleans Pelicans
+11/04/2025,ORL@ATL,Orlando Magic
+11/04/2025,ORL@ATL,Atlanta Hawks
+11/04/2025,PHI@CHI,Philadelphia 76ers
+11/04/2025,PHI@CHI,Chicago Bulls
+11/04/2025,PHX@GSW,Phoenix Suns
+11/04/2025,PHX@GSW,Golden State Warriors
+11/04/2025,OKC@LAC,Oklahoma City Thunder
+11/04/2025,OKC@LAC,LA Clippers
+11/05/2025,BKN@IND,Brooklyn Nets
+11/05/2025,BKN@IND,Indiana Pacers
+11/05/2025,PHI@CLE,Philadelphia 76ers
+11/05/2025,PHI@CLE,Cleveland Cavaliers
+11/05/2025,UTA@DET,Utah Jazz
+11/05/2025,UTA@DET,Detroit Pistons
+11/05/2025,MIN@NYK,Minnesota Timberwolves
+11/05/2025,MIN@NYK,New York Knicks
+11/05/2025,WAS@BOS,Washington Wizards
+11/05/2025,WAS@BOS,Boston Celtics
+11/05/2025,HOU@MEM,Houston Rockets
+11/05/2025,HOU@MEM,Memphis Grizzlies
+11/05/2025,NOP@DAL,New Orleans Pelicans
+11/05/2025,NOP@DAL,Dallas Mavericks
+11/05/2025,MIA@DEN,Miami Heat
+11/05/2025,MIA@DEN,Denver Nuggets
+11/05/2025,GSW@SAC,Golden State Warriors
+11/05/2025,GSW@SAC,Sacramento Kings
+11/05/2025,OKC@POR,Oklahoma City Thunder
+11/05/2025,OKC@POR,Portland Trail Blazers
+11/05/2025,SAS@LAL,San Antonio Spurs
+11/05/2025,SAS@LAL,Los Angeles Lakers
+11/06/2025,LAC@PHX,LA Clippers
+11/06/2025,LAC@PHX,Phoenix Suns
+11/07/2025,BOS@ORL,Boston Celtics
+11/07/2025,BOS@ORL,Orlando Magic
+11/07/2025,CLE@WAS,Cleveland Cavaliers
+11/07/2025,CLE@WAS,Washington Wizards
+11/07/2025,DET@BKN,Detroit Pistons
+11/07/2025,DET@BKN,Brooklyn Nets
+11/07/2025,HOU@SAS,Houston Rockets
+11/07/2025,HOU@SAS,San Antonio Spurs
+11/07/2025,TOR@ATL,Toronto Raptors
+11/07/2025,TOR@ATL,Atlanta Hawks
+11/07/2025,CHA@MIA,Charlotte Hornets
+11/07/2025,CHA@MIA,Miami Heat
+11/07/2025,CHI@MIL,Chicago Bulls
+11/07/2025,CHI@MIL,Milwaukee Bucks
+11/07/2025,DAL@MEM,Dallas Mavericks
+11/07/2025,DAL@MEM,Memphis Grizzlies
+11/07/2025,UTA@MIN,Utah Jazz
+11/07/2025,UTA@MIN,Minnesota Timberwolves
+11/07/2025,GSW@DEN,Golden State Warriors
+11/07/2025,GSW@DEN,Denver Nuggets
+11/07/2025,OKC@SAC,Oklahoma City Thunder
+11/07/2025,OKC@SAC,Sacramento Kings
+11/08/2025,DAL@WAS,Dallas Mavericks
+11/08/2025,DAL@WAS,Washington Wizards
+11/08/2025,TOR@PHI,Toronto Raptors
+11/08/2025,TOR@PHI,Philadelphia 76ers
+11/08/2025,CHI@CLE,Chicago Bulls
+11/08/2025,CHI@CLE,Cleveland Cavaliers
+11/08/2025,LAL@ATL,Los Angeles Lakers
+11/08/2025,LAL@ATL,Atlanta Hawks
+11/08/2025,NOP@SAS,New Orleans Pelicans
+11/08/2025,NOP@SAS,San Antonio Spurs
+11/08/2025,POR@MIA,Portland Trail Blazers
+11/08/2025,POR@MIA,Miami Heat
+11/08/2025,IND@DEN,Indiana Pacers
+11/08/2025,IND@DEN,Denver Nuggets
+11/08/2025,PHX@LAC,Phoenix Suns
+11/08/2025,PHX@LAC,LA Clippers
+11/09/2025,HOU@MIL,Houston Rockets
+11/09/2025,HOU@MIL,Milwaukee Bucks
+11/09/2025,BKN@NYK,Brooklyn Nets
+11/09/2025,BKN@NYK,New York Knicks
+11/09/2025,BOS@ORL,Boston Celtics
+11/09/2025,BOS@ORL,Orlando Magic
+11/09/2025,OKC@MEM,Oklahoma City Thunder
+11/09/2025,OKC@MEM,Memphis Grizzlies
+11/09/2025,DET@PHI,Detroit Pistons
+11/09/2025,DET@PHI,Philadelphia 76ers
+11/09/2025,IND@GSW,Indiana Pacers
+11/09/2025,IND@GSW,Golden State Warriors
+11/09/2025,MIN@SAC,Minnesota Timberwolves
+11/09/2025,MIN@SAC,Sacramento Kings
+11/10/2025,LAL@CHA,Los Angeles Lakers
+11/10/2025,LAL@CHA,Charlotte Hornets
+11/10/2025,POR@ORL,Portland Trail Blazers
+11/10/2025,POR@ORL,Orlando Magic
+11/10/2025,WAS@DET,Washington Wizards
+11/10/2025,WAS@DET,Detroit Pistons
+11/10/2025,CLE@MIA,Cleveland Cavaliers
+11/10/2025,CLE@MIA,Miami Heat
+11/10/2025,SAS@CHI,San Antonio Spurs
+11/10/2025,SAS@CHI,Chicago Bulls
+11/10/2025,MIL@DAL,Milwaukee Bucks
+11/10/2025,MIL@DAL,Dallas Mavericks
+11/10/2025,MIN@UTA,Minnesota Timberwolves
+11/10/2025,MIN@UTA,Utah Jazz
+11/10/2025,NOP@PHX,New Orleans Pelicans
+11/10/2025,NOP@PHX,Phoenix Suns
+11/10/2025,ATL@LAC,Atlanta Hawks
+11/10/2025,ATL@LAC,LA Clippers
+11/11/2025,MEM@NYK,Memphis Grizzlies
+11/11/2025,MEM@NYK,New York Knicks
+11/11/2025,TOR@BKN,Toronto Raptors
+11/11/2025,TOR@BKN,Brooklyn Nets
+11/11/2025,BOS@PHI,Boston Celtics
+11/11/2025,BOS@PHI,Philadelphia 76ers
+11/11/2025,GSW@OKC,Golden State Warriors
+11/11/2025,GSW@OKC,Oklahoma City Thunder
+11/11/2025,IND@UTA,Indiana Pacers
+11/11/2025,IND@UTA,Utah Jazz
+11/11/2025,DEN@SAC,Denver Nuggets
+11/11/2025,DEN@SAC,Sacramento Kings
+11/12/2025,CHI@DET,Chicago Bulls
+11/12/2025,CHI@DET,Detroit Pistons
+11/12/2025,MIL@CHA,Milwaukee Bucks
+11/12/2025,MIL@CHA,Charlotte Hornets
+11/12/2025,ORL@NYK,Orlando Magic
+11/12/2025,ORL@NYK,New York Knicks
+11/12/2025,CLE@MIA,Cleveland Cavaliers
+11/12/2025,CLE@MIA,Miami Heat
+11/12/2025,MEM@BOS,Memphis Grizzlies
+11/12/2025,MEM@BOS,Boston Celtics
+11/12/2025,GSW@SAS,Golden State Warriors
+11/12/2025,GSW@SAS,San Antonio Spurs
+11/12/2025,POR@NOP,Portland Trail Blazers
+11/12/2025,POR@NOP,New Orleans Pelicans
+11/12/2025,WAS@HOU,Washington Wizards
+11/12/2025,WAS@HOU,Houston Rockets
+11/12/2025,PHX@DAL,Phoenix Suns
+11/12/2025,PHX@DAL,Dallas Mavericks
+11/12/2025,LAL@OKC,Los Angeles Lakers
+11/12/2025,LAL@OKC,Oklahoma City Thunder
+11/12/2025,ATL@SAC,Atlanta Hawks
+11/12/2025,ATL@SAC,Sacramento Kings
+11/12/2025,DEN@LAC,Denver Nuggets
+11/12/2025,DEN@LAC,LA Clippers
+11/13/2025,TOR@CLE,Toronto Raptors
+11/13/2025,TOR@CLE,Cleveland Cavaliers
+11/13/2025,ATL@UTA,Atlanta Hawks
+11/13/2025,ATL@UTA,Utah Jazz
+11/13/2025,IND@PHX,Indiana Pacers
+11/13/2025,IND@PHX,Phoenix Suns
+11/14/2025,BKN@ORL,Brooklyn Nets
+11/14/2025,BKN@ORL,Orlando Magic
+11/14/2025,MIA@NYK,Miami Heat
+11/14/2025,MIA@NYK,New York Knicks
+11/14/2025,PHI@DET,Philadelphia 76ers
+11/14/2025,PHI@DET,Detroit Pistons
+11/14/2025,CHA@MIL,Charlotte Hornets
+11/14/2025,CHA@MIL,Milwaukee Bucks
+11/14/2025,LAL@NOP,Los Angeles Lakers
+11/14/2025,LAL@NOP,New Orleans Pelicans
+11/14/2025,POR@HOU,Portland Trail Blazers
+11/14/2025,POR@HOU,Houston Rockets
+11/14/2025,SAC@MIN,Sacramento Kings
+11/14/2025,SAC@MIN,Minnesota Timberwolves
+11/14/2025,LAC@DAL,LA Clippers
+11/14/2025,LAC@DAL,Dallas Mavericks
+11/14/2025,GSW@SAS,Golden State Warriors
+11/14/2025,GSW@SAS,San Antonio Spurs
+11/15/2025,MEM@CLE,Memphis Grizzlies
+11/15/2025,MEM@CLE,Cleveland Cavaliers
+11/15/2025,OKC@CHA,Oklahoma City Thunder
+11/15/2025,OKC@CHA,Charlotte Hornets
+11/15/2025,TOR@IND,Toronto Raptors
+11/15/2025,TOR@IND,Indiana Pacers
+11/15/2025,DEN@MIN,Denver Nuggets
+11/15/2025,DEN@MIN,Minnesota Timberwolves
+11/15/2025,LAL@MIL,Los Angeles Lakers
+11/15/2025,LAL@MIL,Milwaukee Bucks
+11/16/2025,LAC@BOS,LA Clippers
+11/16/2025,LAC@BOS,Boston Celtics
+11/16/2025,SAC@SAS,Sacramento Kings
+11/16/2025,SAC@SAS,San Antonio Spurs
+11/16/2025,BKN@WAS,Brooklyn Nets
+11/16/2025,BKN@WAS,Washington Wizards
+11/16/2025,GSW@NOP,Golden State Warriors
+11/16/2025,GSW@NOP,New Orleans Pelicans
+11/16/2025,ORL@HOU,Orlando Magic
+11/16/2025,ORL@HOU,Houston Rockets
+11/16/2025,POR@DAL,Portland Trail Blazers
+11/16/2025,POR@DAL,Dallas Mavericks
+11/16/2025,ATL@PHX,Atlanta Hawks
+11/16/2025,ATL@PHX,Phoenix Suns
+11/16/2025,CHI@UTA,Chicago Bulls
+11/16/2025,CHI@UTA,Utah Jazz
+11/17/2025,IND@DET,Indiana Pacers
+11/17/2025,IND@DET,Detroit Pistons
+11/17/2025,LAC@PHI,LA Clippers
+11/17/2025,LAC@PHI,Philadelphia 76ers
+11/17/2025,MIL@CLE,Milwaukee Bucks
+11/17/2025,MIL@CLE,Cleveland Cavaliers
+11/17/2025,CHA@TOR,Charlotte Hornets
+11/17/2025,CHA@TOR,Toronto Raptors
+11/17/2025,NYK@MIA,New York Knicks
+11/17/2025,NYK@MIA,Miami Heat
+11/17/2025,DAL@MIN,Dallas Mavericks
+11/17/2025,DAL@MIN,Minnesota Timberwolves
+11/17/2025,OKC@NOP,Oklahoma City Thunder
+11/17/2025,OKC@NOP,New Orleans Pelicans
+11/17/2025,CHI@DEN,Chicago Bulls
+11/17/2025,CHI@DEN,Denver Nuggets
+11/18/2025,GSW@ORL,Golden State Warriors
+11/18/2025,GSW@ORL,Orlando Magic
+11/18/2025,BOS@BKN,Boston Celtics
+11/18/2025,BOS@BKN,Brooklyn Nets
+11/18/2025,DET@ATL,Detroit Pistons
+11/18/2025,DET@ATL,Atlanta Hawks
+11/18/2025,MEM@SAS,Memphis Grizzlies
+11/18/2025,MEM@SAS,San Antonio Spurs
+11/18/2025,UTA@LAL,Utah Jazz
+11/18/2025,UTA@LAL,Los Angeles Lakers
+11/18/2025,PHX@POR,Phoenix Suns
+11/18/2025,PHX@POR,Portland Trail Blazers
+11/19/2025,CHA@IND,Charlotte Hornets
+11/19/2025,CHA@IND,Indiana Pacers
+11/19/2025,HOU@CLE,Houston Rockets
+11/19/2025,HOU@CLE,Cleveland Cavaliers
+11/19/2025,TOR@PHI,Toronto Raptors
+11/19/2025,TOR@PHI,Philadelphia 76ers
+11/19/2025,GSW@MIA,Golden State Warriors
+11/19/2025,GSW@MIA,Miami Heat
+11/19/2025,DEN@NOP,Denver Nuggets
+11/19/2025,DEN@NOP,New Orleans Pelicans
+11/19/2025,SAC@OKC,Sacramento Kings
+11/19/2025,SAC@OKC,Oklahoma City Thunder
+11/19/2025,WAS@MIN,Washington Wizards
+11/19/2025,WAS@MIN,Minnesota Timberwolves
+11/19/2025,NYK@DAL,New York Knicks
+11/19/2025,NYK@DAL,Dallas Mavericks
+11/19/2025,CHI@POR,Chicago Bulls
+11/19/2025,CHI@POR,Portland Trail Blazers
+11/20/2025,LAC@ORL,LA Clippers
+11/20/2025,LAC@ORL,Orlando Magic
+11/20/2025,ATL@SAS,Atlanta Hawks
+11/20/2025,ATL@SAS,San Antonio Spurs
+11/20/2025,PHI@MIL,Philadelphia 76ers
+11/20/2025,PHI@MIL,Milwaukee Bucks
+11/20/2025,SAC@MEM,Sacramento Kings
+11/20/2025,SAC@MEM,Memphis Grizzlies
+11/21/2025,IND@CLE,Indiana Pacers
+11/21/2025,IND@CLE,Cleveland Cavaliers
+11/21/2025,BKN@BOS,Brooklyn Nets
+11/21/2025,BKN@BOS,Boston Celtics
+11/21/2025,WAS@TOR,Washington Wizards
+11/21/2025,WAS@TOR,Toronto Raptors
+11/21/2025,MIA@CHI,Miami Heat
+11/21/2025,MIA@CHI,Chicago Bulls
+11/21/2025,NOP@DAL,New Orleans Pelicans
+11/21/2025,NOP@DAL,Dallas Mavericks
+11/21/2025,MIN@PHX,Minnesota Timberwolves
+11/21/2025,MIN@PHX,Phoenix Suns
+11/21/2025,DEN@HOU,Denver Nuggets
+11/21/2025,DEN@HOU,Houston Rockets
+11/21/2025,OKC@UTA,Oklahoma City Thunder
+11/21/2025,OKC@UTA,Utah Jazz
+11/21/2025,POR@GSW,Portland Trail Blazers
+11/21/2025,POR@GSW,Golden State Warriors
+11/22/2025,LAC@CHA,LA Clippers
+11/22/2025,LAC@CHA,Charlotte Hornets
+11/22/2025,NYK@ORL,New York Knicks
+11/22/2025,NYK@ORL,Orlando Magic
+11/22/2025,ATL@NOP,Atlanta Hawks
+11/22/2025,ATL@NOP,New Orleans Pelicans
+11/22/2025,DET@MIL,Detroit Pistons
+11/22/2025,DET@MIL,Milwaukee Bucks
+11/22/2025,WAS@CHI,Washington Wizards
+11/22/2025,WAS@CHI,Chicago Bulls
+11/22/2025,MEM@DAL,Memphis Grizzlies
+11/22/2025,MEM@DAL,Dallas Mavericks
+11/22/2025,SAC@DEN,Sacramento Kings
+11/22/2025,SAC@DEN,Denver Nuggets
+11/23/2025,MIA@PHI,Miami Heat
+11/23/2025,MIA@PHI,Philadelphia 76ers
+11/23/2025,BKN@TOR,Brooklyn Nets
+11/23/2025,BKN@TOR,Toronto Raptors
+11/23/2025,CHA@ATL,Charlotte Hornets
+11/23/2025,CHA@ATL,Atlanta Hawks
+11/23/2025,LAC@CLE,LA Clippers
+11/23/2025,LAC@CLE,Cleveland Cavaliers
+11/23/2025,ORL@BOS,Orlando Magic
+11/23/2025,ORL@BOS,Boston Celtics
+11/23/2025,POR@OKC,Portland Trail Blazers
+11/23/2025,POR@OKC,Oklahoma City Thunder
+11/23/2025,LAL@UTA,Los Angeles Lakers
+11/23/2025,LAL@UTA,Utah Jazz
+11/23/2025,SAS@PHX,San Antonio Spurs
+11/23/2025,SAS@PHX,Phoenix Suns
+11/24/2025,CLE@TOR,Cleveland Cavaliers
+11/24/2025,CLE@TOR,Toronto Raptors
+11/24/2025,DET@IND,Detroit Pistons
+11/24/2025,DET@IND,Indiana Pacers
+11/24/2025,DAL@MIA,Dallas Mavericks
+11/24/2025,DAL@MIA,Miami Heat
+11/24/2025,NYK@BKN,New York Knicks
+11/24/2025,NYK@BKN,Brooklyn Nets
+11/24/2025,CHI@NOP,Chicago Bulls
+11/24/2025,CHI@NOP,New Orleans Pelicans
+11/24/2025,DEN@MEM,Denver Nuggets
+11/24/2025,DEN@MEM,Memphis Grizzlies
+11/24/2025,POR@MIL,Portland Trail Blazers
+11/24/2025,POR@MIL,Milwaukee Bucks
+11/24/2025,HOU@PHX,Houston Rockets
+11/24/2025,HOU@PHX,Phoenix Suns
+11/24/2025,MIN@SAC,Minnesota Timberwolves
+11/24/2025,MIN@SAC,Sacramento Kings
+11/24/2025,UTA@GSW,Utah Jazz
+11/24/2025,UTA@GSW,Golden State Warriors
+11/25/2025,ATL@WAS,Atlanta Hawks
+11/25/2025,ATL@WAS,Washington Wizards
+11/25/2025,ORL@PHI,Orlando Magic
+11/25/2025,ORL@PHI,Philadelphia 76ers
+11/25/2025,LAC@LAL,LA Clippers
+11/25/2025,LAC@LAL,Los Angeles Lakers
+11/26/2025,DET@BOS,Detroit Pistons
+11/26/2025,DET@BOS,Boston Celtics
+11/26/2025,NYK@CHA,New York Knicks
+11/26/2025,NYK@CHA,Charlotte Hornets
+11/26/2025,IND@TOR,Indiana Pacers
+11/26/2025,IND@TOR,Toronto Raptors
+11/26/2025,MIL@MIA,Milwaukee Bucks
+11/26/2025,MIL@MIA,Miami Heat
+11/26/2025,MIN@OKC,Minnesota Timberwolves
+11/26/2025,MIN@OKC,Oklahoma City Thunder
+11/26/2025,MEM@NOP,Memphis Grizzlies
+11/26/2025,MEM@NOP,New Orleans Pelicans
+11/26/2025,HOU@GSW,Houston Rockets
+11/26/2025,HOU@GSW,Golden State Warriors
+11/26/2025,PHX@SAC,Phoenix Suns
+11/26/2025,PHX@SAC,Sacramento Kings
+11/26/2025,SAS@POR,San Antonio Spurs
+11/26/2025,SAS@POR,Portland Trail Blazers
+11/28/2025,CHI@CHA,Chicago Bulls
+11/28/2025,CHI@CHA,Charlotte Hornets
+11/28/2025,CLE@ATL,Cleveland Cavaliers
+11/28/2025,CLE@ATL,Atlanta Hawks
+11/28/2025,MIL@NYK,Milwaukee Bucks
+11/28/2025,MIL@NYK,New York Knicks
+11/28/2025,ORL@DET,Orlando Magic
+11/28/2025,ORL@DET,Detroit Pistons
+11/28/2025,PHI@BKN,Philadelphia 76ers
+11/28/2025,PHI@BKN,Brooklyn Nets
+11/28/2025,WAS@IND,Washington Wizards
+11/28/2025,WAS@IND,Indiana Pacers
+11/28/2025,PHX@OKC,Phoenix Suns
+11/28/2025,PHX@OKC,Oklahoma City Thunder
+11/28/2025,SAC@UTA,Sacramento Kings
+11/28/2025,SAC@UTA,Utah Jazz
+11/28/2025,SAS@DEN,San Antonio Spurs
+11/28/2025,SAS@DEN,Denver Nuggets
+11/28/2025,DAL@LAL,Dallas Mavericks
+11/28/2025,DAL@LAL,Los Angeles Lakers
+11/28/2025,MEM@LAC,Memphis Grizzlies
+11/28/2025,MEM@LAC,LA Clippers
+11/29/2025,BOS@MIN,Boston Celtics
+11/29/2025,BOS@MIN,Minnesota Timberwolves
+11/29/2025,TOR@CHA,Toronto Raptors
+11/29/2025,TOR@CHA,Charlotte Hornets
+11/29/2025,CHI@IND,Chicago Bulls
+11/29/2025,CHI@IND,Indiana Pacers
+11/29/2025,BKN@MIL,Brooklyn Nets
+11/29/2025,BKN@MIL,Milwaukee Bucks
+11/29/2025,DET@MIA,Detroit Pistons
+11/29/2025,DET@MIA,Miami Heat
+11/29/2025,NOP@GSW,New Orleans Pelicans
+11/29/2025,NOP@GSW,Golden State Warriors
+11/29/2025,DEN@PHX,Denver Nuggets
+11/29/2025,DEN@PHX,Phoenix Suns
+11/29/2025,DAL@LAC,Dallas Mavericks
+11/29/2025,DAL@LAC,LA Clippers
+11/30/2025,HOU@UTA,Houston Rockets
+11/30/2025,HOU@UTA,Utah Jazz
+11/30/2025,ATL@PHI,Atlanta Hawks
+11/30/2025,ATL@PHI,Philadelphia 76ers
+11/30/2025,BOS@CLE,Boston Celtics
+11/30/2025,BOS@CLE,Cleveland Cavaliers
+11/30/2025,OKC@POR,Oklahoma City Thunder
+11/30/2025,OKC@POR,Portland Trail Blazers
+11/30/2025,TOR@NYK,Toronto Raptors
+11/30/2025,TOR@NYK,New York Knicks
+11/30/2025,SAS@MIN,San Antonio Spurs
+11/30/2025,SAS@MIN,Minnesota Timberwolves
+11/30/2025,MEM@SAC,Memphis Grizzlies
+11/30/2025,MEM@SAC,Sacramento Kings
+11/30/2025,NOP@LAL,New Orleans Pelicans
+11/30/2025,NOP@LAL,Los Angeles Lakers
+12/01/2025,ATL@DET,Atlanta Hawks
+12/01/2025,ATL@DET,Detroit Pistons
+12/01/2025,CLE@IND,Cleveland Cavaliers
+12/01/2025,CLE@IND,Indiana Pacers
+12/01/2025,MIL@WAS,Milwaukee Bucks
+12/01/2025,MIL@WAS,Washington Wizards
+12/01/2025,CHA@BKN,Charlotte Hornets
+12/01/2025,CHA@BKN,Brooklyn Nets
+12/01/2025,CHI@ORL,Chicago Bulls
+12/01/2025,CHI@ORL,Orlando Magic
+12/01/2025,LAC@MIA,LA Clippers
+12/01/2025,LAC@MIA,Miami Heat
+12/01/2025,DAL@DEN,Dallas Mavericks
+12/01/2025,DAL@DEN,Denver Nuggets
+12/01/2025,HOU@UTA,Houston Rockets
+12/01/2025,HOU@UTA,Utah Jazz
+12/01/2025,PHX@LAL,Phoenix Suns
+12/01/2025,PHX@LAL,Los Angeles Lakers
+12/02/2025,WAS@PHI,Washington Wizards
+12/02/2025,WAS@PHI,Philadelphia 76ers
+12/02/2025,POR@TOR,Portland Trail Blazers
+12/02/2025,POR@TOR,Toronto Raptors
+12/02/2025,MEM@SAS,Memphis Grizzlies
+12/02/2025,MEM@SAS,San Antonio Spurs
+12/02/2025,MIN@NOP,Minnesota Timberwolves
+12/02/2025,MIN@NOP,New Orleans Pelicans
+12/02/2025,NYK@BOS,New York Knicks
+12/02/2025,NYK@BOS,Boston Celtics
+12/02/2025,OKC@GSW,Oklahoma City Thunder
+12/02/2025,OKC@GSW,Golden State Warriors
+12/03/2025,DEN@IND,Denver Nuggets
+12/03/2025,DEN@IND,Indiana Pacers
+12/03/2025,POR@CLE,Portland Trail Blazers
+12/03/2025,POR@CLE,Cleveland Cavaliers
+12/03/2025,SAS@ORL,San Antonio Spurs
+12/03/2025,SAS@ORL,Orlando Magic
+12/03/2025,CHA@NYK,Charlotte Hornets
+12/03/2025,CHA@NYK,New York Knicks
+12/03/2025,LAC@ATL,LA Clippers
+12/03/2025,LAC@ATL,Atlanta Hawks
+12/03/2025,BKN@CHI,Brooklyn Nets
+12/03/2025,BKN@CHI,Chicago Bulls
+12/03/2025,DET@MIL,Detroit Pistons
+12/03/2025,DET@MIL,Milwaukee Bucks
+12/03/2025,SAC@HOU,Sacramento Kings
+12/03/2025,SAC@HOU,Houston Rockets
+12/03/2025,MIA@DAL,Miami Heat
+12/03/2025,MIA@DAL,Dallas Mavericks
+12/04/2025,BOS@WAS,Boston Celtics
+12/04/2025,BOS@WAS,Washington Wizards
+12/04/2025,GSW@PHI,Golden State Warriors
+12/04/2025,GSW@PHI,Philadelphia 76ers
+12/04/2025,LAL@TOR,Los Angeles Lakers
+12/04/2025,LAL@TOR,Toronto Raptors
+12/04/2025,UTA@BKN,Utah Jazz
+12/04/2025,UTA@BKN,Brooklyn Nets
+12/04/2025,MIN@NOP,Minnesota Timberwolves
+12/04/2025,MIN@NOP,New Orleans Pelicans
+12/05/2025,LAL@BOS,Los Angeles Lakers
+12/05/2025,LAL@BOS,Boston Celtics
+12/05/2025,MIA@ORL,Miami Heat
+12/05/2025,MIA@ORL,Orlando Magic
+12/05/2025,CHA@TOR,Charlotte Hornets
+12/05/2025,CHA@TOR,Toronto Raptors
+12/05/2025,DEN@ATL,Denver Nuggets
+12/05/2025,DEN@ATL,Atlanta Hawks
+12/05/2025,POR@DET,Portland Trail Blazers
+12/05/2025,POR@DET,Detroit Pistons
+12/05/2025,SAS@CLE,San Antonio Spurs
+12/05/2025,SAS@CLE,Cleveland Cavaliers
+12/05/2025,UTA@NYK,Utah Jazz
+12/05/2025,UTA@NYK,New York Knicks
+12/05/2025,IND@CHI,Indiana Pacers
+12/05/2025,IND@CHI,Chicago Bulls
+12/05/2025,LAC@MEM,LA Clippers
+12/05/2025,LAC@MEM,Memphis Grizzlies
+12/05/2025,PHI@MIL,Philadelphia 76ers
+12/05/2025,PHI@MIL,Milwaukee Bucks
+12/05/2025,PHX@HOU,Phoenix Suns
+12/05/2025,PHX@HOU,Houston Rockets
+12/05/2025,DAL@OKC,Dallas Mavericks
+12/05/2025,DAL@OKC,Oklahoma City Thunder
+12/06/2025,NOP@BKN,New Orleans Pelicans
+12/06/2025,NOP@BKN,Brooklyn Nets
+12/06/2025,ATL@WAS,Atlanta Hawks
+12/06/2025,ATL@WAS,Washington Wizards
+12/06/2025,GSW@CLE,Golden State Warriors
+12/06/2025,GSW@CLE,Cleveland Cavaliers
+12/06/2025,MIL@DET,Milwaukee Bucks
+12/06/2025,MIL@DET,Detroit Pistons
+12/06/2025,LAC@MIN,LA Clippers
+12/06/2025,LAC@MIN,Minnesota Timberwolves
+12/06/2025,SAC@MIA,Sacramento Kings
+12/06/2025,SAC@MIA,Miami Heat
+12/06/2025,HOU@DAL,Houston Rockets
+12/06/2025,HOU@DAL,Dallas Mavericks
+12/07/2025,BOS@TOR,Boston Celtics
+12/07/2025,BOS@TOR,Toronto Raptors
+12/07/2025,DEN@CHA,Denver Nuggets
+12/07/2025,DEN@CHA,Charlotte Hornets
+12/07/2025,POR@MEM,Portland Trail Blazers
+12/07/2025,POR@MEM,Memphis Grizzlies
+12/07/2025,GSW@CHI,Golden State Warriors
+12/07/2025,GSW@CHI,Chicago Bulls
+12/07/2025,LAL@PHI,Los Angeles Lakers
+12/07/2025,LAL@PHI,Philadelphia 76ers
+12/07/2025,OKC@UTA,Oklahoma City Thunder
+12/07/2025,OKC@UTA,Utah Jazz
+12/07/2025,ORL@NYK,Orlando Magic
+12/07/2025,ORL@NYK,New York Knicks
+12/08/2025,SAC@IND,Sacramento Kings
+12/08/2025,SAC@IND,Indiana Pacers
+12/08/2025,PHX@MIN,Phoenix Suns
+12/08/2025,PHX@MIN,Minnesota Timberwolves
+12/08/2025,SAS@NOP,San Antonio Spurs
+12/08/2025,SAS@NOP,New Orleans Pelicans
+12/09/2025,MIA@ORL,Miami Heat
+12/09/2025,MIA@ORL,Orlando Magic
+12/09/2025,NYK@TOR,New York Knicks
+12/09/2025,NYK@TOR,Toronto Raptors
+12/10/2025,PHX@OKC,Phoenix Suns
+12/10/2025,PHX@OKC,Oklahoma City Thunder
+12/10/2025,SAS@LAL,San Antonio Spurs
+12/10/2025,SAS@LAL,Los Angeles Lakers
+12/11/2025,BOS@MIL,Boston Celtics
+12/11/2025,BOS@MIL,Milwaukee Bucks
+12/11/2025,LAC@HOU,LA Clippers
+12/11/2025,LAC@HOU,Houston Rockets
+12/11/2025,POR@NOP,Portland Trail Blazers
+12/11/2025,POR@NOP,New Orleans Pelicans
+12/11/2025,DEN@SAC,Denver Nuggets
+12/11/2025,DEN@SAC,Sacramento Kings
+12/12/2025,ATL@DET,Atlanta Hawks
+12/12/2025,ATL@DET,Detroit Pistons
+12/12/2025,CHI@CHA,Chicago Bulls
+12/12/2025,CHI@CHA,Charlotte Hornets
+12/12/2025,CLE@WAS,Cleveland Cavaliers
+12/12/2025,CLE@WAS,Washington Wizards
+12/12/2025,IND@PHI,Indiana Pacers
+12/12/2025,IND@PHI,Philadelphia 76ers
+12/12/2025,UTA@MEM,Utah Jazz
+12/12/2025,UTA@MEM,Memphis Grizzlies
+12/12/2025,BKN@DAL,Brooklyn Nets
+12/12/2025,BKN@DAL,Dallas Mavericks
+12/12/2025,MIN@GSW,Minnesota Timberwolves
+12/12/2025,MIN@GSW,Golden State Warriors
+12/13/2025,NYK@ORL,New York Knicks
+12/13/2025,NYK@ORL,Orlando Magic
+12/13/2025,SAS@OKC,San Antonio Spurs
+12/13/2025,SAS@OKC,Oklahoma City Thunder
+12/14/2025,WAS@IND,Washington Wizards
+12/14/2025,WAS@IND,Indiana Pacers
+12/14/2025,CHA@CLE,Charlotte Hornets
+12/14/2025,CHA@CLE,Cleveland Cavaliers
+12/14/2025,MIL@BKN,Milwaukee Bucks
+12/14/2025,MIL@BKN,Brooklyn Nets
+12/14/2025,PHI@ATL,Philadelphia 76ers
+12/14/2025,PHI@ATL,Atlanta Hawks
+12/14/2025,NOP@CHI,New Orleans Pelicans
+12/14/2025,NOP@CHI,Chicago Bulls
+12/14/2025,SAC@MIN,Sacramento Kings
+12/14/2025,SAC@MIN,Minnesota Timberwolves
+12/14/2025,LAL@PHX,Los Angeles Lakers
+12/14/2025,LAL@PHX,Phoenix Suns
+12/14/2025,GSW@POR,Golden State Warriors
+12/14/2025,GSW@POR,Portland Trail Blazers
+12/15/2025,DET@BOS,Detroit Pistons
+12/15/2025,DET@BOS,Boston Celtics
+12/15/2025,TOR@MIA,Toronto Raptors
+12/15/2025,TOR@MIA,Miami Heat
+12/15/2025,DAL@UTA,Dallas Mavericks
+12/15/2025,DAL@UTA,Utah Jazz
+12/15/2025,HOU@DEN,Houston Rockets
+12/15/2025,HOU@DEN,Denver Nuggets
+12/15/2025,MEM@LAC,Memphis Grizzlies
+12/15/2025,MEM@LAC,LA Clippers
+12/16/2025,SAS@NYK,San Antonio Spurs
+12/16/2025,SAS@NYK,New York Knicks
+12/17/2025,CLE@CHI,Cleveland Cavaliers
+12/17/2025,CLE@CHI,Chicago Bulls
+12/17/2025,MEM@MIN,Memphis Grizzlies
+12/17/2025,MEM@MIN,Minnesota Timberwolves
+12/18/2025,ATL@CHA,Atlanta Hawks
+12/18/2025,ATL@CHA,Charlotte Hornets
+12/18/2025,NYK@IND,New York Knicks
+12/18/2025,NYK@IND,Indiana Pacers
+12/18/2025,MIA@BKN,Miami Heat
+12/18/2025,MIA@BKN,Brooklyn Nets
+12/18/2025,HOU@NOP,Houston Rockets
+12/18/2025,HOU@NOP,New Orleans Pelicans
+12/18/2025,LAC@OKC,LA Clippers
+12/18/2025,LAC@OKC,Oklahoma City Thunder
+12/18/2025,TOR@MIL,Toronto Raptors
+12/18/2025,TOR@MIL,Milwaukee Bucks
+12/18/2025,WAS@SAS,Washington Wizards
+12/18/2025,WAS@SAS,San Antonio Spurs
+12/18/2025,DET@DAL,Detroit Pistons
+12/18/2025,DET@DAL,Dallas Mavericks
+12/18/2025,GSW@PHX,Golden State Warriors
+12/18/2025,GSW@PHX,Phoenix Suns
+12/18/2025,LAL@UTA,Los Angeles Lakers
+12/18/2025,LAL@UTA,Utah Jazz
+12/18/2025,ORL@DEN,Orlando Magic
+12/18/2025,ORL@DEN,Denver Nuggets
+12/18/2025,SAC@POR,Sacramento Kings
+12/18/2025,SAC@POR,Portland Trail Blazers
+12/19/2025,MIA@BOS,Miami Heat
+12/19/2025,MIA@BOS,Boston Celtics
+12/19/2025,PHI@NYK,Philadelphia 76ers
+12/19/2025,PHI@NYK,New York Knicks
+12/19/2025,CHI@CLE,Chicago Bulls
+12/19/2025,CHI@CLE,Cleveland Cavaliers
+12/19/2025,SAS@ATL,San Antonio Spurs
+12/19/2025,SAS@ATL,Atlanta Hawks
+12/19/2025,OKC@MIN,Oklahoma City Thunder
+12/19/2025,OKC@MIN,Minnesota Timberwolves
+12/20/2025,HOU@DEN,Houston Rockets
+12/20/2025,HOU@DEN,Denver Nuggets
+12/20/2025,BOS@TOR,Boston Celtics
+12/20/2025,BOS@TOR,Toronto Raptors
+12/20/2025,DAL@PHI,Dallas Mavericks
+12/20/2025,DAL@PHI,Philadelphia 76ers
+12/20/2025,IND@NOP,Indiana Pacers
+12/20/2025,IND@NOP,New Orleans Pelicans
+12/20/2025,CHA@DET,Charlotte Hornets
+12/20/2025,CHA@DET,Detroit Pistons
+12/20/2025,WAS@MEM,Washington Wizards
+12/20/2025,WAS@MEM,Memphis Grizzlies
+12/20/2025,PHX@GSW,Phoenix Suns
+12/20/2025,PHX@GSW,Golden State Warriors
+12/20/2025,ORL@UTA,Orlando Magic
+12/20/2025,ORL@UTA,Utah Jazz
+12/20/2025,POR@SAC,Portland Trail Blazers
+12/20/2025,POR@SAC,Sacramento Kings
+12/20/2025,LAL@LAC,Los Angeles Lakers
+12/20/2025,LAL@LAC,LA Clippers
+12/21/2025,CHI@ATL,Chicago Bulls
+12/21/2025,CHI@ATL,Atlanta Hawks
+12/21/2025,MIA@NYK,Miami Heat
+12/21/2025,MIA@NYK,New York Knicks
+12/21/2025,TOR@BKN,Toronto Raptors
+12/21/2025,TOR@BKN,Brooklyn Nets
+12/21/2025,MIL@MIN,Milwaukee Bucks
+12/21/2025,MIL@MIN,Minnesota Timberwolves
+12/21/2025,SAS@WAS,San Antonio Spurs
+12/21/2025,SAS@WAS,Washington Wizards
+12/21/2025,HOU@SAC,Houston Rockets
+12/21/2025,HOU@SAC,Sacramento Kings
+12/22/2025,CHA@CLE,Charlotte Hornets
+12/22/2025,CHA@CLE,Cleveland Cavaliers
+12/22/2025,IND@BOS,Indiana Pacers
+12/22/2025,IND@BOS,Boston Celtics
+12/22/2025,DAL@NOP,Dallas Mavericks
+12/22/2025,DAL@NOP,New Orleans Pelicans
+12/22/2025,UTA@DEN,Utah Jazz
+12/22/2025,UTA@DEN,Denver Nuggets
+12/22/2025,MEM@OKC,Memphis Grizzlies
+12/22/2025,MEM@OKC,Oklahoma City Thunder
+12/22/2025,DET@POR,Detroit Pistons
+12/22/2025,DET@POR,Portland Trail Blazers
+12/22/2025,ORL@GSW,Orlando Magic
+12/22/2025,ORL@GSW,Golden State Warriors
+12/23/2025,BKN@PHI,Brooklyn Nets
+12/23/2025,BKN@PHI,Philadelphia 76ers
+12/23/2025,WAS@CHA,Washington Wizards
+12/23/2025,WAS@CHA,Charlotte Hornets
+12/23/2025,CHI@ATL,Chicago Bulls
+12/23/2025,CHI@ATL,Atlanta Hawks
+12/23/2025,MIL@IND,Milwaukee Bucks
+12/23/2025,MIL@IND,Indiana Pacers
+12/23/2025,NOP@CLE,New Orleans Pelicans
+12/23/2025,NOP@CLE,Cleveland Cavaliers
+12/23/2025,TOR@MIA,Toronto Raptors
+12/23/2025,TOR@MIA,Miami Heat
+12/23/2025,DEN@DAL,Denver Nuggets
+12/23/2025,DEN@DAL,Dallas Mavericks
+12/23/2025,NYK@MIN,New York Knicks
+12/23/2025,NYK@MIN,Minnesota Timberwolves
+12/23/2025,OKC@SAS,Oklahoma City Thunder
+12/23/2025,OKC@SAS,San Antonio Spurs
+12/23/2025,LAL@PHX,Los Angeles Lakers
+12/23/2025,LAL@PHX,Phoenix Suns
+12/23/2025,MEM@UTA,Memphis Grizzlies
+12/23/2025,MEM@UTA,Utah Jazz
+12/23/2025,DET@SAC,Detroit Pistons
+12/23/2025,DET@SAC,Sacramento Kings
+12/23/2025,ORL@POR,Orlando Magic
+12/23/2025,ORL@POR,Portland Trail Blazers
+12/23/2025,HOU@LAC,Houston Rockets
+12/23/2025,HOU@LAC,LA Clippers
+12/25/2025,SAS@OKC,San Antonio Spurs
+12/25/2025,SAS@OKC,Oklahoma City Thunder
+12/25/2025,DAL@GSW,Dallas Mavericks
+12/25/2025,DAL@GSW,Golden State Warriors
+12/25/2025,HOU@LAL,Houston Rockets
+12/25/2025,HOU@LAL,Los Angeles Lakers
+12/25/2025,MIN@DEN,Minnesota Timberwolves
+12/25/2025,MIN@DEN,Denver Nuggets
+12/25/2025,CLE@NYK,Cleveland Cavaliers
+12/25/2025,CLE@NYK,New York Knicks
+12/26/2025,BOS@IND,Boston Celtics
+12/26/2025,BOS@IND,Indiana Pacers
+12/26/2025,CHA@ORL,Charlotte Hornets
+12/26/2025,CHA@ORL,Orlando Magic
+12/26/2025,MIA@ATL,Miami Heat
+12/26/2025,MIA@ATL,Atlanta Hawks
+12/26/2025,TOR@WAS,Toronto Raptors
+12/26/2025,TOR@WAS,Washington Wizards
+12/26/2025,PHI@CHI,Philadelphia 76ers
+12/26/2025,PHI@CHI,Chicago Bulls
+12/26/2025,MIL@MEM,Milwaukee Bucks
+12/26/2025,MIL@MEM,Memphis Grizzlies
+12/26/2025,PHX@NOP,Phoenix Suns
+12/26/2025,PHX@NOP,New Orleans Pelicans
+12/26/2025,DET@UTA,Detroit Pistons
+12/26/2025,DET@UTA,Utah Jazz
+12/26/2025,LAC@POR,LA Clippers
+12/26/2025,LAC@POR,Portland Trail Blazers
+12/27/2025,DAL@SAC,Dallas Mavericks
+12/27/2025,DAL@SAC,Sacramento Kings
+12/27/2025,DEN@ORL,Denver Nuggets
+12/27/2025,DEN@ORL,Orlando Magic
+12/27/2025,PHX@NOP,Phoenix Suns
+12/27/2025,PHX@NOP,New Orleans Pelicans
+12/27/2025,BKN@MIN,Brooklyn Nets
+12/27/2025,BKN@MIN,Minnesota Timberwolves
+12/27/2025,CLE@HOU,Cleveland Cavaliers
+12/27/2025,CLE@HOU,Houston Rockets
+12/27/2025,IND@MIA,Indiana Pacers
+12/27/2025,IND@MIA,Miami Heat
+12/27/2025,MIL@CHI,Milwaukee Bucks
+12/27/2025,MIL@CHI,Chicago Bulls
+12/27/2025,NYK@ATL,New York Knicks
+12/27/2025,NYK@ATL,Atlanta Hawks
+12/27/2025,UTA@SAS,Utah Jazz
+12/27/2025,UTA@SAS,San Antonio Spurs
+12/28/2025,GSW@TOR,Golden State Warriors
+12/28/2025,GSW@TOR,Toronto Raptors
+12/28/2025,PHI@OKC,Philadelphia 76ers
+12/28/2025,PHI@OKC,Oklahoma City Thunder
+12/28/2025,BOS@POR,Boston Celtics
+12/28/2025,BOS@POR,Portland Trail Blazers
+12/28/2025,MEM@WAS,Memphis Grizzlies
+12/28/2025,MEM@WAS,Washington Wizards
+12/28/2025,DET@LAC,Detroit Pistons
+12/28/2025,DET@LAC,LA Clippers
+12/28/2025,SAC@LAL,Sacramento Kings
+12/28/2025,SAC@LAL,Los Angeles Lakers
+12/29/2025,MIL@CHA,Milwaukee Bucks
+12/29/2025,MIL@CHA,Charlotte Hornets
+12/29/2025,PHX@WAS,Phoenix Suns
+12/29/2025,PHX@WAS,Washington Wizards
+12/29/2025,DEN@MIA,Denver Nuggets
+12/29/2025,DEN@MIA,Miami Heat
+12/29/2025,GSW@BKN,Golden State Warriors
+12/29/2025,GSW@BKN,Brooklyn Nets
+12/29/2025,ORL@TOR,Orlando Magic
+12/29/2025,ORL@TOR,Toronto Raptors
+12/29/2025,ATL@OKC,Atlanta Hawks
+12/29/2025,ATL@OKC,Oklahoma City Thunder
+12/29/2025,CLE@SAS,Cleveland Cavaliers
+12/29/2025,CLE@SAS,San Antonio Spurs
+12/29/2025,IND@HOU,Indiana Pacers
+12/29/2025,IND@HOU,Houston Rockets
+12/29/2025,MIN@CHI,Minnesota Timberwolves
+12/29/2025,MIN@CHI,Chicago Bulls
+12/29/2025,NYK@NOP,New York Knicks
+12/29/2025,NYK@NOP,New Orleans Pelicans
+12/29/2025,DAL@POR,Dallas Mavericks
+12/29/2025,DAL@POR,Portland Trail Blazers
+12/30/2025,PHI@MEM,Philadelphia 76ers
+12/30/2025,PHI@MEM,Memphis Grizzlies
+12/30/2025,BOS@UTA,Boston Celtics
+12/30/2025,BOS@UTA,Utah Jazz
+12/30/2025,DET@LAL,Detroit Pistons
+12/30/2025,DET@LAL,Los Angeles Lakers
+12/30/2025,SAC@LAC,Sacramento Kings
+12/30/2025,SAC@LAC,LA Clippers
+12/31/2025,GSW@CHA,Golden State Warriors
+12/31/2025,GSW@CHA,Charlotte Hornets
+12/31/2025,MIN@ATL,Minnesota Timberwolves
+12/31/2025,MIN@ATL,Atlanta Hawks
+12/31/2025,ORL@IND,Orlando Magic
+12/31/2025,ORL@IND,Indiana Pacers
+12/31/2025,PHX@CLE,Phoenix Suns
+12/31/2025,PHX@CLE,Cleveland Cavaliers
+12/31/2025,NOP@CHI,New Orleans Pelicans
+12/31/2025,NOP@CHI,Chicago Bulls
+12/31/2025,NYK@SAS,New York Knicks
+12/31/2025,NYK@SAS,San Antonio Spurs
+12/31/2025,DEN@TOR,Denver Nuggets
+12/31/2025,DEN@TOR,Toronto Raptors
+12/31/2025,POR@OKC,Portland Trail Blazers
+12/31/2025,POR@OKC,Oklahoma City Thunder
+12/31/2025,WAS@MIL,Washington Wizards
+12/31/2025,WAS@MIL,Milwaukee Bucks
+01/01/2026,HOU@BKN,Houston Rockets
+01/01/2026,HOU@BKN,Brooklyn Nets
+01/01/2026,MIA@DET,Miami Heat
+01/01/2026,MIA@DET,Detroit Pistons
+01/01/2026,PHI@DAL,Philadelphia 76ers
+01/01/2026,PHI@DAL,Dallas Mavericks
+01/01/2026,BOS@SAC,Boston Celtics
+01/01/2026,BOS@SAC,Sacramento Kings
+01/01/2026,UTA@LAC,Utah Jazz
+01/01/2026,UTA@LAC,LA Clippers
+01/02/2026,BKN@WAS,Brooklyn Nets
+01/02/2026,BKN@WAS,Washington Wizards
+01/02/2026,SAS@IND,San Antonio Spurs
+01/02/2026,SAS@IND,Indiana Pacers
+01/02/2026,ATL@NYK,Atlanta Hawks
+01/02/2026,ATL@NYK,New York Knicks
+01/02/2026,DEN@CLE,Denver Nuggets
+01/02/2026,DEN@CLE,Cleveland Cavaliers
+01/02/2026,CHA@MIL,Charlotte Hornets
+01/02/2026,CHA@MIL,Milwaukee Bucks
+01/02/2026,ORL@CHI,Orlando Magic
+01/02/2026,ORL@CHI,Chicago Bulls
+01/02/2026,POR@NOP,Portland Trail Blazers
+01/02/2026,POR@NOP,New Orleans Pelicans
+01/02/2026,SAC@PHX,Sacramento Kings
+01/02/2026,SAC@PHX,Phoenix Suns
+01/02/2026,OKC@GSW,Oklahoma City Thunder
+01/02/2026,OKC@GSW,Golden State Warriors
+01/02/2026,MEM@LAL,Memphis Grizzlies
+01/02/2026,MEM@LAL,Los Angeles Lakers
+01/03/2026,MIN@MIA,Minnesota Timberwolves
+01/03/2026,MIN@MIA,Miami Heat
+01/03/2026,ATL@TOR,Atlanta Hawks
+01/03/2026,ATL@TOR,Toronto Raptors
+01/03/2026,PHI@NYK,Philadelphia 76ers
+01/03/2026,PHI@NYK,New York Knicks
+01/03/2026,CHA@CHI,Charlotte Hornets
+01/03/2026,CHA@CHI,Chicago Bulls
+01/03/2026,POR@SAS,Portland Trail Blazers
+01/03/2026,POR@SAS,San Antonio Spurs
+01/03/2026,HOU@DAL,Houston Rockets
+01/03/2026,HOU@DAL,Dallas Mavericks
+01/03/2026,UTA@GSW,Utah Jazz
+01/03/2026,UTA@GSW,Golden State Warriors
+01/03/2026,BOS@LAC,Boston Celtics
+01/03/2026,BOS@LAC,LA Clippers
+01/04/2026,DET@CLE,Detroit Pistons
+01/04/2026,DET@CLE,Cleveland Cavaliers
+01/04/2026,IND@ORL,Indiana Pacers
+01/04/2026,IND@ORL,Orlando Magic
+01/04/2026,DEN@BKN,Denver Nuggets
+01/04/2026,DEN@BKN,Brooklyn Nets
+01/04/2026,MIN@WAS,Minnesota Timberwolves
+01/04/2026,MIN@WAS,Washington Wizards
+01/04/2026,NOP@MIA,New Orleans Pelicans
+01/04/2026,NOP@MIA,Miami Heat
+01/04/2026,OKC@PHX,Oklahoma City Thunder
+01/04/2026,OKC@PHX,Phoenix Suns
+01/04/2026,MIL@SAC,Milwaukee Bucks
+01/04/2026,MIL@SAC,Sacramento Kings
+01/04/2026,MEM@LAL,Memphis Grizzlies
+01/04/2026,MEM@LAL,Los Angeles Lakers
+01/05/2026,NYK@DET,New York Knicks
+01/05/2026,NYK@DET,Detroit Pistons
+01/05/2026,ATL@TOR,Atlanta Hawks
+01/05/2026,ATL@TOR,Toronto Raptors
+01/05/2026,CHI@BOS,Chicago Bulls
+01/05/2026,CHI@BOS,Boston Celtics
+01/05/2026,CHA@OKC,Charlotte Hornets
+01/05/2026,CHA@OKC,Oklahoma City Thunder
+01/05/2026,PHX@HOU,Phoenix Suns
+01/05/2026,PHX@HOU,Houston Rockets
+01/05/2026,DEN@PHI,Denver Nuggets
+01/05/2026,DEN@PHI,Philadelphia 76ers
+01/05/2026,GSW@LAC,Golden State Warriors
+01/05/2026,GSW@LAC,LA Clippers
+01/05/2026,UTA@POR,Utah Jazz
+01/05/2026,UTA@POR,Portland Trail Blazers
+01/06/2026,CLE@IND,Cleveland Cavaliers
+01/06/2026,CLE@IND,Indiana Pacers
+01/06/2026,ORL@WAS,Orlando Magic
+01/06/2026,ORL@WAS,Washington Wizards
+01/06/2026,LAL@NOP,Los Angeles Lakers
+01/06/2026,LAL@NOP,New Orleans Pelicans
+01/06/2026,MIA@MIN,Miami Heat
+01/06/2026,MIA@MIN,Minnesota Timberwolves
+01/06/2026,SAS@MEM,San Antonio Spurs
+01/06/2026,SAS@MEM,Memphis Grizzlies
+01/06/2026,DAL@SAC,Dallas Mavericks
+01/06/2026,DAL@SAC,Sacramento Kings
+01/07/2026,CHI@DET,Chicago Bulls
+01/07/2026,CHI@DET,Detroit Pistons
+01/07/2026,DEN@BOS,Denver Nuggets
+01/07/2026,DEN@BOS,Boston Celtics
+01/07/2026,TOR@CHA,Toronto Raptors
+01/07/2026,TOR@CHA,Charlotte Hornets
+01/07/2026,WAS@PHI,Washington Wizards
+01/07/2026,WAS@PHI,Philadelphia 76ers
+01/07/2026,LAC@NYK,LA Clippers
+01/07/2026,LAC@NYK,New York Knicks
+01/07/2026,NOP@ATL,New Orleans Pelicans
+01/07/2026,NOP@ATL,Atlanta Hawks
+01/07/2026,ORL@BKN,Orlando Magic
+01/07/2026,ORL@BKN,Brooklyn Nets
+01/07/2026,PHX@MEM,Phoenix Suns
+01/07/2026,PHX@MEM,Memphis Grizzlies
+01/07/2026,UTA@OKC,Utah Jazz
+01/07/2026,UTA@OKC,Oklahoma City Thunder
+01/07/2026,LAL@SAS,Los Angeles Lakers
+01/07/2026,LAL@SAS,San Antonio Spurs
+01/07/2026,HOU@POR,Houston Rockets
+01/07/2026,HOU@POR,Portland Trail Blazers
+01/07/2026,MIL@GSW,Milwaukee Bucks
+01/07/2026,MIL@GSW,Golden State Warriors
+01/08/2026,IND@CHA,Indiana Pacers
+01/08/2026,IND@CHA,Charlotte Hornets
+01/08/2026,CLE@MIN,Cleveland Cavaliers
+01/08/2026,CLE@MIN,Minnesota Timberwolves
+01/08/2026,MIA@CHI,Miami Heat
+01/08/2026,MIA@CHI,Chicago Bulls
+01/08/2026,DAL@UTA,Dallas Mavericks
+01/08/2026,DAL@UTA,Utah Jazz
+01/09/2026,NOP@WAS,New Orleans Pelicans
+01/09/2026,NOP@WAS,Washington Wizards
+01/09/2026,PHI@ORL,Philadelphia 76ers
+01/09/2026,PHI@ORL,Orlando Magic
+01/09/2026,TOR@BOS,Toronto Raptors
+01/09/2026,TOR@BOS,Boston Celtics
+01/09/2026,LAC@BKN,LA Clippers
+01/09/2026,LAC@BKN,Brooklyn Nets
+01/09/2026,OKC@MEM,Oklahoma City Thunder
+01/09/2026,OKC@MEM,Memphis Grizzlies
+01/09/2026,ATL@DEN,Atlanta Hawks
+01/09/2026,ATL@DEN,Denver Nuggets
+01/09/2026,NYK@PHX,New York Knicks
+01/09/2026,NYK@PHX,Phoenix Suns
+01/09/2026,HOU@POR,Houston Rockets
+01/09/2026,HOU@POR,Portland Trail Blazers
+01/09/2026,SAC@GSW,Sacramento Kings
+01/09/2026,SAC@GSW,Golden State Warriors
+01/09/2026,MIL@LAL,Milwaukee Bucks
+01/09/2026,MIL@LAL,Los Angeles Lakers
+01/10/2026,MIN@CLE,Minnesota Timberwolves
+01/10/2026,MIN@CLE,Cleveland Cavaliers
+01/10/2026,MIA@IND,Miami Heat
+01/10/2026,MIA@IND,Indiana Pacers
+01/10/2026,LAC@DET,LA Clippers
+01/10/2026,LAC@DET,Detroit Pistons
+01/10/2026,DAL@CHI,Dallas Mavericks
+01/10/2026,DAL@CHI,Chicago Bulls
+01/10/2026,SAS@BOS,San Antonio Spurs
+01/10/2026,SAS@BOS,Boston Celtics
+01/10/2026,CHA@UTA,Charlotte Hornets
+01/10/2026,CHA@UTA,Utah Jazz
+01/11/2026,NOP@ORL,New Orleans Pelicans
+01/11/2026,NOP@ORL,Orlando Magic
+01/11/2026,BKN@MEM,Brooklyn Nets
+01/11/2026,BKN@MEM,Memphis Grizzlies
+01/11/2026,NYK@POR,New York Knicks
+01/11/2026,NYK@POR,Portland Trail Blazers
+01/11/2026,PHI@TOR,Philadelphia 76ers
+01/11/2026,PHI@TOR,Toronto Raptors
+01/11/2026,MIA@OKC,Miami Heat
+01/11/2026,MIA@OKC,Oklahoma City Thunder
+01/11/2026,SAS@MIN,San Antonio Spurs
+01/11/2026,SAS@MIN,Minnesota Timberwolves
+01/11/2026,MIL@DEN,Milwaukee Bucks
+01/11/2026,MIL@DEN,Denver Nuggets
+01/11/2026,WAS@PHX,Washington Wizards
+01/11/2026,WAS@PHX,Phoenix Suns
+01/11/2026,ATL@GSW,Atlanta Hawks
+01/11/2026,ATL@GSW,Golden State Warriors
+01/11/2026,HOU@SAC,Houston Rockets
+01/11/2026,HOU@SAC,Sacramento Kings
+01/12/2026,UTA@CLE,Utah Jazz
+01/12/2026,UTA@CLE,Cleveland Cavaliers
+01/12/2026,BOS@IND,Boston Celtics
+01/12/2026,BOS@IND,Indiana Pacers
+01/12/2026,PHI@TOR,Philadelphia 76ers
+01/12/2026,PHI@TOR,Toronto Raptors
+01/12/2026,BKN@DAL,Brooklyn Nets
+01/12/2026,BKN@DAL,Dallas Mavericks
+01/12/2026,LAL@SAC,Los Angeles Lakers
+01/12/2026,LAL@SAC,Sacramento Kings
+01/12/2026,CHA@LAC,Charlotte Hornets
+01/12/2026,CHA@LAC,LA Clippers
+01/13/2026,PHX@MIA,Phoenix Suns
+01/13/2026,PHX@MIA,Miami Heat
+01/13/2026,CHI@HOU,Chicago Bulls
+01/13/2026,CHI@HOU,Houston Rockets
+01/13/2026,DEN@NOP,Denver Nuggets
+01/13/2026,DEN@NOP,New Orleans Pelicans
+01/13/2026,MIN@MIL,Minnesota Timberwolves
+01/13/2026,MIN@MIL,Milwaukee Bucks
+01/13/2026,SAS@OKC,San Antonio Spurs
+01/13/2026,SAS@OKC,Oklahoma City Thunder
+01/13/2026,ATL@LAL,Atlanta Hawks
+01/13/2026,ATL@LAL,Los Angeles Lakers
+01/13/2026,POR@GSW,Portland Trail Blazers
+01/13/2026,POR@GSW,Golden State Warriors
+01/14/2026,CLE@PHI,Cleveland Cavaliers
+01/14/2026,CLE@PHI,Philadelphia 76ers
+01/14/2026,TOR@IND,Toronto Raptors
+01/14/2026,TOR@IND,Indiana Pacers
+01/14/2026,BKN@NOP,Brooklyn Nets
+01/14/2026,BKN@NOP,New Orleans Pelicans
+01/14/2026,UTA@CHI,Utah Jazz
+01/14/2026,UTA@CHI,Chicago Bulls
+01/14/2026,DEN@DAL,Denver Nuggets
+01/14/2026,DEN@DAL,Dallas Mavericks
+01/14/2026,NYK@SAC,New York Knicks
+01/14/2026,NYK@SAC,Sacramento Kings
+01/14/2026,WAS@LAC,Washington Wizards
+01/14/2026,WAS@LAC,LA Clippers
+01/15/2026,MEM@ORL,Memphis Grizzlies
+01/15/2026,MEM@ORL,Orlando Magic
+01/15/2026,PHX@DET,Phoenix Suns
+01/15/2026,PHX@DET,Detroit Pistons
+01/15/2026,BOS@MIA,Boston Celtics
+01/15/2026,BOS@MIA,Miami Heat
+01/15/2026,OKC@HOU,Oklahoma City Thunder
+01/15/2026,OKC@HOU,Houston Rockets
+01/15/2026,MIL@SAS,Milwaukee Bucks
+01/15/2026,MIL@SAS,San Antonio Spurs
+01/15/2026,UTA@DAL,Utah Jazz
+01/15/2026,UTA@DAL,Dallas Mavericks
+01/15/2026,ATL@POR,Atlanta Hawks
+01/15/2026,ATL@POR,Portland Trail Blazers
+01/15/2026,NYK@GSW,New York Knicks
+01/15/2026,NYK@GSW,Golden State Warriors
+01/15/2026,CHA@LAL,Charlotte Hornets
+01/15/2026,CHA@LAL,Los Angeles Lakers
+01/16/2026,CLE@PHI,Cleveland Cavaliers
+01/16/2026,CLE@PHI,Philadelphia 76ers
+01/16/2026,NOP@IND,New Orleans Pelicans
+01/16/2026,NOP@IND,Indiana Pacers
+01/16/2026,CHI@BKN,Chicago Bulls
+01/16/2026,CHI@BKN,Brooklyn Nets
+01/16/2026,LAC@TOR,LA Clippers
+01/16/2026,LAC@TOR,Toronto Raptors
+01/16/2026,MIN@HOU,Minnesota Timberwolves
+01/16/2026,MIN@HOU,Houston Rockets
+01/16/2026,WAS@SAC,Washington Wizards
+01/16/2026,WAS@SAC,Sacramento Kings
+01/17/2026,UTA@DAL,Utah Jazz
+01/17/2026,UTA@DAL,Dallas Mavericks
+01/17/2026,BOS@ATL,Boston Celtics
+01/17/2026,BOS@ATL,Atlanta Hawks
+01/17/2026,IND@DET,Indiana Pacers
+01/17/2026,IND@DET,Detroit Pistons
+01/17/2026,PHX@NYK,Phoenix Suns
+01/17/2026,PHX@NYK,New York Knicks
+01/17/2026,MIN@SAS,Minnesota Timberwolves
+01/17/2026,MIN@SAS,San Antonio Spurs
+01/17/2026,OKC@MIA,Oklahoma City Thunder
+01/17/2026,OKC@MIA,Miami Heat
+01/17/2026,CHA@GSW,Charlotte Hornets
+01/17/2026,CHA@GSW,Golden State Warriors
+01/17/2026,WAS@DEN,Washington Wizards
+01/17/2026,WAS@DEN,Denver Nuggets
+01/17/2026,LAL@POR,Los Angeles Lakers
+01/17/2026,LAL@POR,Portland Trail Blazers
+01/18/2026,BKN@CHI,Brooklyn Nets
+01/18/2026,BKN@CHI,Chicago Bulls
+01/18/2026,NOP@HOU,New Orleans Pelicans
+01/18/2026,NOP@HOU,Houston Rockets
+01/18/2026,CHA@DEN,Charlotte Hornets
+01/18/2026,CHA@DEN,Denver Nuggets
+01/18/2026,POR@SAC,Portland Trail Blazers
+01/18/2026,POR@SAC,Sacramento Kings
+01/18/2026,TOR@LAL,Toronto Raptors
+01/18/2026,TOR@LAL,Los Angeles Lakers
+01/18/2026,ORL@MEM,Orlando Magic
+01/18/2026,ORL@MEM,Memphis Grizzlies
+01/19/2026,MIL@ATL,Milwaukee Bucks
+01/19/2026,MIL@ATL,Atlanta Hawks
+01/19/2026,OKC@CLE,Oklahoma City Thunder
+01/19/2026,OKC@CLE,Cleveland Cavaliers
+01/19/2026,LAC@WAS,LA Clippers
+01/19/2026,LAC@WAS,Washington Wizards
+01/19/2026,DAL@NYK,Dallas Mavericks
+01/19/2026,DAL@NYK,New York Knicks
+01/19/2026,UTA@SAS,Utah Jazz
+01/19/2026,UTA@SAS,San Antonio Spurs
+01/19/2026,IND@PHI,Indiana Pacers
+01/19/2026,IND@PHI,Philadelphia 76ers
+01/19/2026,PHX@BKN,Phoenix Suns
+01/19/2026,PHX@BKN,Brooklyn Nets
+01/19/2026,BOS@DET,Boston Celtics
+01/19/2026,BOS@DET,Detroit Pistons
+01/19/2026,MIA@GSW,Miami Heat
+01/19/2026,MIA@GSW,Golden State Warriors
+01/20/2026,PHX@PHI,Phoenix Suns
+01/20/2026,PHX@PHI,Philadelphia 76ers
+01/20/2026,LAC@CHI,LA Clippers
+01/20/2026,LAC@CHI,Chicago Bulls
+01/20/2026,SAS@HOU,San Antonio Spurs
+01/20/2026,SAS@HOU,Houston Rockets
+01/20/2026,MIN@UTA,Minnesota Timberwolves
+01/20/2026,MIN@UTA,Utah Jazz
+01/20/2026,LAL@DEN,Los Angeles Lakers
+01/20/2026,LAL@DEN,Denver Nuggets
+01/20/2026,MIA@SAC,Miami Heat
+01/20/2026,MIA@SAC,Sacramento Kings
+01/20/2026,TOR@GSW,Toronto Raptors
+01/20/2026,TOR@GSW,Golden State Warriors
+01/21/2026,CLE@CHA,Cleveland Cavaliers
+01/21/2026,CLE@CHA,Charlotte Hornets
+01/21/2026,BKN@NYK,Brooklyn Nets
+01/21/2026,BKN@NYK,New York Knicks
+01/21/2026,IND@BOS,Indiana Pacers
+01/21/2026,IND@BOS,Boston Celtics
+01/21/2026,ATL@MEM,Atlanta Hawks
+01/21/2026,ATL@MEM,Memphis Grizzlies
+01/21/2026,DET@NOP,Detroit Pistons
+01/21/2026,DET@NOP,New Orleans Pelicans
+01/21/2026,OKC@MIL,Oklahoma City Thunder
+01/21/2026,OKC@MIL,Milwaukee Bucks
+01/21/2026,TOR@SAC,Toronto Raptors
+01/21/2026,TOR@SAC,Sacramento Kings
+01/22/2026,CHA@ORL,Charlotte Hornets
+01/22/2026,CHA@ORL,Orlando Magic
+01/22/2026,DEN@WAS,Denver Nuggets
+01/22/2026,DEN@WAS,Washington Wizards
+01/22/2026,HOU@PHI,Houston Rockets
+01/22/2026,HOU@PHI,Philadelphia 76ers
+01/22/2026,GSW@DAL,Golden State Warriors
+01/22/2026,GSW@DAL,Dallas Mavericks
+01/22/2026,CHI@MIN,Chicago Bulls
+01/22/2026,CHI@MIN,Minnesota Timberwolves
+01/22/2026,SAS@UTA,San Antonio Spurs
+01/22/2026,SAS@UTA,Utah Jazz
+01/22/2026,LAL@LAC,Los Angeles Lakers
+01/22/2026,LAL@LAC,LA Clippers
+01/22/2026,MIA@POR,Miami Heat
+01/22/2026,MIA@POR,Portland Trail Blazers
+01/23/2026,HOU@DET,Houston Rockets
+01/23/2026,HOU@DET,Detroit Pistons
+01/23/2026,BOS@BKN,Boston Celtics
+01/23/2026,BOS@BKN,Brooklyn Nets
+01/23/2026,PHX@ATL,Phoenix Suns
+01/23/2026,PHX@ATL,Atlanta Hawks
+01/23/2026,SAC@CLE,Sacramento Kings
+01/23/2026,SAC@CLE,Cleveland Cavaliers
+01/23/2026,IND@OKC,Indiana Pacers
+01/23/2026,IND@OKC,Oklahoma City Thunder
+01/23/2026,NOP@MEM,New Orleans Pelicans
+01/23/2026,NOP@MEM,Memphis Grizzlies
+01/23/2026,DEN@MIL,Denver Nuggets
+01/23/2026,DEN@MIL,Milwaukee Bucks
+01/23/2026,TOR@POR,Toronto Raptors
+01/23/2026,TOR@POR,Portland Trail Blazers
+01/24/2026,NYK@PHI,New York Knicks
+01/24/2026,NYK@PHI,Philadelphia 76ers
+01/24/2026,GSW@MIN,Golden State Warriors
+01/24/2026,GSW@MIN,Minnesota Timberwolves
+01/24/2026,CLE@ORL,Cleveland Cavaliers
+01/24/2026,CLE@ORL,Orlando Magic
+01/24/2026,BOS@CHI,Boston Celtics
+01/24/2026,BOS@CHI,Chicago Bulls
+01/24/2026,LAL@DAL,Los Angeles Lakers
+01/24/2026,LAL@DAL,Dallas Mavericks
+01/24/2026,MIA@UTA,Miami Heat
+01/24/2026,MIA@UTA,Utah Jazz
+01/24/2026,WAS@CHA,Washington Wizards
+01/24/2026,WAS@CHA,Charlotte Hornets
+01/25/2026,SAC@DET,Sacramento Kings
+01/25/2026,SAC@DET,Detroit Pistons
+01/25/2026,DEN@MEM,Denver Nuggets
+01/25/2026,DEN@MEM,Memphis Grizzlies
+01/25/2026,DAL@MIL,Dallas Mavericks
+01/25/2026,DAL@MIL,Milwaukee Bucks
+01/25/2026,NOP@SAS,New Orleans Pelicans
+01/25/2026,NOP@SAS,San Antonio Spurs
+01/25/2026,TOR@OKC,Toronto Raptors
+01/25/2026,TOR@OKC,Oklahoma City Thunder
+01/25/2026,MIA@PHX,Miami Heat
+01/25/2026,MIA@PHX,Phoenix Suns
+01/25/2026,BKN@LAC,Brooklyn Nets
+01/25/2026,BKN@LAC,LA Clippers
+01/25/2026,GSW@MIN,Golden State Warriors
+01/25/2026,GSW@MIN,Minnesota Timberwolves
+01/26/2026,ORL@CLE,Orlando Magic
+01/26/2026,ORL@CLE,Cleveland Cavaliers
+01/26/2026,PHI@CHA,Philadelphia 76ers
+01/26/2026,PHI@CHA,Charlotte Hornets
+01/26/2026,IND@ATL,Indiana Pacers
+01/26/2026,IND@ATL,Atlanta Hawks
+01/26/2026,LAL@CHI,Los Angeles Lakers
+01/26/2026,LAL@CHI,Chicago Bulls
+01/26/2026,MEM@HOU,Memphis Grizzlies
+01/26/2026,MEM@HOU,Houston Rockets
+01/26/2026,POR@BOS,Portland Trail Blazers
+01/26/2026,POR@BOS,Boston Celtics
+01/26/2026,GSW@MIN,Golden State Warriors
+01/26/2026,GSW@MIN,Minnesota Timberwolves
+01/27/2026,POR@WAS,Portland Trail Blazers
+01/27/2026,POR@WAS,Washington Wizards
+01/27/2026,SAC@NYK,Sacramento Kings
+01/27/2026,SAC@NYK,New York Knicks
+01/27/2026,MIL@PHI,Milwaukee Bucks
+01/27/2026,MIL@PHI,Philadelphia 76ers
+01/27/2026,NOP@OKC,New Orleans Pelicans
+01/27/2026,NOP@OKC,Oklahoma City Thunder
+01/27/2026,BKN@PHX,Brooklyn Nets
+01/27/2026,BKN@PHX,Phoenix Suns
+01/27/2026,DET@DEN,Detroit Pistons
+01/27/2026,DET@DEN,Denver Nuggets
+01/27/2026,LAC@UTA,LA Clippers
+01/27/2026,LAC@UTA,Utah Jazz
+01/28/2026,CHI@IND,Chicago Bulls
+01/28/2026,CHI@IND,Indiana Pacers
+01/28/2026,LAL@CLE,Los Angeles Lakers
+01/28/2026,LAL@CLE,Cleveland Cavaliers
+01/28/2026,ATL@BOS,Atlanta Hawks
+01/28/2026,ATL@BOS,Boston Celtics
+01/28/2026,NYK@TOR,New York Knicks
+01/28/2026,NYK@TOR,Toronto Raptors
+01/28/2026,ORL@MIA,Orlando Magic
+01/28/2026,ORL@MIA,Miami Heat
+01/28/2026,CHA@MEM,Charlotte Hornets
+01/28/2026,CHA@MEM,Memphis Grizzlies
+01/28/2026,MIN@DAL,Minnesota Timberwolves
+01/28/2026,MIN@DAL,Dallas Mavericks
+01/28/2026,GSW@UTA,Golden State Warriors
+01/28/2026,GSW@UTA,Utah Jazz
+01/28/2026,SAS@HOU,San Antonio Spurs
+01/28/2026,SAS@HOU,Houston Rockets
+01/29/2026,MIL@WAS,Milwaukee Bucks
+01/29/2026,MIL@WAS,Washington Wizards
+01/29/2026,SAC@PHI,Sacramento Kings
+01/29/2026,SAC@PHI,Philadelphia 76ers
+01/29/2026,HOU@ATL,Houston Rockets
+01/29/2026,HOU@ATL,Atlanta Hawks
+01/29/2026,MIA@CHI,Miami Heat
+01/29/2026,MIA@CHI,Chicago Bulls
+01/29/2026,CHA@DAL,Charlotte Hornets
+01/29/2026,CHA@DAL,Dallas Mavericks
+01/29/2026,BKN@DEN,Brooklyn Nets
+01/29/2026,BKN@DEN,Denver Nuggets
+01/29/2026,DET@PHX,Detroit Pistons
+01/29/2026,DET@PHX,Phoenix Suns
+01/29/2026,OKC@MIN,Oklahoma City Thunder
+01/29/2026,OKC@MIN,Minnesota Timberwolves
+01/30/2026,LAL@WAS,Los Angeles Lakers
+01/30/2026,LAL@WAS,Washington Wizards
+01/30/2026,MEM@NOP,Memphis Grizzlies
+01/30/2026,MEM@NOP,New Orleans Pelicans
+01/30/2026,POR@NYK,Portland Trail Blazers
+01/30/2026,POR@NYK,New York Knicks
+01/30/2026,SAC@BOS,Sacramento Kings
+01/30/2026,SAC@BOS,Boston Celtics
+01/30/2026,TOR@ORL,Toronto Raptors
+01/30/2026,TOR@ORL,Orlando Magic
+01/30/2026,CLE@PHX,Cleveland Cavaliers
+01/30/2026,CLE@PHX,Phoenix Suns
+01/30/2026,LAC@DEN,LA Clippers
+01/30/2026,LAC@DEN,Denver Nuggets
+01/30/2026,BKN@UTA,Brooklyn Nets
+01/30/2026,BKN@UTA,Utah Jazz
+01/30/2026,DET@GSW,Detroit Pistons
+01/30/2026,DET@GSW,Golden State Warriors
+01/31/2026,SAS@CHA,San Antonio Spurs
+01/31/2026,SAS@CHA,Charlotte Hornets
+01/31/2026,ATL@IND,Atlanta Hawks
+01/31/2026,ATL@IND,Indiana Pacers
+01/31/2026,NOP@PHI,New Orleans Pelicans
+01/31/2026,NOP@PHI,Philadelphia 76ers
+01/31/2026,CHI@MIA,Chicago Bulls
+01/31/2026,CHI@MIA,Miami Heat
+01/31/2026,MIN@MEM,Minnesota Timberwolves
+01/31/2026,MIN@MEM,Memphis Grizzlies
+01/31/2026,DAL@HOU,Dallas Mavericks
+01/31/2026,DAL@HOU,Houston Rockets
+02/01/2026,MIL@BOS,Milwaukee Bucks
+02/01/2026,MIL@BOS,Boston Celtics
+02/01/2026,ORL@SAS,Orlando Magic
+02/01/2026,ORL@SAS,San Antonio Spurs
+02/01/2026,BKN@DET,Brooklyn Nets
+02/01/2026,BKN@DET,Detroit Pistons
+02/01/2026,CHI@MIA,Chicago Bulls
+02/01/2026,CHI@MIA,Miami Heat
+02/01/2026,SAC@WAS,Sacramento Kings
+02/01/2026,SAC@WAS,Washington Wizards
+02/01/2026,UTA@TOR,Utah Jazz
+02/01/2026,UTA@TOR,Toronto Raptors
+02/01/2026,LAL@NYK,Los Angeles Lakers
+02/01/2026,LAL@NYK,New York Knicks
+02/01/2026,LAC@PHX,LA Clippers
+02/01/2026,LAC@PHX,Phoenix Suns
+02/01/2026,CLE@POR,Cleveland Cavaliers
+02/01/2026,CLE@POR,Portland Trail Blazers
+02/01/2026,OKC@DEN,Oklahoma City Thunder
+02/01/2026,OKC@DEN,Denver Nuggets
+02/02/2026,HOU@IND,Houston Rockets
+02/02/2026,HOU@IND,Indiana Pacers
+02/02/2026,NOP@CHA,New Orleans Pelicans
+02/02/2026,NOP@CHA,Charlotte Hornets
+02/02/2026,MIN@MEM,Minnesota Timberwolves
+02/02/2026,MIN@MEM,Memphis Grizzlies
+02/02/2026,PHI@LAC,Philadelphia 76ers
+02/02/2026,PHI@LAC,LA Clippers
+02/03/2026,DEN@DET,Denver Nuggets
+02/03/2026,DEN@DET,Detroit Pistons
+02/03/2026,NYK@WAS,New York Knicks
+02/03/2026,NYK@WAS,Washington Wizards
+02/03/2026,UTA@IND,Utah Jazz
+02/03/2026,UTA@IND,Indiana Pacers
+02/03/2026,ATL@MIA,Atlanta Hawks
+02/03/2026,ATL@MIA,Miami Heat
+02/03/2026,LAL@BKN,Los Angeles Lakers
+02/03/2026,LAL@BKN,Brooklyn Nets
+02/03/2026,BOS@DAL,Boston Celtics
+02/03/2026,BOS@DAL,Dallas Mavericks
+02/03/2026,CHI@MIL,Chicago Bulls
+02/03/2026,CHI@MIL,Milwaukee Bucks
+02/03/2026,ORL@OKC,Orlando Magic
+02/03/2026,ORL@OKC,Oklahoma City Thunder
+02/03/2026,PHI@GSW,Philadelphia 76ers
+02/03/2026,PHI@GSW,Golden State Warriors
+02/03/2026,PHX@POR,Phoenix Suns
+02/03/2026,PHX@POR,Portland Trail Blazers
+02/04/2026,DEN@NYK,Denver Nuggets
+02/04/2026,DEN@NYK,New York Knicks
+02/04/2026,MIN@TOR,Minnesota Timberwolves
+02/04/2026,MIN@TOR,Toronto Raptors
+02/04/2026,BOS@HOU,Boston Celtics
+02/04/2026,BOS@HOU,Houston Rockets
+02/04/2026,NOP@MIL,New Orleans Pelicans
+02/04/2026,NOP@MIL,Milwaukee Bucks
+02/04/2026,OKC@SAS,Oklahoma City Thunder
+02/04/2026,OKC@SAS,San Antonio Spurs
+02/04/2026,MEM@SAC,Memphis Grizzlies
+02/04/2026,MEM@SAC,Sacramento Kings
+02/04/2026,CLE@LAC,Cleveland Cavaliers
+02/04/2026,CLE@LAC,LA Clippers
+02/05/2026,BKN@ORL,Brooklyn Nets
+02/05/2026,BKN@ORL,Orlando Magic
+02/05/2026,WAS@DET,Washington Wizards
+02/05/2026,WAS@DET,Detroit Pistons
+02/05/2026,CHI@TOR,Chicago Bulls
+02/05/2026,CHI@TOR,Toronto Raptors
+02/05/2026,UTA@ATL,Utah Jazz
+02/05/2026,UTA@ATL,Atlanta Hawks
+02/05/2026,CHA@HOU,Charlotte Hornets
+02/05/2026,CHA@HOU,Houston Rockets
+02/05/2026,SAS@DAL,San Antonio Spurs
+02/05/2026,SAS@DAL,Dallas Mavericks
+02/05/2026,GSW@PHX,Golden State Warriors
+02/05/2026,GSW@PHX,Phoenix Suns
+02/05/2026,PHI@LAL,Philadelphia 76ers
+02/05/2026,PHI@LAL,Los Angeles Lakers
+02/06/2026,MIA@BOS,Miami Heat
+02/06/2026,MIA@BOS,Boston Celtics
+02/06/2026,NYK@DET,New York Knicks
+02/06/2026,NYK@DET,Detroit Pistons
+02/06/2026,IND@MIL,Indiana Pacers
+02/06/2026,IND@MIL,Milwaukee Bucks
+02/06/2026,NOP@MIN,New Orleans Pelicans
+02/06/2026,NOP@MIN,Minnesota Timberwolves
+02/06/2026,LAC@SAC,LA Clippers
+02/06/2026,LAC@SAC,Sacramento Kings
+02/06/2026,MEM@POR,Memphis Grizzlies
+02/06/2026,MEM@POR,Portland Trail Blazers
+02/07/2026,WAS@BKN,Washington Wizards
+02/07/2026,WAS@BKN,Brooklyn Nets
+02/07/2026,HOU@OKC,Houston Rockets
+02/07/2026,HOU@OKC,Oklahoma City Thunder
+02/07/2026,DAL@SAS,Dallas Mavericks
+02/07/2026,DAL@SAS,San Antonio Spurs
+02/07/2026,UTA@ORL,Utah Jazz
+02/07/2026,UTA@ORL,Orlando Magic
+02/07/2026,CHA@ATL,Charlotte Hornets
+02/07/2026,CHA@ATL,Atlanta Hawks
+02/07/2026,DEN@CHI,Denver Nuggets
+02/07/2026,DEN@CHI,Chicago Bulls
+02/07/2026,GSW@LAL,Golden State Warriors
+02/07/2026,GSW@LAL,Los Angeles Lakers
+02/07/2026,PHI@PHX,Philadelphia 76ers
+02/07/2026,PHI@PHX,Phoenix Suns
+02/07/2026,CLE@SAC,Cleveland Cavaliers
+02/07/2026,CLE@SAC,Sacramento Kings
+02/07/2026,MEM@POR,Memphis Grizzlies
+02/07/2026,MEM@POR,Portland Trail Blazers
+02/08/2026,MIA@WAS,Miami Heat
+02/08/2026,MIA@WAS,Washington Wizards
+02/08/2026,IND@TOR,Indiana Pacers
+02/08/2026,IND@TOR,Toronto Raptors
+02/08/2026,LAC@MIN,LA Clippers
+02/08/2026,LAC@MIN,Minnesota Timberwolves
+02/08/2026,NYK@BOS,New York Knicks
+02/08/2026,NYK@BOS,Boston Celtics
+02/09/2026,DET@CHA,Detroit Pistons
+02/09/2026,DET@CHA,Charlotte Hornets
+02/09/2026,CHI@BKN,Chicago Bulls
+02/09/2026,CHI@BKN,Brooklyn Nets
+02/09/2026,MIL@ORL,Milwaukee Bucks
+02/09/2026,MIL@ORL,Orlando Magic
+02/09/2026,UTA@MIA,Utah Jazz
+02/09/2026,UTA@MIA,Miami Heat
+02/09/2026,ATL@MIN,Atlanta Hawks
+02/09/2026,ATL@MIN,Minnesota Timberwolves
+02/09/2026,SAC@NOP,Sacramento Kings
+02/09/2026,SAC@NOP,New Orleans Pelicans
+02/09/2026,CLE@DEN,Cleveland Cavaliers
+02/09/2026,CLE@DEN,Denver Nuggets
+02/09/2026,MEM@GSW,Memphis Grizzlies
+02/09/2026,MEM@GSW,Golden State Warriors
+02/09/2026,OKC@LAL,Oklahoma City Thunder
+02/09/2026,OKC@LAL,Los Angeles Lakers
+02/09/2026,PHI@POR,Philadelphia 76ers
+02/09/2026,PHI@POR,Portland Trail Blazers
+02/10/2026,IND@NYK,Indiana Pacers
+02/10/2026,IND@NYK,New York Knicks
+02/10/2026,LAC@HOU,LA Clippers
+02/10/2026,LAC@HOU,Houston Rockets
+02/10/2026,DAL@PHX,Dallas Mavericks
+02/10/2026,DAL@PHX,Phoenix Suns
+02/10/2026,SAS@LAL,San Antonio Spurs
+02/10/2026,SAS@LAL,Los Angeles Lakers
+02/11/2026,ATL@CHA,Atlanta Hawks
+02/11/2026,ATL@CHA,Charlotte Hornets
+02/11/2026,MIL@ORL,Milwaukee Bucks
+02/11/2026,MIL@ORL,Orlando Magic
+02/11/2026,WAS@CLE,Washington Wizards
+02/11/2026,WAS@CLE,Cleveland Cavaliers
+02/11/2026,CHI@BOS,Chicago Bulls
+02/11/2026,CHI@BOS,Boston Celtics
+02/11/2026,DET@TOR,Detroit Pistons
+02/11/2026,DET@TOR,Toronto Raptors
+02/11/2026,IND@BKN,Indiana Pacers
+02/11/2026,IND@BKN,Brooklyn Nets
+02/11/2026,NYK@PHI,New York Knicks
+02/11/2026,NYK@PHI,Philadelphia 76ers
+02/11/2026,LAC@HOU,LA Clippers
+02/11/2026,LAC@HOU,Houston Rockets
+02/11/2026,MIA@NOP,Miami Heat
+02/11/2026,MIA@NOP,New Orleans Pelicans
+02/11/2026,POR@MIN,Portland Trail Blazers
+02/11/2026,POR@MIN,Minnesota Timberwolves
+02/11/2026,MEM@DEN,Memphis Grizzlies
+02/11/2026,MEM@DEN,Denver Nuggets
+02/11/2026,OKC@PHX,Oklahoma City Thunder
+02/11/2026,OKC@PHX,Phoenix Suns
+02/11/2026,SAC@UTA,Sacramento Kings
+02/11/2026,SAC@UTA,Utah Jazz
+02/11/2026,SAS@GSW,San Antonio Spurs
+02/11/2026,SAS@GSW,Golden State Warriors
+02/12/2026,MIL@OKC,Milwaukee Bucks
+02/12/2026,MIL@OKC,Oklahoma City Thunder
+02/12/2026,POR@UTA,Portland Trail Blazers
+02/12/2026,POR@UTA,Utah Jazz
+02/12/2026,DAL@LAL,Dallas Mavericks
+02/12/2026,DAL@LAL,Los Angeles Lakers
+02/19/2026,ATL@PHI,Atlanta Hawks
+02/19/2026,ATL@PHI,Philadelphia 76ers
+02/19/2026,BKN@CLE,Brooklyn Nets
+02/19/2026,BKN@CLE,Cleveland Cavaliers
+02/19/2026,HOU@CHA,Houston Rockets
+02/19/2026,HOU@CHA,Charlotte Hornets
+02/19/2026,IND@WAS,Indiana Pacers
+02/19/2026,IND@WAS,Washington Wizards
+02/19/2026,DET@NYK,Detroit Pistons
+02/19/2026,DET@NYK,New York Knicks
+02/19/2026,TOR@CHI,Toronto Raptors
+02/19/2026,TOR@CHI,Chicago Bulls
+02/19/2026,PHX@SAS,Phoenix Suns
+02/19/2026,PHX@SAS,San Antonio Spurs
+02/19/2026,BOS@GSW,Boston Celtics
+02/19/2026,BOS@GSW,Golden State Warriors
+02/19/2026,ORL@SAC,Orlando Magic
+02/19/2026,ORL@SAC,Sacramento Kings
+02/19/2026,DEN@LAC,Denver Nuggets
+02/19/2026,DEN@LAC,LA Clippers
+02/20/2026,CLE@CHA,Cleveland Cavaliers
+02/20/2026,CLE@CHA,Charlotte Hornets
+02/20/2026,IND@WAS,Indiana Pacers
+02/20/2026,IND@WAS,Washington Wizards
+02/20/2026,UTA@MEM,Utah Jazz
+02/20/2026,UTA@MEM,Memphis Grizzlies
+02/20/2026,DAL@MIN,Dallas Mavericks
+02/20/2026,DAL@MIN,Minnesota Timberwolves
+02/20/2026,MIA@ATL,Miami Heat
+02/20/2026,MIA@ATL,Atlanta Hawks
+02/20/2026,BKN@OKC,Brooklyn Nets
+02/20/2026,BKN@OKC,Oklahoma City Thunder
+02/20/2026,MIL@NOP,Milwaukee Bucks
+02/20/2026,MIL@NOP,New Orleans Pelicans
+02/20/2026,DEN@POR,Denver Nuggets
+02/20/2026,DEN@POR,Portland Trail Blazers
+02/20/2026,LAC@LAL,LA Clippers
+02/20/2026,LAC@LAL,Los Angeles Lakers
+02/21/2026,ORL@PHX,Orlando Magic
+02/21/2026,ORL@PHX,Phoenix Suns
+02/21/2026,PHI@NOP,Philadelphia 76ers
+02/21/2026,PHI@NOP,New Orleans Pelicans
+02/21/2026,DET@CHI,Detroit Pistons
+02/21/2026,DET@CHI,Chicago Bulls
+02/21/2026,MEM@MIA,Memphis Grizzlies
+02/21/2026,MEM@MIA,Miami Heat
+02/21/2026,SAC@SAS,Sacramento Kings
+02/21/2026,SAC@SAS,San Antonio Spurs
+02/21/2026,HOU@NYK,Houston Rockets
+02/21/2026,HOU@NYK,New York Knicks
+02/22/2026,CLE@OKC,Cleveland Cavaliers
+02/22/2026,CLE@OKC,Oklahoma City Thunder
+02/22/2026,BKN@ATL,Brooklyn Nets
+02/22/2026,BKN@ATL,Atlanta Hawks
+02/22/2026,DEN@GSW,Denver Nuggets
+02/22/2026,DEN@GSW,Golden State Warriors
+02/22/2026,TOR@MIL,Toronto Raptors
+02/22/2026,TOR@MIL,Milwaukee Bucks
+02/22/2026,DAL@IND,Dallas Mavericks
+02/22/2026,DAL@IND,Indiana Pacers
+02/22/2026,CHA@WAS,Charlotte Hornets
+02/22/2026,CHA@WAS,Washington Wizards
+02/22/2026,BOS@LAL,Boston Celtics
+02/22/2026,BOS@LAL,Los Angeles Lakers
+02/22/2026,PHI@MIN,Philadelphia 76ers
+02/22/2026,PHI@MIN,Minnesota Timberwolves
+02/22/2026,NYK@CHI,New York Knicks
+02/22/2026,NYK@CHI,Chicago Bulls
+02/22/2026,POR@PHX,Portland Trail Blazers
+02/22/2026,POR@PHX,Phoenix Suns
+02/22/2026,ORL@LAC,Orlando Magic
+02/22/2026,ORL@LAC,LA Clippers
+02/23/2026,SAS@DET,San Antonio Spurs
+02/23/2026,SAS@DET,Detroit Pistons
+02/23/2026,SAC@MEM,Sacramento Kings
+02/23/2026,SAC@MEM,Memphis Grizzlies
+02/23/2026,UTA@HOU,Utah Jazz
+02/23/2026,UTA@HOU,Houston Rockets
+02/24/2026,PHI@IND,Philadelphia 76ers
+02/24/2026,PHI@IND,Indiana Pacers
+02/24/2026,DAL@BKN,Dallas Mavericks
+02/24/2026,DAL@BKN,Brooklyn Nets
+02/24/2026,NYK@CLE,New York Knicks
+02/24/2026,NYK@CLE,Cleveland Cavaliers
+02/24/2026,OKC@TOR,Oklahoma City Thunder
+02/24/2026,OKC@TOR,Toronto Raptors
+02/24/2026,WAS@ATL,Washington Wizards
+02/24/2026,WAS@ATL,Atlanta Hawks
+02/24/2026,CHA@CHI,Charlotte Hornets
+02/24/2026,CHA@CHI,Chicago Bulls
+02/24/2026,GSW@NOP,Golden State Warriors
+02/24/2026,GSW@NOP,New Orleans Pelicans
+02/24/2026,MIA@MIL,Miami Heat
+02/24/2026,MIA@MIL,Milwaukee Bucks
+02/24/2026,BOS@PHX,Boston Celtics
+02/24/2026,BOS@PHX,Phoenix Suns
+02/24/2026,MIN@POR,Minnesota Timberwolves
+02/24/2026,MIN@POR,Portland Trail Blazers
+02/24/2026,ORL@LAL,Orlando Magic
+02/24/2026,ORL@LAL,Los Angeles Lakers
+02/25/2026,GSW@MEM,Golden State Warriors
+02/25/2026,GSW@MEM,Memphis Grizzlies
+02/25/2026,OKC@DET,Oklahoma City Thunder
+02/25/2026,OKC@DET,Detroit Pistons
+02/25/2026,SAS@TOR,San Antonio Spurs
+02/25/2026,SAS@TOR,Toronto Raptors
+02/25/2026,CLE@MIL,Cleveland Cavaliers
+02/25/2026,CLE@MIL,Milwaukee Bucks
+02/25/2026,SAC@HOU,Sacramento Kings
+02/25/2026,SAC@HOU,Houston Rockets
+02/25/2026,BOS@DEN,Boston Celtics
+02/25/2026,BOS@DEN,Denver Nuggets
+02/26/2026,CHA@IND,Charlotte Hornets
+02/26/2026,CHA@IND,Indiana Pacers
+02/26/2026,MIA@PHI,Miami Heat
+02/26/2026,MIA@PHI,Philadelphia 76ers
+02/26/2026,HOU@ORL,Houston Rockets
+02/26/2026,HOU@ORL,Orlando Magic
+02/26/2026,SAS@BKN,San Antonio Spurs
+02/26/2026,SAS@BKN,Brooklyn Nets
+02/26/2026,WAS@ATL,Washington Wizards
+02/26/2026,WAS@ATL,Atlanta Hawks
+02/26/2026,POR@CHI,Portland Trail Blazers
+02/26/2026,POR@CHI,Chicago Bulls
+02/26/2026,SAC@DAL,Sacramento Kings
+02/26/2026,SAC@DAL,Dallas Mavericks
+02/26/2026,LAL@PHX,Los Angeles Lakers
+02/26/2026,LAL@PHX,Phoenix Suns
+02/26/2026,NOP@UTA,New Orleans Pelicans
+02/26/2026,NOP@UTA,Utah Jazz
+02/26/2026,MIN@LAC,Minnesota Timberwolves
+02/26/2026,MIN@LAC,LA Clippers
+02/27/2026,CLE@DET,Cleveland Cavaliers
+02/27/2026,CLE@DET,Detroit Pistons
+02/27/2026,BKN@BOS,Brooklyn Nets
+02/27/2026,BKN@BOS,Boston Celtics
+02/27/2026,NYK@MIL,New York Knicks
+02/27/2026,NYK@MIL,Milwaukee Bucks
+02/27/2026,MEM@DAL,Memphis Grizzlies
+02/27/2026,MEM@DAL,Dallas Mavericks
+02/27/2026,DEN@OKC,Denver Nuggets
+02/27/2026,DEN@OKC,Oklahoma City Thunder
+02/28/2026,POR@CHA,Portland Trail Blazers
+02/28/2026,POR@CHA,Charlotte Hornets
+02/28/2026,HOU@MIA,Houston Rockets
+02/28/2026,HOU@MIA,Miami Heat
+02/28/2026,TOR@WAS,Toronto Raptors
+02/28/2026,TOR@WAS,Washington Wizards
+02/28/2026,LAL@GSW,Los Angeles Lakers
+02/28/2026,LAL@GSW,Golden State Warriors
+02/28/2026,NOP@UTA,New Orleans Pelicans
+02/28/2026,NOP@UTA,Utah Jazz
+03/01/2026,SAS@NYK,San Antonio Spurs
+03/01/2026,SAS@NYK,New York Knicks
+03/01/2026,CLE@BKN,Cleveland Cavaliers
+03/01/2026,CLE@BKN,Brooklyn Nets
+03/01/2026,MIL@CHI,Milwaukee Bucks
+03/01/2026,MIL@CHI,Chicago Bulls
+03/01/2026,MIN@DEN,Minnesota Timberwolves
+03/01/2026,MIN@DEN,Denver Nuggets
+03/01/2026,MEM@IND,Memphis Grizzlies
+03/01/2026,MEM@IND,Indiana Pacers
+03/01/2026,DET@ORL,Detroit Pistons
+03/01/2026,DET@ORL,Orlando Magic
+03/01/2026,POR@ATL,Portland Trail Blazers
+03/01/2026,POR@ATL,Atlanta Hawks
+03/01/2026,OKC@DAL,Oklahoma City Thunder
+03/01/2026,OKC@DAL,Dallas Mavericks
+03/01/2026,PHI@BOS,Philadelphia 76ers
+03/01/2026,PHI@BOS,Boston Celtics
+03/01/2026,NOP@LAC,New Orleans Pelicans
+03/01/2026,NOP@LAC,LA Clippers
+03/01/2026,SAC@LAL,Sacramento Kings
+03/01/2026,SAC@LAL,Los Angeles Lakers
+03/02/2026,HOU@WAS,Houston Rockets
+03/02/2026,HOU@WAS,Washington Wizards
+03/02/2026,BOS@MIL,Boston Celtics
+03/02/2026,BOS@MIL,Milwaukee Bucks
+03/02/2026,DEN@UTA,Denver Nuggets
+03/02/2026,DEN@UTA,Utah Jazz
+03/02/2026,LAC@GSW,LA Clippers
+03/02/2026,LAC@GSW,Golden State Warriors
+03/03/2026,DAL@CHA,Dallas Mavericks
+03/03/2026,DAL@CHA,Charlotte Hornets
+03/03/2026,DET@CLE,Detroit Pistons
+03/03/2026,DET@CLE,Cleveland Cavaliers
+03/03/2026,WAS@ORL,Washington Wizards
+03/03/2026,WAS@ORL,Orlando Magic
+03/03/2026,BKN@MIA,Brooklyn Nets
+03/03/2026,BKN@MIA,Miami Heat
+03/03/2026,NYK@TOR,New York Knicks
+03/03/2026,NYK@TOR,Toronto Raptors
+03/03/2026,MEM@MIN,Memphis Grizzlies
+03/03/2026,MEM@MIN,Minnesota Timberwolves
+03/03/2026,OKC@CHI,Oklahoma City Thunder
+03/03/2026,OKC@CHI,Chicago Bulls
+03/03/2026,SAS@PHI,San Antonio Spurs
+03/03/2026,SAS@PHI,Philadelphia 76ers
+03/03/2026,NOP@LAL,New Orleans Pelicans
+03/03/2026,NOP@LAL,Los Angeles Lakers
+03/03/2026,PHX@SAC,Phoenix Suns
+03/03/2026,PHX@SAC,Sacramento Kings
+03/04/2026,OKC@NYK,Oklahoma City Thunder
+03/04/2026,OKC@NYK,New York Knicks
+03/04/2026,CHA@BOS,Charlotte Hornets
+03/04/2026,CHA@BOS,Boston Celtics
+03/04/2026,UTA@PHI,Utah Jazz
+03/04/2026,UTA@PHI,Philadelphia 76ers
+03/04/2026,POR@MEM,Portland Trail Blazers
+03/04/2026,POR@MEM,Memphis Grizzlies
+03/04/2026,ATL@MIL,Atlanta Hawks
+03/04/2026,ATL@MIL,Milwaukee Bucks
+03/04/2026,IND@LAC,Indiana Pacers
+03/04/2026,IND@LAC,LA Clippers
+03/05/2026,DAL@ORL,Dallas Mavericks
+03/05/2026,DAL@ORL,Orlando Magic
+03/05/2026,UTA@WAS,Utah Jazz
+03/05/2026,UTA@WAS,Washington Wizards
+03/05/2026,BKN@MIA,Brooklyn Nets
+03/05/2026,BKN@MIA,Miami Heat
+03/05/2026,GSW@HOU,Golden State Warriors
+03/05/2026,GSW@HOU,Houston Rockets
+03/05/2026,DET@SAS,Detroit Pistons
+03/05/2026,DET@SAS,San Antonio Spurs
+03/05/2026,TOR@MIN,Toronto Raptors
+03/05/2026,TOR@MIN,Minnesota Timberwolves
+03/05/2026,CHI@PHX,Chicago Bulls
+03/05/2026,CHI@PHX,Phoenix Suns
+03/05/2026,LAL@DEN,Los Angeles Lakers
+03/05/2026,LAL@DEN,Denver Nuggets
+03/05/2026,NOP@SAC,New Orleans Pelicans
+03/05/2026,NOP@SAC,Sacramento Kings
+03/06/2026,DAL@BOS,Dallas Mavericks
+03/06/2026,DAL@BOS,Boston Celtics
+03/06/2026,MIA@CHA,Miami Heat
+03/06/2026,MIA@CHA,Charlotte Hornets
+03/06/2026,POR@HOU,Portland Trail Blazers
+03/06/2026,POR@HOU,Houston Rockets
+03/06/2026,NOP@PHX,New Orleans Pelicans
+03/06/2026,NOP@PHX,Phoenix Suns
+03/06/2026,NYK@DEN,New York Knicks
+03/06/2026,NYK@DEN,Denver Nuggets
+03/06/2026,LAC@SAS,LA Clippers
+03/06/2026,LAC@SAS,San Antonio Spurs
+03/06/2026,IND@LAL,Indiana Pacers
+03/06/2026,IND@LAL,Los Angeles Lakers
+03/07/2026,ORL@MIN,Orlando Magic
+03/07/2026,ORL@MIN,Minnesota Timberwolves
+03/07/2026,BKN@DET,Brooklyn Nets
+03/07/2026,BKN@DET,Detroit Pistons
+03/07/2026,PHI@ATL,Philadelphia 76ers
+03/07/2026,PHI@ATL,Atlanta Hawks
+03/07/2026,LAC@MEM,LA Clippers
+03/07/2026,LAC@MEM,Memphis Grizzlies
+03/07/2026,UTA@MIL,Utah Jazz
+03/07/2026,UTA@MIL,Milwaukee Bucks
+03/07/2026,GSW@OKC,Golden State Warriors
+03/07/2026,GSW@OKC,Oklahoma City Thunder
+03/08/2026,BOS@CLE,Boston Celtics
+03/08/2026,BOS@CLE,Cleveland Cavaliers
+03/08/2026,NYK@LAL,New York Knicks
+03/08/2026,NYK@LAL,Los Angeles Lakers
+03/08/2026,DAL@TOR,Dallas Mavericks
+03/08/2026,DAL@TOR,Toronto Raptors
+03/08/2026,DET@MIA,Detroit Pistons
+03/08/2026,DET@MIA,Miami Heat
+03/08/2026,WAS@NOP,Washington Wizards
+03/08/2026,WAS@NOP,New Orleans Pelicans
+03/08/2026,HOU@SAS,Houston Rockets
+03/08/2026,HOU@SAS,San Antonio Spurs
+03/08/2026,ORL@MIL,Orlando Magic
+03/08/2026,ORL@MIL,Milwaukee Bucks
+03/08/2026,CHI@SAC,Chicago Bulls
+03/08/2026,CHI@SAC,Sacramento Kings
+03/08/2026,IND@POR,Indiana Pacers
+03/08/2026,IND@POR,Portland Trail Blazers
+03/08/2026,CHA@PHX,Charlotte Hornets
+03/08/2026,CHA@PHX,Phoenix Suns
+03/09/2026,PHI@CLE,Philadelphia 76ers
+03/09/2026,PHI@CLE,Cleveland Cavaliers
+03/09/2026,DEN@OKC,Denver Nuggets
+03/09/2026,DEN@OKC,Oklahoma City Thunder
+03/09/2026,MEM@BKN,Memphis Grizzlies
+03/09/2026,MEM@BKN,Brooklyn Nets
+03/09/2026,GSW@UTA,Golden State Warriors
+03/09/2026,GSW@UTA,Utah Jazz
+03/09/2026,NYK@LAC,New York Knicks
+03/09/2026,NYK@LAC,LA Clippers
+03/10/2026,MEM@PHI,Memphis Grizzlies
+03/10/2026,MEM@PHI,Philadelphia 76ers
+03/10/2026,DAL@ATL,Dallas Mavericks
+03/10/2026,DAL@ATL,Atlanta Hawks
+03/10/2026,DET@BKN,Detroit Pistons
+03/10/2026,DET@BKN,Brooklyn Nets
+03/10/2026,WAS@MIA,Washington Wizards
+03/10/2026,WAS@MIA,Miami Heat
+03/10/2026,BOS@SAS,Boston Celtics
+03/10/2026,BOS@SAS,San Antonio Spurs
+03/10/2026,PHX@MIL,Phoenix Suns
+03/10/2026,PHX@MIL,Milwaukee Bucks
+03/10/2026,TOR@HOU,Toronto Raptors
+03/10/2026,TOR@HOU,Houston Rockets
+03/10/2026,CHA@POR,Charlotte Hornets
+03/10/2026,CHA@POR,Portland Trail Blazers
+03/10/2026,CHI@GSW,Chicago Bulls
+03/10/2026,CHI@GSW,Golden State Warriors
+03/10/2026,IND@SAC,Indiana Pacers
+03/10/2026,IND@SAC,Sacramento Kings
+03/10/2026,MIN@LAL,Minnesota Timberwolves
+03/10/2026,MIN@LAL,Los Angeles Lakers
+03/11/2026,CLE@ORL,Cleveland Cavaliers
+03/11/2026,CLE@ORL,Orlando Magic
+03/11/2026,TOR@NOP,Toronto Raptors
+03/11/2026,TOR@NOP,New Orleans Pelicans
+03/11/2026,NYK@UTA,New York Knicks
+03/11/2026,NYK@UTA,Utah Jazz
+03/11/2026,CHA@SAC,Charlotte Hornets
+03/11/2026,CHA@SAC,Sacramento Kings
+03/11/2026,HOU@DEN,Houston Rockets
+03/11/2026,HOU@DEN,Denver Nuggets
+03/11/2026,MIN@LAC,Minnesota Timberwolves
+03/11/2026,MIN@LAC,LA Clippers
+03/12/2026,PHI@DET,Philadelphia 76ers
+03/12/2026,PHI@DET,Detroit Pistons
+03/12/2026,PHX@IND,Phoenix Suns
+03/12/2026,PHX@IND,Indiana Pacers
+03/12/2026,WAS@ORL,Washington Wizards
+03/12/2026,WAS@ORL,Orlando Magic
+03/12/2026,BKN@ATL,Brooklyn Nets
+03/12/2026,BKN@ATL,Atlanta Hawks
+03/12/2026,MIL@MIA,Milwaukee Bucks
+03/12/2026,MIL@MIA,Miami Heat
+03/12/2026,DAL@MEM,Dallas Mavericks
+03/12/2026,DAL@MEM,Memphis Grizzlies
+03/12/2026,DEN@SAS,Denver Nuggets
+03/12/2026,DEN@SAS,San Antonio Spurs
+03/12/2026,BOS@OKC,Boston Celtics
+03/12/2026,BOS@OKC,Oklahoma City Thunder
+03/12/2026,CHI@LAL,Chicago Bulls
+03/12/2026,CHI@LAL,Los Angeles Lakers
+03/13/2026,CLE@DAL,Cleveland Cavaliers
+03/13/2026,CLE@DAL,Dallas Mavericks
+03/13/2026,MEM@DET,Memphis Grizzlies
+03/13/2026,MEM@DET,Detroit Pistons
+03/13/2026,NYK@IND,New York Knicks
+03/13/2026,NYK@IND,Indiana Pacers
+03/13/2026,PHX@TOR,Phoenix Suns
+03/13/2026,PHX@TOR,Toronto Raptors
+03/13/2026,NOP@HOU,New Orleans Pelicans
+03/13/2026,NOP@HOU,Houston Rockets
+03/13/2026,MIN@GSW,Minnesota Timberwolves
+03/13/2026,MIN@GSW,Golden State Warriors
+03/13/2026,UTA@POR,Utah Jazz
+03/13/2026,UTA@POR,Portland Trail Blazers
+03/13/2026,CHI@LAC,Chicago Bulls
+03/13/2026,CHI@LAC,LA Clippers
+03/14/2026,BKN@PHI,Brooklyn Nets
+03/14/2026,BKN@PHI,Philadelphia 76ers
+03/14/2026,MIL@ATL,Milwaukee Bucks
+03/14/2026,MIL@ATL,Atlanta Hawks
+03/14/2026,CHA@SAS,Charlotte Hornets
+03/14/2026,CHA@SAS,San Antonio Spurs
+03/14/2026,WAS@BOS,Washington Wizards
+03/14/2026,WAS@BOS,Boston Celtics
+03/14/2026,ORL@MIA,Orlando Magic
+03/14/2026,ORL@MIA,Miami Heat
+03/14/2026,DEN@LAL,Denver Nuggets
+03/14/2026,DEN@LAL,Los Angeles Lakers
+03/14/2026,SAC@LAC,Sacramento Kings
+03/14/2026,SAC@LAC,LA Clippers
+03/15/2026,MIN@OKC,Minnesota Timberwolves
+03/15/2026,MIN@OKC,Oklahoma City Thunder
+03/15/2026,DAL@CLE,Dallas Mavericks
+03/15/2026,DAL@CLE,Cleveland Cavaliers
+03/15/2026,DET@TOR,Detroit Pistons
+03/15/2026,DET@TOR,Toronto Raptors
+03/15/2026,IND@MIL,Indiana Pacers
+03/15/2026,IND@MIL,Milwaukee Bucks
+03/15/2026,POR@PHI,Portland Trail Blazers
+03/15/2026,POR@PHI,Philadelphia 76ers
+03/15/2026,GSW@NYK,Golden State Warriors
+03/15/2026,GSW@NYK,New York Knicks
+03/15/2026,UTA@SAC,Utah Jazz
+03/15/2026,UTA@SAC,Sacramento Kings
+03/16/2026,GSW@WAS,Golden State Warriors
+03/16/2026,GSW@WAS,Washington Wizards
+03/16/2026,ORL@ATL,Orlando Magic
+03/16/2026,ORL@ATL,Atlanta Hawks
+03/16/2026,PHX@BOS,Phoenix Suns
+03/16/2026,PHX@BOS,Boston Celtics
+03/16/2026,POR@BKN,Portland Trail Blazers
+03/16/2026,POR@BKN,Brooklyn Nets
+03/16/2026,DAL@NOP,Dallas Mavericks
+03/16/2026,DAL@NOP,New Orleans Pelicans
+03/16/2026,MEM@CHI,Memphis Grizzlies
+03/16/2026,MEM@CHI,Chicago Bulls
+03/16/2026,LAL@HOU,Los Angeles Lakers
+03/16/2026,LAL@HOU,Houston Rockets
+03/16/2026,SAS@LAC,San Antonio Spurs
+03/16/2026,SAS@LAC,LA Clippers
+03/17/2026,DET@WAS,Detroit Pistons
+03/17/2026,DET@WAS,Washington Wizards
+03/17/2026,MIA@CHA,Miami Heat
+03/17/2026,MIA@CHA,Charlotte Hornets
+03/17/2026,OKC@ORL,Oklahoma City Thunder
+03/17/2026,OKC@ORL,Orlando Magic
+03/17/2026,IND@NYK,Indiana Pacers
+03/17/2026,IND@NYK,New York Knicks
+03/17/2026,CLE@MIL,Cleveland Cavaliers
+03/17/2026,CLE@MIL,Milwaukee Bucks
+03/17/2026,PHX@MIN,Phoenix Suns
+03/17/2026,PHX@MIN,Minnesota Timberwolves
+03/17/2026,PHI@DEN,Philadelphia 76ers
+03/17/2026,PHI@DEN,Denver Nuggets
+03/17/2026,SAS@SAC,San Antonio Spurs
+03/17/2026,SAS@SAC,Sacramento Kings
+03/18/2026,GSW@BOS,Golden State Warriors
+03/18/2026,GSW@BOS,Boston Celtics
+03/18/2026,OKC@BKN,Oklahoma City Thunder
+03/18/2026,OKC@BKN,Brooklyn Nets
+03/18/2026,POR@IND,Portland Trail Blazers
+03/18/2026,POR@IND,Indiana Pacers
+03/18/2026,LAC@NOP,LA Clippers
+03/18/2026,LAC@NOP,New Orleans Pelicans
+03/18/2026,TOR@CHI,Toronto Raptors
+03/18/2026,TOR@CHI,Chicago Bulls
+03/18/2026,UTA@MIN,Utah Jazz
+03/18/2026,UTA@MIN,Minnesota Timberwolves
+03/18/2026,ATL@DAL,Atlanta Hawks
+03/18/2026,ATL@DAL,Dallas Mavericks
+03/18/2026,DEN@MEM,Denver Nuggets
+03/18/2026,DEN@MEM,Memphis Grizzlies
+03/18/2026,LAL@HOU,Los Angeles Lakers
+03/18/2026,LAL@HOU,Houston Rockets
+03/19/2026,DET@WAS,Detroit Pistons
+03/19/2026,DET@WAS,Washington Wizards
+03/19/2026,ORL@CHA,Orlando Magic
+03/19/2026,ORL@CHA,Charlotte Hornets
+03/19/2026,CLE@CHI,Cleveland Cavaliers
+03/19/2026,CLE@CHI,Chicago Bulls
+03/19/2026,LAC@NOP,LA Clippers
+03/19/2026,LAC@NOP,New Orleans Pelicans
+03/19/2026,LAL@MIA,Los Angeles Lakers
+03/19/2026,LAL@MIA,Miami Heat
+03/19/2026,PHX@SAS,Phoenix Suns
+03/19/2026,PHX@SAS,San Antonio Spurs
+03/19/2026,MIL@UTA,Milwaukee Bucks
+03/19/2026,MIL@UTA,Utah Jazz
+03/19/2026,PHI@SAC,Philadelphia 76ers
+03/19/2026,PHI@SAC,Sacramento Kings
+03/20/2026,GSW@DET,Golden State Warriors
+03/20/2026,GSW@DET,Detroit Pistons
+03/20/2026,NYK@BKN,New York Knicks
+03/20/2026,NYK@BKN,Brooklyn Nets
+03/20/2026,ATL@HOU,Atlanta Hawks
+03/20/2026,ATL@HOU,Houston Rockets
+03/20/2026,BOS@MEM,Boston Celtics
+03/20/2026,BOS@MEM,Memphis Grizzlies
+03/20/2026,POR@MIN,Portland Trail Blazers
+03/20/2026,POR@MIN,Minnesota Timberwolves
+03/20/2026,TOR@DEN,Toronto Raptors
+03/20/2026,TOR@DEN,Denver Nuggets
+03/21/2026,OKC@WAS,Oklahoma City Thunder
+03/21/2026,OKC@WAS,Washington Wizards
+03/21/2026,CLE@NOP,Cleveland Cavaliers
+03/21/2026,CLE@NOP,New Orleans Pelicans
+03/21/2026,LAL@ORL,Los Angeles Lakers
+03/21/2026,LAL@ORL,Orlando Magic
+03/21/2026,MEM@CHA,Memphis Grizzlies
+03/21/2026,MEM@CHA,Charlotte Hornets
+03/21/2026,GSW@ATL,Golden State Warriors
+03/21/2026,GSW@ATL,Atlanta Hawks
+03/21/2026,IND@SAS,Indiana Pacers
+03/21/2026,IND@SAS,San Antonio Spurs
+03/21/2026,MIA@HOU,Miami Heat
+03/21/2026,MIA@HOU,Houston Rockets
+03/21/2026,LAC@DAL,LA Clippers
+03/21/2026,LAC@DAL,Dallas Mavericks
+03/21/2026,PHI@UTA,Philadelphia 76ers
+03/21/2026,PHI@UTA,Utah Jazz
+03/21/2026,MIL@PHX,Milwaukee Bucks
+03/21/2026,MIL@PHX,Phoenix Suns
+03/22/2026,POR@DEN,Portland Trail Blazers
+03/22/2026,POR@DEN,Denver Nuggets
+03/22/2026,BKN@SAC,Brooklyn Nets
+03/22/2026,BKN@SAC,Sacramento Kings
+03/22/2026,WAS@NYK,Washington Wizards
+03/22/2026,WAS@NYK,New York Knicks
+03/22/2026,MIN@BOS,Minnesota Timberwolves
+03/22/2026,MIN@BOS,Boston Celtics
+03/22/2026,TOR@PHX,Toronto Raptors
+03/22/2026,TOR@PHX,Phoenix Suns
+03/23/2026,IND@ORL,Indiana Pacers
+03/23/2026,IND@ORL,Orlando Magic
+03/23/2026,LAL@DET,Los Angeles Lakers
+03/23/2026,LAL@DET,Detroit Pistons
+03/23/2026,OKC@PHI,Oklahoma City Thunder
+03/23/2026,OKC@PHI,Philadelphia 76ers
+03/23/2026,SAS@MIA,San Antonio Spurs
+03/23/2026,SAS@MIA,Miami Heat
+03/23/2026,MEM@ATL,Memphis Grizzlies
+03/23/2026,MEM@ATL,Atlanta Hawks
+03/23/2026,HOU@CHI,Houston Rockets
+03/23/2026,HOU@CHI,Chicago Bulls
+03/23/2026,TOR@UTA,Toronto Raptors
+03/23/2026,TOR@UTA,Utah Jazz
+03/23/2026,GSW@DAL,Golden State Warriors
+03/23/2026,GSW@DAL,Dallas Mavericks
+03/23/2026,BKN@POR,Brooklyn Nets
+03/23/2026,BKN@POR,Portland Trail Blazers
+03/23/2026,MIL@LAC,Milwaukee Bucks
+03/23/2026,MIL@LAC,LA Clippers
+03/24/2026,SAC@CHA,Sacramento Kings
+03/24/2026,SAC@CHA,Charlotte Hornets
+03/24/2026,NOP@NYK,New Orleans Pelicans
+03/24/2026,NOP@NYK,New York Knicks
+03/24/2026,ORL@CLE,Orlando Magic
+03/24/2026,ORL@CLE,Cleveland Cavaliers
+03/24/2026,DEN@PHX,Denver Nuggets
+03/24/2026,DEN@PHX,Phoenix Suns
+03/25/2026,ATL@DET,Atlanta Hawks
+03/25/2026,ATL@DET,Detroit Pistons
+03/25/2026,CHI@PHI,Chicago Bulls
+03/25/2026,CHI@PHI,Philadelphia 76ers
+03/25/2026,LAL@IND,Los Angeles Lakers
+03/25/2026,LAL@IND,Indiana Pacers
+03/25/2026,MIA@CLE,Miami Heat
+03/25/2026,MIA@CLE,Cleveland Cavaliers
+03/25/2026,OKC@BOS,Oklahoma City Thunder
+03/25/2026,OKC@BOS,Boston Celtics
+03/25/2026,SAS@MEM,San Antonio Spurs
+03/25/2026,SAS@MEM,Memphis Grizzlies
+03/25/2026,WAS@UTA,Washington Wizards
+03/25/2026,WAS@UTA,Utah Jazz
+03/25/2026,HOU@MIN,Houston Rockets
+03/25/2026,HOU@MIN,Minnesota Timberwolves
+03/25/2026,BKN@GSW,Brooklyn Nets
+03/25/2026,BKN@GSW,Golden State Warriors
+03/25/2026,DAL@DEN,Dallas Mavericks
+03/25/2026,DAL@DEN,Denver Nuggets
+03/25/2026,MIL@POR,Milwaukee Bucks
+03/25/2026,MIL@POR,Portland Trail Blazers
+03/25/2026,TOR@LAC,Toronto Raptors
+03/25/2026,TOR@LAC,LA Clippers
+03/26/2026,NOP@DET,New Orleans Pelicans
+03/26/2026,NOP@DET,Detroit Pistons
+03/26/2026,NYK@CHA,New York Knicks
+03/26/2026,NYK@CHA,Charlotte Hornets
+03/26/2026,SAC@ORL,Sacramento Kings
+03/26/2026,SAC@ORL,Orlando Magic
+03/27/2026,LAC@IND,LA Clippers
+03/27/2026,LAC@IND,Indiana Pacers
+03/27/2026,ATL@BOS,Atlanta Hawks
+03/27/2026,ATL@BOS,Boston Celtics
+03/27/2026,MIA@CLE,Miami Heat
+03/27/2026,MIA@CLE,Cleveland Cavaliers
+03/27/2026,CHI@OKC,Chicago Bulls
+03/27/2026,CHI@OKC,Oklahoma City Thunder
+03/27/2026,HOU@MEM,Houston Rockets
+03/27/2026,HOU@MEM,Memphis Grizzlies
+03/27/2026,NOP@TOR,New Orleans Pelicans
+03/27/2026,NOP@TOR,Toronto Raptors
+03/27/2026,UTA@DEN,Utah Jazz
+03/27/2026,UTA@DEN,Denver Nuggets
+03/27/2026,DAL@POR,Dallas Mavericks
+03/27/2026,DAL@POR,Portland Trail Blazers
+03/27/2026,WAS@GSW,Washington Wizards
+03/27/2026,WAS@GSW,Golden State Warriors
+03/27/2026,BKN@LAL,Brooklyn Nets
+03/27/2026,BKN@LAL,Los Angeles Lakers
+03/28/2026,SAS@MIL,San Antonio Spurs
+03/28/2026,SAS@MIL,Milwaukee Bucks
+03/28/2026,DET@MIN,Detroit Pistons
+03/28/2026,DET@MIN,Minnesota Timberwolves
+03/28/2026,PHI@CHA,Philadelphia 76ers
+03/28/2026,PHI@CHA,Charlotte Hornets
+03/28/2026,SAC@ATL,Sacramento Kings
+03/28/2026,SAC@ATL,Atlanta Hawks
+03/28/2026,CHI@MEM,Chicago Bulls
+03/28/2026,CHI@MEM,Memphis Grizzlies
+03/28/2026,UTA@PHX,Utah Jazz
+03/28/2026,UTA@PHX,Phoenix Suns
+03/29/2026,LAC@MIL,LA Clippers
+03/29/2026,LAC@MIL,Milwaukee Bucks
+03/29/2026,MIA@IND,Miami Heat
+03/29/2026,MIA@IND,Indiana Pacers
+03/29/2026,BOS@CHA,Boston Celtics
+03/29/2026,BOS@CHA,Charlotte Hornets
+03/29/2026,ORL@TOR,Orlando Magic
+03/29/2026,ORL@TOR,Toronto Raptors
+03/29/2026,SAC@BKN,Sacramento Kings
+03/29/2026,SAC@BKN,Brooklyn Nets
+03/29/2026,WAS@POR,Washington Wizards
+03/29/2026,WAS@POR,Portland Trail Blazers
+03/29/2026,HOU@NOP,Houston Rockets
+03/29/2026,HOU@NOP,New Orleans Pelicans
+03/29/2026,NYK@OKC,New York Knicks
+03/29/2026,NYK@OKC,Oklahoma City Thunder
+03/29/2026,GSW@DEN,Golden State Warriors
+03/29/2026,GSW@DEN,Denver Nuggets
+03/30/2026,PHI@MIA,Philadelphia 76ers
+03/30/2026,PHI@MIA,Miami Heat
+03/30/2026,BOS@ATL,Boston Celtics
+03/30/2026,BOS@ATL,Atlanta Hawks
+03/30/2026,CHI@SAS,Chicago Bulls
+03/30/2026,CHI@SAS,San Antonio Spurs
+03/30/2026,PHX@MEM,Phoenix Suns
+03/30/2026,PHX@MEM,Memphis Grizzlies
+03/30/2026,MIN@DAL,Minnesota Timberwolves
+03/30/2026,MIN@DAL,Dallas Mavericks
+03/30/2026,CLE@UTA,Cleveland Cavaliers
+03/30/2026,CLE@UTA,Utah Jazz
+03/30/2026,DET@OKC,Detroit Pistons
+03/30/2026,DET@OKC,Oklahoma City Thunder
+03/30/2026,WAS@LAL,Washington Wizards
+03/30/2026,WAS@LAL,Los Angeles Lakers
+03/31/2026,PHX@ORL,Phoenix Suns
+03/31/2026,PHX@ORL,Orlando Magic
+03/31/2026,CHA@BKN,Charlotte Hornets
+03/31/2026,CHA@BKN,Brooklyn Nets
+03/31/2026,DAL@MIL,Dallas Mavericks
+03/31/2026,DAL@MIL,Milwaukee Bucks
+03/31/2026,NYK@HOU,New York Knicks
+03/31/2026,NYK@HOU,Houston Rockets
+03/31/2026,TOR@DET,Toronto Raptors
+03/31/2026,TOR@DET,Detroit Pistons
+03/31/2026,CLE@LAL,Cleveland Cavaliers
+03/31/2026,CLE@LAL,Los Angeles Lakers
+03/31/2026,POR@LAC,Portland Trail Blazers
+03/31/2026,POR@LAC,LA Clippers
+04/01/2026,ATL@ORL,Atlanta Hawks
+04/01/2026,ATL@ORL,Orlando Magic
+04/01/2026,PHI@WAS,Philadelphia 76ers
+04/01/2026,PHI@WAS,Washington Wizards
+04/01/2026,BOS@MIA,Boston Celtics
+04/01/2026,BOS@MIA,Miami Heat
+04/01/2026,IND@CHI,Indiana Pacers
+04/01/2026,IND@CHI,Chicago Bulls
+04/01/2026,MIL@HOU,Milwaukee Bucks
+04/01/2026,MIL@HOU,Houston Rockets
+04/01/2026,NYK@MEM,New York Knicks
+04/01/2026,NYK@MEM,Memphis Grizzlies
+04/01/2026,SAC@TOR,Sacramento Kings
+04/01/2026,SAC@TOR,Toronto Raptors
+04/01/2026,DEN@UTA,Denver Nuggets
+04/01/2026,DEN@UTA,Utah Jazz
+04/01/2026,SAS@GSW,San Antonio Spurs
+04/01/2026,SAS@GSW,Golden State Warriors
+04/02/2026,MIN@DET,Minnesota Timberwolves
+04/02/2026,MIN@DET,Detroit Pistons
+04/02/2026,PHX@CHA,Phoenix Suns
+04/02/2026,PHX@CHA,Charlotte Hornets
+04/02/2026,LAL@OKC,Los Angeles Lakers
+04/02/2026,LAL@OKC,Oklahoma City Thunder
+04/02/2026,CLE@GSW,Cleveland Cavaliers
+04/02/2026,CLE@GSW,Golden State Warriors
+04/02/2026,NOP@POR,New Orleans Pelicans
+04/02/2026,NOP@POR,Portland Trail Blazers
+04/02/2026,SAS@LAC,San Antonio Spurs
+04/02/2026,SAS@LAC,LA Clippers
+04/03/2026,IND@CHA,Indiana Pacers
+04/03/2026,IND@CHA,Charlotte Hornets
+04/03/2026,MIN@PHI,Minnesota Timberwolves
+04/03/2026,MIN@PHI,Philadelphia 76ers
+04/03/2026,ATL@BKN,Atlanta Hawks
+04/03/2026,ATL@BKN,Brooklyn Nets
+04/03/2026,CHI@NYK,Chicago Bulls
+04/03/2026,CHI@NYK,New York Knicks
+04/03/2026,BOS@MIL,Boston Celtics
+04/03/2026,BOS@MIL,Milwaukee Bucks
+04/03/2026,TOR@MEM,Toronto Raptors
+04/03/2026,TOR@MEM,Memphis Grizzlies
+04/03/2026,UTA@HOU,Utah Jazz
+04/03/2026,UTA@HOU,Houston Rockets
+04/03/2026,ORL@DAL,Orlando Magic
+04/03/2026,ORL@DAL,Dallas Mavericks
+04/03/2026,NOP@SAC,New Orleans Pelicans
+04/03/2026,NOP@SAC,Sacramento Kings
+04/04/2026,SAS@DEN,San Antonio Spurs
+04/04/2026,SAS@DEN,Denver Nuggets
+04/04/2026,WAS@MIA,Washington Wizards
+04/04/2026,WAS@MIA,Miami Heat
+04/04/2026,DET@PHI,Detroit Pistons
+04/04/2026,DET@PHI,Philadelphia 76ers
+04/05/2026,MEM@MIL,Memphis Grizzlies
+04/05/2026,MEM@MIL,Milwaukee Bucks
+04/05/2026,PHX@CHI,Phoenix Suns
+04/05/2026,PHX@CHI,Chicago Bulls
+04/05/2026,TOR@BOS,Toronto Raptors
+04/05/2026,TOR@BOS,Boston Celtics
+04/05/2026,WAS@BKN,Washington Wizards
+04/05/2026,WAS@BKN,Brooklyn Nets
+04/05/2026,IND@CLE,Indiana Pacers
+04/05/2026,IND@CLE,Cleveland Cavaliers
+04/05/2026,CHA@MIN,Charlotte Hornets
+04/05/2026,CHA@MIN,Minnesota Timberwolves
+04/05/2026,ORL@NOP,Orlando Magic
+04/05/2026,ORL@NOP,New Orleans Pelicans
+04/05/2026,UTA@OKC,Utah Jazz
+04/05/2026,UTA@OKC,Oklahoma City Thunder
+04/05/2026,LAL@DAL,Los Angeles Lakers
+04/05/2026,LAL@DAL,Dallas Mavericks
+04/05/2026,LAC@SAC,LA Clippers
+04/05/2026,LAC@SAC,Sacramento Kings
+04/05/2026,HOU@GSW,Houston Rockets
+04/05/2026,HOU@GSW,Golden State Warriors
+04/06/2026,DET@ORL,Detroit Pistons
+04/06/2026,DET@ORL,Orlando Magic
+04/06/2026,NYK@ATL,New York Knicks
+04/06/2026,NYK@ATL,Atlanta Hawks
+04/06/2026,CLE@MEM,Cleveland Cavaliers
+04/06/2026,CLE@MEM,Memphis Grizzlies
+04/06/2026,PHI@SAS,Philadelphia 76ers
+04/06/2026,PHI@SAS,San Antonio Spurs
+04/06/2026,POR@DEN,Portland Trail Blazers
+04/06/2026,POR@DEN,Denver Nuggets
+04/07/2026,CHI@WAS,Chicago Bulls
+04/07/2026,CHI@WAS,Washington Wizards
+04/07/2026,MIN@IND,Minnesota Timberwolves
+04/07/2026,MIN@IND,Indiana Pacers
+04/07/2026,MIA@TOR,Miami Heat
+04/07/2026,MIA@TOR,Toronto Raptors
+04/07/2026,MIL@BKN,Milwaukee Bucks
+04/07/2026,MIL@BKN,Brooklyn Nets
+04/07/2026,CHA@BOS,Charlotte Hornets
+04/07/2026,CHA@BOS,Boston Celtics
+04/07/2026,UTA@NOP,Utah Jazz
+04/07/2026,UTA@NOP,New Orleans Pelicans
+04/07/2026,SAC@GSW,Sacramento Kings
+04/07/2026,SAC@GSW,Golden State Warriors
+04/07/2026,DAL@LAC,Dallas Mavericks
+04/07/2026,DAL@LAC,LA Clippers
+04/07/2026,OKC@LAL,Oklahoma City Thunder
+04/07/2026,OKC@LAL,Los Angeles Lakers
+04/07/2026,HOU@PHX,Houston Rockets
+04/07/2026,HOU@PHX,Phoenix Suns
+04/08/2026,ATL@CLE,Atlanta Hawks
+04/08/2026,ATL@CLE,Cleveland Cavaliers
+04/08/2026,MIL@DET,Milwaukee Bucks
+04/08/2026,MIL@DET,Detroit Pistons
+04/08/2026,MIN@ORL,Minnesota Timberwolves
+04/08/2026,MIN@ORL,Orlando Magic
+04/08/2026,MEM@DEN,Memphis Grizzlies
+04/08/2026,MEM@DEN,Denver Nuggets
+04/08/2026,POR@SAS,Portland Trail Blazers
+04/08/2026,POR@SAS,San Antonio Spurs
+04/08/2026,DAL@PHX,Dallas Mavericks
+04/08/2026,DAL@PHX,Phoenix Suns
+04/08/2026,OKC@LAC,Oklahoma City Thunder
+04/08/2026,OKC@LAC,LA Clippers
+04/09/2026,CHI@WAS,Chicago Bulls
+04/09/2026,CHI@WAS,Washington Wizards
+04/09/2026,MIA@TOR,Miami Heat
+04/09/2026,MIA@TOR,Toronto Raptors
+04/09/2026,BOS@NYK,Boston Celtics
+04/09/2026,BOS@NYK,New York Knicks
+04/09/2026,IND@BKN,Indiana Pacers
+04/09/2026,IND@BKN,Brooklyn Nets
+04/09/2026,PHI@HOU,Philadelphia 76ers
+04/09/2026,PHI@HOU,Houston Rockets
+04/09/2026,LAL@GSW,Los Angeles Lakers
+04/09/2026,LAL@GSW,Golden State Warriors
+04/10/2026,CLE@ATL,Cleveland Cavaliers
+04/10/2026,CLE@ATL,Atlanta Hawks
+04/10/2026,DET@CHA,Detroit Pistons
+04/10/2026,DET@CHA,Charlotte Hornets
+04/10/2026,MIA@WAS,Miami Heat
+04/10/2026,MIA@WAS,Washington Wizards
+04/10/2026,NOP@BOS,New Orleans Pelicans
+04/10/2026,NOP@BOS,Boston Celtics
+04/10/2026,PHI@IND,Philadelphia 76ers
+04/10/2026,PHI@IND,Indiana Pacers
+04/10/2026,TOR@NYK,Toronto Raptors
+04/10/2026,TOR@NYK,New York Knicks
+04/10/2026,BKN@MIL,Brooklyn Nets
+04/10/2026,BKN@MIL,Milwaukee Bucks
+04/10/2026,DAL@SAS,Dallas Mavericks
+04/10/2026,DAL@SAS,San Antonio Spurs
+04/10/2026,ORL@CHI,Orlando Magic
+04/10/2026,ORL@CHI,Chicago Bulls
+04/10/2026,OKC@DEN,Oklahoma City Thunder
+04/10/2026,OKC@DEN,Denver Nuggets
+04/10/2026,MEM@UTA,Memphis Grizzlies
+04/10/2026,MEM@UTA,Utah Jazz
+04/10/2026,MIN@HOU,Minnesota Timberwolves
+04/10/2026,MIN@HOU,Houston Rockets
+04/10/2026,GSW@SAC,Golden State Warriors
+04/10/2026,GSW@SAC,Sacramento Kings
+04/10/2026,LAC@POR,LA Clippers
+04/10/2026,LAC@POR,Portland Trail Blazers
+04/10/2026,PHX@LAL,Phoenix Suns
+04/10/2026,PHX@LAL,Los Angeles Lakers
+04/12/2026,ATL@MIA,Atlanta Hawks
+04/12/2026,ATL@MIA,Miami Heat
+04/12/2026,BKN@TOR,Brooklyn Nets
+04/12/2026,BKN@TOR,Toronto Raptors
+04/12/2026,CHA@NYK,Charlotte Hornets
+04/12/2026,CHA@NYK,New York Knicks
+04/12/2026,DET@IND,Detroit Pistons
+04/12/2026,DET@IND,Indiana Pacers
+04/12/2026,MIL@PHI,Milwaukee Bucks
+04/12/2026,MIL@PHI,Philadelphia 76ers
+04/12/2026,ORL@BOS,Orlando Magic
+04/12/2026,ORL@BOS,Boston Celtics
+04/12/2026,WAS@CLE,Washington Wizards
+04/12/2026,WAS@CLE,Cleveland Cavaliers
+04/12/2026,CHI@DAL,Chicago Bulls
+04/12/2026,CHI@DAL,Dallas Mavericks
+04/12/2026,DEN@SAS,Denver Nuggets
+04/12/2026,DEN@SAS,San Antonio Spurs
+04/12/2026,GSW@LAC,Golden State Warriors
+04/12/2026,GSW@LAC,LA Clippers
+04/12/2026,MEM@HOU,Memphis Grizzlies
+04/12/2026,MEM@HOU,Houston Rockets
+04/12/2026,NOP@MIN,New Orleans Pelicans
+04/12/2026,NOP@MIN,Minnesota Timberwolves
+04/12/2026,PHX@OKC,Phoenix Suns
+04/12/2026,PHX@OKC,Oklahoma City Thunder
+04/12/2026,SAC@POR,Sacramento Kings
+04/12/2026,SAC@POR,Portland Trail Blazers
+04/12/2026,UTA@LAL,Utah Jazz
+04/12/2026,UTA@LAL,Los Angeles Lakers

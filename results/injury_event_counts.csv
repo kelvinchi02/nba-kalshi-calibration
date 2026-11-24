@@ -1,0 +1,20 @@
+step,count
+"status changes, all kinds",18546
+changes to Out between consecutive snapshots,11559
+"of those, the player's first Out for the game",11545
+"of those, team had submitted in the earlier snapshot",2169
+"of those, no unparsed snapshot in between",2169
+"of those, team name not recognized",0
+"of those, for a main-sample game",2168
+changes to Out with the name matched to a player,2114
+changes to Out by a key player,383
+"events (team, game, snapshot)",361
+dropped: both teams in the same snapshot,10
+dropped: released less than 30 minutes before tipoff,49
+events released in time,302
+events with both midpoints of the main window,302
+"of those, with the placebo window",302
+"of those (main), with both anticipation midpoints",302
+"of those, with the placebo anticipation window",301
+main-window events released at the posting time,302
+main-window events released at the scheduled time,0
