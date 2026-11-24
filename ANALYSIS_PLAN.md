@@ -105,6 +105,12 @@ All tests are two-sided at α = 0.05.
 
 Popularity bias, horizons and a trading strategy. This section was written and committed before any Stage 9 result was computed. Sections 1 to 6 (Stage 8) are unchanged, and so is the data (tag `data-v1`).
 
+Amendments to 9.3, made on 2026-11-23 after review of the first version of this section and before any Stage 9 result was computed:
+
+- Fee: the formula and its source are fixed as Kalshi's fee schedule filed with the CFTC. The first version took the coefficient from Kalshi's API documentation, pending confirmation.
+- Stake: each trade stakes $100, with contracts = floor(100 / ask) and one fee on the whole order. The first version bought one contract per trade.
+- Threshold: the 75th percentile of |gap| is taken over eligible games played earlier, and the first 50 eligible games only set the threshold. The first version used the whole season's eligible games, which a trader could not have known. The benchmark and the metro robustness check follow the same rule.
+
 Since Stage 9, the analysis runs in notebooks. `notebooks/01_eda.ipynb` and `notebooks/02_calibration.ipynb` run the Stage 8 code and reproduce the Stage 8 files in `results/` exactly. The shared statistics are in `src/stats_tools.py`.
 
 Settings that apply to all of Stage 9:
@@ -178,23 +184,28 @@ One rule only, fixed now. Nothing is tuned.
 1. **Popularity known at the time.** Order the main-sample games by `tipoff_utc`. For each game and each team, take the expanding mean of the team's own market volume over its main-sample games with an earlier tipoff. The current game and later games are not used.
    - A game is eligible when both teams have at least 10 earlier games.
    - gap = log(home team's expanding mean) − log(away team's expanding mean).
-2. **Rule.** Let q be the 75th percentile of |gap| over the eligible games. In every eligible game with |gap| ≥ q, buy one YES contract on the less popular team (the one with the lower expanding mean) at its ask price at tipoff. That is `home_ask` or `away_ask` at horizon 0, the closing ask of the last 1-minute candle strictly before tipoff.
-   - If that ask is missing, or is not strictly between 0 and 1, there is no trade. Report the count.
-   - Limitation, stated in the notebook: q is computed from the whole season's eligible games, so a trader could not have known it during the season. The gap itself uses past games only.
-3. **Fees.** Every trade pays Kalshi's taker fee under the current fee schedule. Checked on 2026-11-23:
-   - The Kalshi API (`GET /series/KXNBAGAME`) reports `fee_type = quadratic_with_maker_fees` and `fee_multiplier = 1` for the NBA game series. `GET /series/fee_changes` lists no fee change for it.
-   - The quadratic fee is 0.07 · C · P · (1 − P) dollars for C contracts at price P. Kalshi's API documentation, "Fee Rounding" (<https://docs.kalshi.com/getting_started/fee_rounding.md>), rounds the trade fee up to $0.000001. For a standard (non-direct member) account it then aligns the balance to whole cents, so a single order's price plus fee is rounded up to the next cent.
-   - Fee used per trade, for a one-contract order on a standard account: 0.07 · P · (1 − P), rounded up to the next cent. This is 1¢ or 2¢ per contract.
-   - For reference, the table also reports total fees without the cent rounding, 0.07 · P · (1 − P) per contract. That is the fee per contract of a large order. Profit and return are computed with the rounded fee.
-   - Kalshi's help page on fees: <https://help.kalshi.com/trading/fees>. The fee schedule PDF (<https://kalshi.com/docs/kalshi-fee-schedule.pdf>) refused automated downloads on the day of the check. The coefficient 0.07 comes from the worked example in the API documentation and is to be confirmed against the PDF. Any difference found will be listed under "Deviations". The notebook records the sources and the date checked.
-   - No fee is applied at settlement.
-4. **Results.** For each trade: cost = the ask price, payout = $1 if the team wins and $0 if not, profit = payout − cost − fee. Report:
+2. **Threshold known at the time.** Order the eligible games by `tipoff_utc`, with ties broken by `game_id`. For each eligible game, the threshold q is the 75th percentile of |gap| over the eligible games with an earlier tipoff. The percentile uses linear interpolation.
+   - The first 50 eligible games in this order only set the threshold. No trade is made in them.
+   - The games after those 50 are the "tradable games".
+3. **Rule.** In every tradable game with |gap| ≥ q, buy YES contracts on the less popular team (the one with the lower expanding mean) at its ask price at tipoff. That is `home_ask` or `away_ask` at horizon 0, the closing ask of the last 1-minute candle strictly before tipoff.
+   - Stake: $100 per trade. Contracts C = floor(100 / ask).
+   - If that ask is missing, or is not strictly between 0 and 1, there is no trade. If the gap is exactly 0, there is no less popular team and no trade. Report the counts.
+4. **Fees.** Every trade pays Kalshi's taker fee, computed once on the whole order:
+
+     fee = 0.07 · C · P · (1 − P), rounded up to the next cent,
+
+   where P is the ask price in dollars and C the number of contracts. There is no settlement fee.
+   - Source: Kalshi's fee schedule as filed with the CFTC, <https://cftc.gov/filings/orgrules/rule091222kexdcm003.pdf>. It gives this formula as the general trading fee and states "There is no settlement fee."
+   - The Kalshi API (`GET /series/KXNBAGAME`) reports `fee_type = quadratic_with_maker_fees` and `fee_multiplier = 1` for the NBA game series, and `GET /series/fee_changes` lists no fee change for it. So the general formula applies with no special multiplier.
+   - Both were checked on 2026-11-23.
+   - For reference, the table also reports total fees without the cent rounding, 0.07 · C · P · (1 − P). Profit and return are computed with the rounded fee.
+5. **Results.** For each trade: cost = C · ask, payout = C dollars if the team wins and $0 if not, profit = payout − cost − fee. Report:
    - number of trades and win rate;
-   - total cost, total fees and profit;
+   - total cost, total fees (rounded and unrounded) and profit;
    - return per dollar staked = profit / (total cost + total fees);
-   - block bootstrap intervals for profit and for return per dollar staked. The replicates resample the dates of the eligible games. The trades chosen by the rule stay fixed, and q is not recomputed.
-5. **Benchmark.** The same calculation for buying the less popular team in every eligible game, to show the cost of trading without the filter.
-6. **Robustness.** The same rule with the metro population gap of 9.1 in place of the volume gap, on the same eligible games: q is the 75th percentile of the absolute metro gap, and the contract bought is on the team from the smaller metro area.
+   - block bootstrap intervals for profit and for return per dollar staked. The replicates resample the dates of the tradable games. The trades chosen by the rule stay fixed, and the thresholds are not recomputed.
+6. **Benchmark.** The same calculation for buying the less popular team, with the same $100 stake and fee, in every tradable game. This uses the same games the rule could trade in, so it shows the cost of trading without the filter.
+7. **Robustness.** The same rule with the metro population gap of 9.1 in place of the volume gap. Eligibility and the first 50 games are the same as above, so the tradable games are the same. The threshold is the 75th percentile of the absolute metro gap over the eligible games with an earlier tipoff, and the contracts bought are on the team from the smaller metro area.
    - Games between two teams of the same metro area have a gap of 0 and are never traded.
    - The metro gap takes few distinct values, so the share of games traded can differ from one quarter. Report the count.
 
