@@ -259,6 +259,193 @@ Reason: to show how much of each strategy's loss is fees.
 - `results/exploratory_volume_expanding_logistic.csv`, `exploratory_volume_expanding_effects.csv`, `exploratory_volume_expanding_bootstrap.csv`
 - `results/exploratory_strategy_before_fees.csv`
 
+## Stage 10
+
+Four extensions: line movement, information arrival, subgroups, and a replication on the 2026-27 season. This section was written and committed on 2026-11-23, before any Stage 10 result was computed. Everything above it is unchanged, and so are the 2025-26 data (tag `data-v1`) and the Stage 8 and Stage 9 result files.
+
+Run order: 10.3 line movement and 10.5 subgroups first, then 10.6 replication, then 10.4 information arrival. The order is set by the time each part needs. It does not depend on any result.
+
+### 10.1 Settings and reporting rules
+
+Settings that apply to all of Stage 10, unless a section says otherwise:
+
+- All tests are two-sided at α = 0.05.
+- Clustered standard errors use `home_team` (30 clusters).
+- Every bootstrap is the block bootstrap by `game_date`: B = 2,000 replicates, seed 4981, 95% percentile intervals. Group labels, cut points, thresholds and chosen trades are fixed at their full-sample values in every replicate.
+- "Main sample" means the 2025-26 games with `main_sample == 1`. p is `p_home` and y is `home_win`.
+- A replicate in which a model cannot be fitted is dropped, and the number dropped is reported.
+
+Reporting rules:
+
+1. Every Stage 10 test is reported in `results/stage10_all_tests.csv` with its estimate, interval, raw p value and Holm adjusted p value. The Holm adjustment is across the Stage 10 primary tests listed in rule 2. Nulls are reported the same way as significant results.
+2. Primary tests (the Holm family, 8 tests):
+   - 10.3: d = 0 in the 24h model (1 test).
+   - 10.5: the group by slope interaction in each of the three splits (3 tests). The liquidity split has two interactions, tested jointly as one test.
+   - 10.4, D2: the mean event change against zero (1 test).
+   - 10.6: the calibration LR test, the popularity c = 0, and the opposite rule return against zero (3 tests).
+
+   Everything else is secondary or descriptive. Secondary tests are in the table with a raw p value and no adjusted one.
+3. Anything added after seeing results goes under an "Exploratory" heading with its reason.
+
+How the p values are computed:
+
+- Regression coefficients: the Wald z test with clustered standard errors. The interval in the table is the clustered 95% interval. The bootstrap interval is reported next to it as a robustness check.
+- Joint tests: the liquidity interaction is a Wald χ² test on 2 degrees of freedom with the clustered covariance. The calibration LR test is the test of section 2.4. A joint test has no single estimate, so its row gives the statistic and degrees of freedom, and its components (the two interactions, or a and b) are separate secondary rows with their own intervals.
+- Bootstrap tests (the event study means and the opposite rule return): the interval is the percentile interval, and the p value is
+
+    p = min(1, 2 · min( (1 + #{θ* ≤ 0}) / (B + 1), (1 + #{θ* ≥ 0}) / (B + 1) )),
+
+  where θ* are the bootstrap replicates of the statistic. With B = 2,000 the smallest possible value is about 0.001.
+- Holm: sort the m = 8 primary p values, p(1) ≤ ... ≤ p(8). The adjusted value of p(i) is the largest of min(1, (8 − j + 1) · p(j)) over j ≤ i. A primary test is called significant when its adjusted p value is below 0.05.
+- If D2 is stopped because the injury reports cannot be used (see 10.4), the family is the other 7 tests and this is recorded under "Deviations".
+- The Holm values need all primary tests. A report made before all of them have run gives the raw p value and the bound min(1, 8 · p), which is never below the final Holm value, and says that it is a bound.
+
+### 10.2 Data
+
+- **Raw Kalshi cache, 2025-26.** Pulled again with `src/pull_kalshi.py`. `data/processed/snapshots.csv` is rebuilt from it and compared byte for byte with the committed file before anything else is run. Any difference is reported, and the committed file is kept.
+- **Price paths.** `src/build_price_paths.py` writes `data/processed/price_paths.csv`: one row per matched 2025-26 game per 5-minute step, from tipoff − 30h to tipoff (361 steps, `minutes_to_tipoff` = 1800, 1795, ..., 0).
+  - For the step at time S = tipoff − `minutes_to_tipoff`, each side's quote comes from the last 1-minute candle ending strictly before S, the same rule as the snapshots. A quote older than one minute is carried forward and flagged.
+  - `home_mid`, `away_mid`: bid/ask midpoints. A one-sided book gives no midpoint. `p_home_mid` = home_mid / (home_mid + away_mid) when both exist. `max_spread` is the wider of the two spreads.
+  - `contracts`: contracts traded in both markets in [S − 5 min, S).
+  - Steps before the market opened are empty. So are steps before the first candle of the pulled 30h window, because the cache holds no earlier quote.
+- **Injury reports and minutes** (for 10.4): see 10.4.
+- **2026-27 season** (for 10.6): see 10.6.
+
+### 10.3 Line movement (notebook 06)
+
+Question: does the price move before tipoff contain information that the tipoff price missed?
+
+- Sample: main-sample games with `p_home` at 24h and at tipoff. Stage 9 found 1,222 such games. Report the count.
+- move = logit(p at tipoff) − logit(p at 24h), for the home side. `p_home` is used as it is at each horizon, as in 9.2.
+- Model: logit P(y = 1) = a + b · logit(p at tipoff) + d · move.
+  - Standard errors clustered by home team. Block bootstrap by date, refitting the model in each replicate.
+  - Report a, b and d with clustered standard errors, 95% intervals, Wald tests of a = 0, b = 1 and d = 0, and bootstrap intervals.
+- **Primary test: d = 0.** d = 0 means the tipoff price is efficient with respect to the move. d > 0 means underreaction: the market did not move far enough. d < 0 means overreaction.
+- d in plain terms, as in 9.1: the SD of the move, d · SD, and the average effect on win probability of a one-SD larger move at the same tipoff price, with its bootstrap interval. Every replicate uses the full-sample SD.
+- Secondary:
+  - the same model with the move from 6h to tipoff, and with the move from 1h to tipoff, on the same games;
+  - the 24h model after the spread filter of 9.2 (drop every game whose `max_spread` is above 0.05 or missing at any of the four horizons; Stage 9 kept 1,165 games).
+- Descriptive, no test attached:
+  - the distribution of the 24h move: a histogram, and a table with the mean, SD, quartiles, 5th and 95th percentiles, and the shares of positive, negative and zero moves;
+  - a binned plot: sort the games by move into 10 equal-count bins (ties broken by `game_id`). For each bin, plot the home-win rate minus the mean tipoff price against the mean move. The bar is the Wilson interval of the win rate, shifted by the mean tipoff price.
+
+### 10.4 Information arrival (notebook 07)
+
+#### D1. When do prices move (descriptive, no test)
+
+- Sample: every main-sample game in `price_paths.csv`.
+- For each game and each 5-minute step, the absolute change in logit(`p_home_mid`) from the previous step. A change is computed only when both steps have a midpoint. Gaps are not bridged.
+- Averages:
+  - by minutes to tipoff: the mean absolute change at each of the 360 steps, over the games that have one;
+  - by US Eastern clock time on the game day: steps whose end time falls on the game's Eastern date, grouped in 5-minute clock bins. Bins with fewer than 50 game-steps are not plotted. The number of game-steps per bin is in the table.
+- Share of total movement: the sum of absolute changes in each window divided by the sum over all windows, pooled over games. A step belongs to the window that contains its end time m (minutes to tipoff):
+  - 30h to 24h: 1440 ≤ m < 1800
+  - 24h to 6h: 360 ≤ m < 1440
+  - 6h to 1h: 60 ≤ m < 360
+  - 1h to 30 min: 30 ≤ m < 60
+  - last 30 min: 0 ≤ m < 30
+- The table also gives each window's share per hour, because the windows differ in length, and the number of game-steps with a change out of the number possible. Early steps are empty for many games (see 10.2), so the first window is understated by construction.
+
+#### D2. Injury report event study (primary)
+
+Data:
+
+- Injury reports: the `nbainjuries` package, every official NBA injury report snapshot of the 2025-26 regular season. The release time of a snapshot is its report timestamp (US Eastern).
+- Minutes: `nba_api` player game logs for the 2025-26 regular season.
+- Saved to `data/processed/`: one row per report snapshot (time, fetched or not, rows parsed), one row per change of a player's status for a game, and the player minutes.
+
+Reliability rule, fixed now. D2 is stopped, and reported, if any of these fails:
+
+- fewer than 95% of the snapshots that exist on the NBA server can be fetched and parsed;
+- fewer than 95% of the main-sample games appear, with both teams, in at least one parsed snapshot;
+- in a random draw of 20 events (seed 4981) checked by hand against the original report files, any event is wrong (wrong player, status, game or report time).
+
+No other source is substituted.
+
+Definitions:
+
+- **Status change to Out.** For a main-sample game, a player whose status is Out in a snapshot and was not Out in the snapshot before it. "Not Out before" means he was listed with another status, or he was not listed while his team had already submitted its report for that game in the earlier snapshot. The first snapshot in which a team has submitted does not create events. Only a player's first change to Out for a game counts.
+- **Key player.** Among the players of his team, top 3 in average minutes per game played for that team, over the team's regular-season games before that game. A player needs at least 5 such games. Injury report names are matched to game log names within the team after removing case, accents, punctuation and suffixes. The number of changes to Out that cannot be matched to a player is reported.
+- **Event.** One team in one game at one snapshot, with at least one key player changing to Out. Several key players of the same team in the same snapshot make one event.
+  - The snapshot is released at least 30 minutes before the official tipoff.
+  - If both teams of a game have an event in the same snapshot, both are dropped, because the two effects on the price have opposite signs. The count is reported.
+- **Event change.** The affected team's normalized midpoint (`p_home_mid` for the home team, 1 − `p_home_mid` for the away team) 30 minutes after the release minus its value 5 minutes before the release, in probability units. A drop is negative. The price at a time T is the value of the last 5-minute step at or before T. An event with a missing midpoint at either time is dropped and counted.
+- **Placebo change.** The same calculation with both times moved 3 hours earlier, for the same game and team, when both midpoints exist.
+
+Tests, with the block bootstrap by game date (events of one date are drawn together):
+
+- **Primary: the mean event change against zero.**
+- Secondary: the mean placebo change against zero, and the mean of (event change − placebo change) against zero, over the events that have a placebo.
+- Report the number of events at each step of the definitions above.
+
+Figure: the average path of the affected team's normalized midpoint from 60 minutes before to 120 minutes after the release, in 5-minute steps, as the difference from its value 5 minutes before the release, with a pointwise 95% bootstrap band. Steps after tipoff are left out, and the number of events behind each point is in the table.
+
+### 10.5 Where is the market less accurate (notebook 08)
+
+Sample: the main sample at tipoff, 1,229 games. Three splits, each fixed now:
+
+1. **Liquidity.** Total pregame contracts = `home_pregame_contracts` + `away_pregame_contracts`. Sort the games by it (ties broken by `game_id`) and cut into three equal-count groups: low, middle and high (410, 410 and 409 games).
+2. **Season half.** Early = games before the median `game_date` of the sample. Late = games on or after it.
+3. **Rest.** Back to back = at least one of the two teams played a regular-season game on the previous calendar day (US Eastern), from `data/processed/nba_games_2025_26.csv`. The other group is games where neither team did. The NBA Cup final is not a regular-season game and is not in that file.
+
+For each split:
+
+- Per group: the number of games, the Brier score, its constant baseline and skill score (section 2.2, baseline from the group's own home-win rate), and a and b from the recalibration fit within the group (section 2.3), with clustered standard errors and tests of a = 0 and b = 1. These tests are secondary.
+- A calibration plot by group: 5 equal-count bins within each group, built as in section 2.1, with Wilson intervals.
+- **Primary test.** One logistic model on all 1,229 games:
+
+    logit P(y = 1) = a + b · logit(p) + Σ_g ( α_g · G_g + β_g · G_g · logit(p) ),
+
+  where G_g is the indicator of group g and the reference groups are low liquidity, early, and no back to back. Standard errors clustered by home team.
+  - Season half and rest: the test is β = 0 (Wald z).
+  - Liquidity: the test is β_middle = β_high = 0 jointly (Wald χ², 2 df). The two single interactions are secondary rows.
+  - β ≠ 0 means the slope of the calibration line differs between groups.
+- The difference in Brier score between groups with its bootstrap interval and bootstrap p value (secondary): late − early, back to back − no back to back, and for liquidity high − low, middle − low and high − middle.
+- Limit on the reading: a Brier difference between groups can come from a different mix of close and lopsided games, not only from accuracy. The interaction test is the test of calibration.
+
+### 10.6 Replication on the 2026-27 season (notebook 09)
+
+Data:
+
+- Sample: every 2026-27 regular-season game (NBA game ID prefix 002) that is final and has a settled Kalshi `KXNBAGAME` event, up to the cutoff date.
+  - The cutoff date is the last US Eastern game date before the day of the pull on which every game is final and settled. The pull is made once. The sample is not extended after any result is seen. The cutoff date and the game count are reported.
+- Pipeline: the same scripts as for 2025-26 (`nba_schedule.py`, `match_games.py`, `pull_kalshi.py`, `build_snapshots.py`), with a season parameter and no copied code. Same matching rules, cleaning and flags: postponed originals dropped, `postponed_window` games out of the main sample, `tipoff_moved` flagged and kept. The 2025-26 outputs must stay byte identical after this change.
+  - Kalshi's historical endpoints end at their cutoff (2026-09-24 when checked on 2026-11-23). The 2026-27 markets are on the live endpoints, so the client gets live versions of the same three requests (markets, trades, 1-minute candles).
+- Outputs in `data/processed/`: `nba_games_2026_27.csv`, `game_map_2026_27.csv`, `snapshots_2026_27.csv` and the match report. The files are frozen with the git tag `data-v2`.
+- Price: `p_home` at horizon 0, as in section 1. A game with `p_home` missing is dropped and counted.
+
+Tests:
+
+1. **Calibration at tipoff**, as in Stage 8: Brier score against the constant baseline (2.2), a and b with clustered standard errors (2.3), the LR test of a = 0 and b = 1 (2.4), and the block bootstrap by date (3). **Primary test: the LR test.**
+   - Descriptive: a calibration plot with 5 equal-count bins and Wilson intervals.
+2. **Popularity.** A team's measure is its 2025-26 season average pregame volume, the section 4 measure, computed from the 2025-26 main sample. It is known before the 2026-27 season starts. gap = log(home team's measure) − log(away team's measure).
+   - Model of 9.1: logit P(y = 1) = a + b · logit(p) + c · gap, clustered by home team, with the block bootstrap. **Primary test: c = 0.**
+   - c in plain terms as in 9.1: the SD of the gap, c · SD and the average effect on win probability.
+   - If a 2026-27 team has no 2025-26 measure, stop and report.
+3. **Opposite rule.** Threshold q = the 75th percentile (linear interpolation) of |gap| over the 1,229 games of the 2025-26 main sample, with the same season-average measure.
+   - In every 2026-27 sample game with |gap| ≥ q, buy YES contracts on the more popular team (the one with the higher measure) at its ask at tipoff (`home_ask` or `away_ask` at horizon 0).
+   - Stake $100, contracts = floor(100 / ask), and the taker fee of 9.3 computed once per order. The fee fields of the series were checked again on 2026-11-23: `fee_type = quadratic_with_maker_fees`, `fee_multiplier = 1`, no fee change listed.
+   - No trade if the ask is missing or not strictly between 0 and 1. Report the counts.
+   - Report the number of trades, win rate, total cost, fees, profit, return per dollar staked = profit / (total cost + total fees), and profit and return before fees.
+   - **Primary test: the return per dollar staked against zero**, with the block bootstrap by date (trades fixed), percentile interval and bootstrap p value. The interval for profit is reported too.
+4. **Sample size.** The sample is about one month of games. The notebook states this, and reports the width of the 95% interval for the slope b (clustered and bootstrap) next to the 2025-26 width.
+
+### 10.7 All tests and outputs
+
+- Each of notebooks 06 to 09 saves its tests in one common layout as `results/stage10_tests_<part>.csv`. Notebook `10_all_tests` reads those four files, adds the Holm adjusted p values and writes `results/stage10_all_tests.csv`. It fits no model.
+- Data, in `data/processed/`: `price_paths.csv`; the injury report and minutes files of 10.4; the 2026-27 files of 10.6.
+- Notebook 06, in `results/`: `line_movement_logistic.csv`, `line_movement_bootstrap.csv`, `line_movement_effects.csv`, `line_movement_summary.csv`, `line_movement_bins.csv`, `line_movement_distribution.png`, `line_movement_bins.png`.
+- Notebook 07, in `results/`: `arrival_by_minutes.csv`, `arrival_by_clock.csv`, `arrival_window_shares.csv`, `arrival_by_minutes.png`, `arrival_by_clock.png`, `injury_event_counts.csv`, `injury_events.csv`, `injury_event_test.csv`, `injury_event_path.csv`, `injury_event_path.png`.
+- Notebook 08, in `results/`: `subgroups_groups.csv`, `subgroups_metrics.csv`, `subgroups_interaction.csv`, `subgroups_brier_diff.csv`, `subgroups_calibration_bins.csv`, and one calibration figure per split, `subgroups_calibration_liquidity.png`, `subgroups_calibration_season_half.png`, `subgroups_calibration_rest.png`.
+- Notebook 09, in `results/`: `replication_sample_counts.csv`, `replication_brier.csv`, `replication_logistic.csv`, `replication_lr_test.csv`, `replication_bootstrap.csv`, `replication_calibration_bins.csv`, `replication_calibration_plot.png`, `replication_popularity_logistic.csv`, `replication_popularity_effects.csv`, `replication_popularity_bootstrap.csv`, `replication_opposite_rule.csv`, `replication_opposite_trades.csv`.
+- Every table shown in a notebook is saved. A table not listed here is recorded under "Deviations".
+
+### 10.8 Not in Stage 10
+
+- Any other split, cut point, window length, event definition, trading rule or threshold, and any search over them.
+- The opposite rule on the 2025-26 season.
+- Any model or test not listed above. Ideas that come up are listed as suggestions and are not run.
+
 ## Deviations
 
 Stage 8: none.
