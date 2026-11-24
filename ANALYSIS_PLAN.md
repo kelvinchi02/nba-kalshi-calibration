@@ -263,6 +263,13 @@ Reason: to show how much of each strategy's loss is fees.
 
 Four extensions: line movement, information arrival, subgroups, and a replication on the 2026-27 season. This section was written and committed on 2026-11-23, before any Stage 10 result was computed. Everything above it is unchanged, and so are the 2025-26 data (tag `data-v1`) and the Stage 8 and Stage 9 result files.
 
+Amendments, made on 2026-11-23 after review of the first version of this section and before any Stage 10 result was computed:
+
+- 10.2: both pull phases are run, not only the window phase, because `snapshots.csv` needs the pregame trades. `game_map.csv` is checked the same way as `snapshots.csv`. The price paths are saved gzipped, as `price_paths.csv.gz`.
+- 10.4, D1: the main descriptive range is 24h to tipoff. The 30h to 24h window is shown separately with its game-step count. The first version put all five windows in one total.
+- 10.4, D2: the release time is the report file's actual posting time from the server timestamp where available, with the scheduled report time as the fallback. The first version used the scheduled time only. A secondary anticipation window, from 60 to 5 minutes before the release, is added with the same tests as the main window. The injury reports are fetched in a separate Python environment, because `nbainjuries` needs pandas below 3.0.
+- 10.6: the opposite rule gets a benchmark (buy the more popular team in every 2026-27 sample game), as a secondary result. If the live Kalshi endpoints have no field equivalent to `expiration_time`, `tipoff_moved` is left empty for 2026-27 and this is recorded under "Deviations".
+
 Run order: 10.3 line movement and 10.5 subgroups first, then 10.6 replication, then 10.4 information arrival. The order is set by the time each part needs. It does not depend on any result.
 
 ### 10.1 Settings and reporting rules
@@ -302,8 +309,8 @@ How the p values are computed:
 
 ### 10.2 Data
 
-- **Raw Kalshi cache, 2025-26.** Pulled again with `src/pull_kalshi.py`. `data/processed/snapshots.csv` is rebuilt from it and compared byte for byte with the committed file before anything else is run. Any difference is reported, and the committed file is kept.
-- **Price paths.** `src/build_price_paths.py` writes `data/processed/price_paths.csv`: one row per matched 2025-26 game per 5-minute step, from tipoff − 30h to tipoff (361 steps, `minutes_to_tipoff` = 1800, 1795, ..., 0).
+- **Raw Kalshi cache, 2025-26.** Pulled again with `src/pull_kalshi.py`, both phases (window and pregame). The market list is downloaded again too. `data/processed/game_map.csv` and `data/processed/snapshots.csv` are rebuilt and compared byte for byte with the committed files before anything else is run. Any difference is reported, and the committed files are kept.
+- **Price paths.** `src/build_price_paths.py` writes `data/processed/price_paths.csv.gz` (a gzipped CSV): one row per matched 2025-26 game per 5-minute step, from tipoff − 30h to tipoff (361 steps, `minutes_to_tipoff` = 1800, 1795, ..., 0).
   - For the step at time S = tipoff − `minutes_to_tipoff`, each side's quote comes from the last 1-minute candle ending strictly before S, the same rule as the snapshots. A quote older than one minute is carried forward and flagged.
   - `home_mid`, `away_mid`: bid/ask midpoints. A one-sided book gives no midpoint. `p_home_mid` = home_mid / (home_mid + away_mid) when both exist. `max_spread` is the wider of the two spreads.
   - `contracts`: contracts traded in both markets in [S − 5 min, S).
@@ -338,19 +345,26 @@ Question: does the price move before tipoff contain information that the tipoff 
 - Averages:
   - by minutes to tipoff: the mean absolute change at each of the 360 steps, over the games that have one;
   - by US Eastern clock time on the game day: steps whose end time falls on the game's Eastern date, grouped in 5-minute clock bins. Bins with fewer than 50 game-steps are not plotted. The number of game-steps per bin is in the table.
-- Share of total movement: the sum of absolute changes in each window divided by the sum over all windows, pooled over games. A step belongs to the window that contains its end time m (minutes to tipoff):
-  - 30h to 24h: 1440 ≤ m < 1800
+- The main descriptive range is 24h to tipoff. The two plots mark the steps earlier than 24h as a separate range.
+- Share of total movement: the sum of absolute changes in each window divided by the sum over the four windows from 24h to tipoff, pooled over games. A step belongs to the window that contains its end time m (minutes to tipoff):
   - 24h to 6h: 360 ≤ m < 1440
   - 6h to 1h: 60 ≤ m < 360
   - 1h to 30 min: 30 ≤ m < 60
   - last 30 min: 0 ≤ m < 30
-- The table also gives each window's share per hour, because the windows differ in length, and the number of game-steps with a change out of the number possible. Early steps are empty for many games (see 10.2), so the first window is understated by construction.
+- The table also gives each window's share per hour, because the windows differ in length, and the number of game-steps with a change out of the number possible.
+- The 30h to 24h window (1440 ≤ m < 1800) is shown in a separate row: its sum of absolute changes, its mean absolute change per step and its game-step count. It is not part of the total. Early steps are empty for many games (see 10.2), so this window is understated by construction.
 
 #### D2. Injury report event study (primary)
 
 Data:
 
-- Injury reports: the `nbainjuries` package, every official NBA injury report snapshot of the 2025-26 regular season. The release time of a snapshot is its report timestamp (US Eastern).
+- Injury reports: the `nbainjuries` package, every official NBA injury report snapshot of the 2025-26 regular season. The fetch runs in a separate Python environment that only writes CSV files, because the package needs pandas below 3.0.
+- Release time of a snapshot:
+  - the actual posting time, taken from the server timestamp of the report file (the HTTP `Last-Modified` header), where available;
+  - otherwise the scheduled time, which is the report timestamp in the file name (US Eastern).
+  - The server timestamp counts as available when the server returns one and it lies between 30 minutes before and 60 minutes after the scheduled time. A timestamp outside that range is taken to be a later re-upload and is not used.
+  - Which of the two was used is recorded for every snapshot and every event, and the counts are reported.
+  - Snapshots are ordered by their scheduled time. "Consecutive" means consecutive in that order.
 - Minutes: `nba_api` player game logs for the 2025-26 regular season.
 - Saved to `data/processed/`: one row per report snapshot (time, fetched or not, rows parsed), one row per change of a player's status for a game, and the player minutes.
 
@@ -369,16 +383,19 @@ Definitions:
 - **Event.** One team in one game at one snapshot, with at least one key player changing to Out. Several key players of the same team in the same snapshot make one event.
   - The snapshot is released at least 30 minutes before the official tipoff.
   - If both teams of a game have an event in the same snapshot, both are dropped, because the two effects on the price have opposite signs. The count is reported.
-- **Event change.** The affected team's normalized midpoint (`p_home_mid` for the home team, 1 − `p_home_mid` for the away team) 30 minutes after the release minus its value 5 minutes before the release, in probability units. A drop is negative. The price at a time T is the value of the last 5-minute step at or before T. An event with a missing midpoint at either time is dropped and counted.
-- **Placebo change.** The same calculation with both times moved 3 hours earlier, for the same game and team, when both midpoints exist.
+- **Event change (main window).** The affected team's normalized midpoint (`p_home_mid` for the home team, 1 − `p_home_mid` for the away team) 30 minutes after the release minus its value 5 minutes before the release, in probability units. A drop is negative. An event with a missing midpoint at either time is dropped and counted.
+  - With release time T, the price before is the value of the last 5-minute step at or before T − 5 min. The price after is the value of the first 5-minute step at or after T + 30 min. So the window never covers less than the stated range when T is not on the 5-minute grid.
+- **Anticipation change (secondary window).** The midpoint 5 minutes before the release (the same price before as above) minus its value 60 minutes before the release (the last step at or before T − 60 min).
+- **Placebo change.** For each window, the same calculation with all times moved 3 hours earlier, for the same game and team, when both midpoints exist.
 
 Tests, with the block bootstrap by game date (events of one date are drawn together):
 
 - **Primary: the mean event change against zero.**
-- Secondary: the mean placebo change against zero, and the mean of (event change − placebo change) against zero, over the events that have a placebo.
+- Secondary, main window: the mean placebo change against zero, and the mean of (event change − placebo change) against zero, over the events that have a placebo.
+- Secondary, anticipation window: the same three tests. The mean anticipation change against zero, its placebo mean against zero, and the mean of (anticipation change − its placebo) against zero. The events are the events of the main window that also have both anticipation midpoints.
 - Report the number of events at each step of the definitions above.
 
-Figure: the average path of the affected team's normalized midpoint from 60 minutes before to 120 minutes after the release, in 5-minute steps, as the difference from its value 5 minutes before the release, with a pointwise 95% bootstrap band. Steps after tipoff are left out, and the number of events behind each point is in the table.
+Figure: the average path of the affected team's normalized midpoint from 60 minutes before to 120 minutes after the release, in 5-minute steps, as the difference from its value 5 minutes before the release, with a pointwise 95% bootstrap band. Each event is lined up on the step used as its price before, which stands for 5 minutes before the release. Steps after tipoff are left out, and the number of events behind each point is in the table.
 
 ### 10.5 Where is the market less accurate (notebook 08)
 
@@ -411,6 +428,7 @@ Data:
   - The cutoff date is the last US Eastern game date before the day of the pull on which every game is final and settled. The pull is made once. The sample is not extended after any result is seen. The cutoff date and the game count are reported.
 - Pipeline: the same scripts as for 2025-26 (`nba_schedule.py`, `match_games.py`, `pull_kalshi.py`, `build_snapshots.py`), with a season parameter and no copied code. Same matching rules, cleaning and flags: postponed originals dropped, `postponed_window` games out of the main sample, `tipoff_moved` flagged and kept. The 2025-26 outputs must stay byte identical after this change.
   - Kalshi's historical endpoints end at their cutoff (2026-09-24 when checked on 2026-11-23). The 2026-27 markets are on the live endpoints, so the client gets live versions of the same three requests (markets, trades, 1-minute candles).
+  - `tipoff_moved` is computed from the market's `expiration_time`, which the live endpoints return empty. If a live field carries the same time, it is used and named in the match report. If none does, `tipoff_moved` is left empty for 2026-27 and this is recorded under "Deviations". The flag does not change the sample.
 - Outputs in `data/processed/`: `nba_games_2026_27.csv`, `game_map_2026_27.csv`, `snapshots_2026_27.csv` and the match report. The files are frozen with the git tag `data-v2`.
 - Price: `p_home` at horizon 0, as in section 1. A game with `p_home` missing is dropped and counted.
 
@@ -428,12 +446,13 @@ Tests:
    - No trade if the ask is missing or not strictly between 0 and 1. Report the counts.
    - Report the number of trades, win rate, total cost, fees, profit, return per dollar staked = profit / (total cost + total fees), and profit and return before fees.
    - **Primary test: the return per dollar staked against zero**, with the block bootstrap by date (trades fixed), percentile interval and bootstrap p value. The interval for profit is reported too.
+   - Benchmark (secondary): the same calculation for buying the more popular team, with the same stake and fee, in every 2026-27 sample game. A game with a gap of exactly 0 has no more popular team and no trade. Its return is tested against zero the same way, as a secondary test.
 4. **Sample size.** The sample is about one month of games. The notebook states this, and reports the width of the 95% interval for the slope b (clustered and bootstrap) next to the 2025-26 width.
 
 ### 10.7 All tests and outputs
 
 - Each of notebooks 06 to 09 saves its tests in one common layout as `results/stage10_tests_<part>.csv`. Notebook `10_all_tests` reads those four files, adds the Holm adjusted p values and writes `results/stage10_all_tests.csv`. It fits no model.
-- Data, in `data/processed/`: `price_paths.csv`; the injury report and minutes files of 10.4; the 2026-27 files of 10.6.
+- Data, in `data/processed/`: `price_paths.csv.gz`; the injury report and minutes files of 10.4; the 2026-27 files of 10.6.
 - Notebook 06, in `results/`: `line_movement_logistic.csv`, `line_movement_bootstrap.csv`, `line_movement_effects.csv`, `line_movement_summary.csv`, `line_movement_bins.csv`, `line_movement_distribution.png`, `line_movement_bins.png`.
 - Notebook 07, in `results/`: `arrival_by_minutes.csv`, `arrival_by_clock.csv`, `arrival_window_shares.csv`, `arrival_by_minutes.png`, `arrival_by_clock.png`, `injury_event_counts.csv`, `injury_events.csv`, `injury_event_test.csv`, `injury_event_path.csv`, `injury_event_path.png`.
 - Notebook 08, in `results/`: `subgroups_groups.csv`, `subgroups_metrics.csv`, `subgroups_interaction.csv`, `subgroups_brier_diff.csv`, `subgroups_calibration_bins.csv`, and one calibration figure per split, `subgroups_calibration_liquidity.png`, `subgroups_calibration_season_half.png`, `subgroups_calibration_rest.png`.
