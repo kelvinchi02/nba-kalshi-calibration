@@ -18,7 +18,8 @@ from pathlib import Path
 
 import pandas as pd
 
-DATETIME_COLUMNS = {"tipoff_utc", "snapshot_utc", "kalshi_tipoff_estimate", "market_open_time"}
+DATETIME_COLUMNS = {"tipoff_utc", "snapshot_utc", "kalshi_tipoff_estimate", "market_open_time",
+                    "minute_end_utc"}
 DATE_COLUMNS = {"game_date", "kalshi_game_date"}
 STRING_COLUMNS = {"game_id"}  # zero-padded NBA IDs, e.g. 0022500001
 BOOL_COLUMNS = {"postponed_window", "tipoff_moved", "matched", "main_sample",

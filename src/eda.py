@@ -4,9 +4,10 @@ Library for notebooks/01_eda.ipynb, which runs it and writes results/.
 
 1. Average pregame volume by team (ANALYSIS_PLAN.md section 4): mean over the team's
    main-sample games of its own market's pregame_contracts, ranked.
-2. Example game price path from the raw cache: both team markets' bid/ask midpoint over the
-   30 hours before the official tipoff, with the bid/ask band and the 24h/6h/1h/0h snapshot
-   times, plus contracts traded per 30 minutes.
+2. Example game price path: both team markets' bid/ask midpoint over the 30 hours before
+   the official tipoff, with the bid/ask band and the 24h/6h/1h/0h snapshot times, plus
+   contracts traded per 30 minutes. The figure reads data/processed/example_price_path.csv,
+   which src/export_price_path.py builds from the raw cache.
    Default game: among main-sample games with above-median pregame volume, the one whose
    p_home moved most between the 24h snapshot and tipoff.
 3. Distribution of the tipoff price p_home over the main sample: summary and histogram.
@@ -25,6 +26,7 @@ from plot_style import COLORS, apply_style
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SNAP_PATH = REPO_ROOT / "data" / "processed" / "snapshots.csv"
+PRICE_PATH_CSV = REPO_ROOT / "data" / "processed" / "example_price_path.csv"
 RESULTS_DIR = REPO_ROOT / "results"
 WINDOW_HOURS = 30
 VOLUME_BUCKET_MIN = 30
@@ -70,30 +72,60 @@ def load_market_or_fail(ticker: str) -> tuple[pd.DataFrame, pd.DataFrame]:
     return market
 
 
-def price_path_figure(sn: pd.DataFrame, event: str, path: Path) -> tuple[plt.Figure, dict]:
-    """Save the price-path figure to `path`. Returns the figure and a few numbers on it."""
+def price_path_table(sn: pd.DataFrame, event: str) -> pd.DataFrame:
+    """One game's quotes and volume per minute, from the raw cache.
+
+    One row per team market per minute of the 30 hours before the official tipoff:
+    the minute's closing bid and ask (carried forward through quiet minutes), their
+    midpoint (missing for a one-sided book), and the contracts traded in the minute
+    [minute_end - 60s, minute_end). This is what src/export_price_path.py saves to
+    data/processed/example_price_path.csv.
+    """
     row = sn[(sn["event_ticker"] == event) & (sn["horizon_h"] == 0)].iloc[0]
     tip = row["tipoff_utc"].timestamp()
     start = tip - WINDOW_HOURS * 3600
-    sides = [("home", row["home_team"], row["home_market"], COLORS["series1"]),
-             ("away", row["away_team"], row["away_market"], COLORS["series2"])]
+    frames = []
+    for side in ("home", "away"):
+        ticker = row[f"{side}_market"]
+        trades, candles = load_market_or_fail(ticker)
+        q = minute_quotes(candles, start, tip)
+        tr = trades[(trades["ts"] >= start) & (trades["ts"] < tip)]
+        edges = np.arange(start, tip + 1, 60)
+        contracts = np.histogram(tr["ts"], bins=edges, weights=tr["count"])[0]
+        frames.append(pd.DataFrame({
+            "event_ticker": event, "game_id": row["game_id"],
+            "tipoff_utc": row["tipoff_utc"], "side": side, "team": row[f"{side}_team"],
+            "market_ticker": ticker,
+            "minute_end_utc": pd.to_datetime(q.index.to_numpy(), unit="s", utc=True),
+            "bid": q["bid"].to_numpy(), "ask": q["ask"].to_numpy(),
+            "mid": q["mid"].to_numpy(), "contracts": contracts}))
+    return pd.concat(frames, ignore_index=True)
+
+
+def price_path_figure(pp: pd.DataFrame, sn: pd.DataFrame,
+                      path: Path) -> tuple[plt.Figure, dict]:
+    """Save the price-path figure of the game in `pp` (a price_path_table) to `path`.
+
+    Returns the figure and a few numbers on it.
+    """
+    event = pp["event_ticker"].iloc[0]
+    row = sn[(sn["event_ticker"] == event) & (sn["horizon_h"] == 0)].iloc[0]
+    hours_before = (pp["minute_end_utc"] - pp["tipoff_utc"]).dt.total_seconds() / 3600
 
     apply_style()
     fig, (ax, axv) = plt.subplots(2, 1, figsize=(9, 6.2), sharex=True,
                                   gridspec_kw={"height_ratios": [3, 1.2], "hspace": 0.08})
     buckets = np.arange(-WINDOW_HOURS, 0 + 1e-9, VOLUME_BUCKET_MIN / 60)
     total = np.zeros(len(buckets) - 1)
-    for side, team, ticker, color in sides:
-        trades, candles = load_market_or_fail(ticker)
-        q = minute_quotes(candles, start, tip)
-        ax.fill_between(q["hours_before"], q["bid"], q["ask"], step="post", color=color,
-                        alpha=0.18, lw=0)
-        ax.step(q["hours_before"], q["mid"], where="post", color=color, lw=2,
+    for side, color in (("home", COLORS["series1"]), ("away", COLORS["series2"])):
+        q = pp[pp["side"] == side]
+        hours, team = hours_before[q.index], q["team"].iloc[0]
+        ax.fill_between(hours, q["bid"], q["ask"], step="post", color=color, alpha=0.18, lw=0)
+        ax.step(hours, q["mid"], where="post", color=color, lw=2,
                 label=f"{team} ({side}) midpoint, bid/ask band")
         last = q["mid"].dropna().iloc[-1]
         ax.text(0.25, last, team, color=COLORS["text_primary"], va="center", fontsize=9)
-        tr = trades[(trades["ts"] >= start) & (trades["ts"] < tip)]
-        total += np.histogram((tr["ts"] - tip) / 3600, bins=buckets, weights=tr["count"])[0]
+        total += q["contracts"].to_numpy().reshape(-1, VOLUME_BUCKET_MIN).sum(axis=1)
 
     for h in HORIZONS_H:
         for a in (ax, axv):
@@ -124,14 +156,23 @@ def price_path_figure(sn: pd.DataFrame, event: str, path: Path) -> tuple[plt.Fig
 
 # ---------------------------------------------------------------- 2. team volume
 
+def team_game_volume(at0: pd.DataFrame) -> pd.DataFrame:
+    """Each team's own market volume in each game: two rows per game (home, then away).
+
+    `at0` holds one row per game. A team's own market is the home market when it plays at
+    home and the away market when it plays away.
+    """
+    keep = [c for c in ("game_id", "game_date", "tipoff_utc") if c in at0.columns]
+    sides = []
+    for side in ("home", "away"):
+        part = at0[keep + [f"{side}_team", f"{side}_pregame_contracts"]].set_axis(
+            keep + ["team", "pregame_contracts"], axis=1)
+        sides.append(part.assign(side=side))
+    return pd.concat(sides, ignore_index=True)
+
+
 def team_pregame_volume(sn: pd.DataFrame) -> pd.DataFrame:
-    at0 = sn[sn["horizon_h"] == 0]
-    long = pd.concat([
-        at0[["game_id", "home_team", "home_pregame_contracts"]].set_axis(
-            ["game_id", "team", "pregame_contracts"], axis=1),
-        at0[["game_id", "away_team", "away_pregame_contracts"]].set_axis(
-            ["game_id", "team", "pregame_contracts"], axis=1),
-    ])
+    long = team_game_volume(sn[sn["horizon_h"] == 0])
     out = long.groupby("team")["pregame_contracts"].agg(
         games="size", mean_pregame_contracts="mean",
         median_pregame_contracts="median").reset_index()

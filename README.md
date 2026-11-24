@@ -6,10 +6,20 @@ Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis
 
 ## Setup
 
+With [uv](https://docs.astral.sh/uv/), which installs the exact versions in `uv.lock` (Python 3.12):
+
 ```bash
-uv venv --python 3.11 .venv
-uv pip install --python .venv/Scripts/python.exe -r requirements.txt   # Windows path; .venv/bin/python elsewhere
+uv sync        # creates .venv from pyproject.toml and uv.lock
 ```
+
+Without uv, with any Python 3.12 or later:
+
+```bash
+python -m venv .venv
+.venv/Scripts/python.exe -m pip install -r requirements.txt   # Windows path; .venv/bin/python elsewhere
+```
+
+`requirements.txt` lists the same packages as `pyproject.toml`, without pinned versions. A test checks that the two lists match. To add a package, run `uv add <name>` and add the same name to `requirements.txt`.
 
 Set `PYTHONUTF8=1` in every shell that runs the pipeline. It makes Python use UTF-8 for console output and for any library that opens files without naming an encoding. Without it, Windows falls back to the system code page (for example GBK), which cannot encode characters such as "¢". The code already passes `encoding="utf-8"` on every file read and write.
 
@@ -41,16 +51,19 @@ Run each command from the repo root with the venv's Python and `PYTHONUTF8=1`. S
 | 3 | 4 | `python src/pull_kalshi.py` | Two resumable phases per market: `window` (trades + 1-minute candles, tipoff minus 30h to tipoff) and `pregame` (trades from market open to the window start). Cached markets are skipped. `--phase window\|pregame` runs one phase. |
 | 4 | 6 | `python src/build_snapshots.py` | Snapshot table at 24h, 6h, 1h and 0h before tipoff. |
 | 5 | 7 | `python src/quality_report.py` | Data quality report. |
-| 6 | 8+ | `python scripts/run_notebooks.py` | Runs every notebook in `notebooks/` top to bottom, in name order, and saves each with its outputs. Writes `results/`. See [Notebooks](#notebooks). |
-| 7 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, the statistics in `stats_tools.py` (Wilson, Brier, clustered logit, LR test, block bootstrap) on synthetic data, the EDA and calibration tables, and the notebook runner. |
+| 6 | 8 | `python src/export_price_path.py` | Saves one example game's 30-hour price path (quotes and volume per minute) to `data/processed/example_price_path.csv`. This is the last step that needs the raw cache. `--event <ticker>` exports a different game. |
+| 7 | 8+ | `python scripts/run_notebooks.py` | Runs every notebook in `notebooks/` top to bottom, in name order, and saves each with its outputs. Writes `results/`. See [Notebooks](#notebooks). |
+| 8 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, the statistics in `stats_tools.py` (Wilson, Brier, clustered logit, LR test, block bootstrap) on synthetic data, the EDA and calibration tables, the notebook runner, and that `requirements.txt` matches `pyproject.toml`. |
 
 With the raw cache present, rebuilding from Stage 3 makes no network calls apart from the Kalshi cutoff check in Stage 4:
 
 ```bash
 python src/nba_schedule.py --cached && python src/match_games.py && python src/pull_kalshi.py \
   && python src/build_snapshots.py && python src/quality_report.py \
-  && python scripts/run_notebooks.py && python -m pytest -q
+  && python src/export_price_path.py && python scripts/run_notebooks.py && python -m pytest -q
 ```
+
+The notebooks and the tests need only the committed CSVs in `data/processed/`. On a clone without the raw cache, skip to `python scripts/run_notebooks.py`.
 
 Whole-season runtimes on a home connection:
 - Stage 3: a few seconds.
@@ -80,7 +93,7 @@ python scripts/run_notebooks.py 02_calibration    # only the named ones
 The script executes each notebook in a fresh kernel with nbconvert and saves it in place with its outputs. If any cell raises an error, it prints the error and exits with code 1. You can also open a notebook in Jupyter or VS Code and run it yourself. Use the project's `.venv` as the kernel.
 
 How the notebooks are organized:
-- They read only the CSVs in `data/processed/`. The one exception is the example price path in notebook 01, which reads the raw cache in `data/raw/` for one game. That folder is gitignored, so on a fresh clone you need the Stage 4 pull first.
+- They read only the CSVs in `data/processed/`, so they run on a fresh clone without the raw cache. The example price path in notebook 01 comes from `data/processed/example_price_path.csv`.
 - The statistics are imported from `src/` and are not written out in the notebooks. `src/stats_tools.py` holds the shared ones: Wilson interval, Brier score, logistic regression with clustered standard errors, likelihood ratio test and block bootstrap by date.
 - Each notebook opens with its question and the plan section it follows. Each result is followed by a short explanation.
 - Random steps use seed 4981, as in the plan.
@@ -97,6 +110,7 @@ nba-kalshi-calibration/
     pull_kalshi.py       Stage 4: Kalshi trades and candles (window + pregame)
     build_snapshots.py   Stage 6: 24h/6h/1h/0h snapshots
     quality_report.py    Stage 7: data quality report
+    export_price_path.py Stage 8: example game price path, raw cache -> CSV
     stats_tools.py       shared statistics: Wilson, Brier, clustered logit, LR test, block bootstrap
     calibration.py       calibration tables and plot, used by notebook 02
     eda.py               EDA tables and figures, used by notebook 01
@@ -122,6 +136,7 @@ nba-kalshi-calibration/
     test_stats_tools.py  every function in stats_tools.py
     test_eda.py          EDA tables and the calibration helpers the notebooks call
     test_run_notebooks.py  the notebook runner: outputs saved, failing cell stops the run
+    test_dependencies.py requirements.txt and pyproject.toml list the same packages
     fixtures/processed_fingerprint.json
   results/               committed analysis tables (CSV) and figures (PNG)
   data/
@@ -133,7 +148,10 @@ nba-kalshi-calibration/
   .env.example
   .gitignore
   ANALYSIS_PLAN.md       pre-registered analysis plan
-  requirements.txt
+  pyproject.toml         dependencies for uv
+  uv.lock                exact versions for uv
+  .python-version        Python version for uv (3.12)
+  requirements.txt       the same packages for pip
   README.md
 ```
 
@@ -198,6 +216,12 @@ Normalized, per price type:
 Row-level flags:
 - `market_open_before_snapshot` is 0 for the 24h snapshot of the 7 games Kalshi listed less than 24h before tipoff. Those values stay missing.
 - `cache_missing` is 1 if any raw cache file for the game was absent.
+
+**`example_price_path.csv`**: one example game, minute by minute, over the 30 hours before the official tipoff. One row per team market per minute (3,600 rows). Written by `src/export_price_path.py`, read by notebook 01.
+- `event_ticker`, `game_id`, `tipoff_utc`, `side` (home or away), `team` and `market_ticker` identify the row. `minute_end_utc` is the end of the minute.
+- `bid`, `ask`: the minute's closing quote. A minute with no candle keeps the previous quote.
+- `mid`: the bid/ask midpoint, missing when the book is one-sided.
+- `contracts`: contracts traded in the minute, from `minute_end_utc` minus 60 seconds up to but not including `minute_end_utc`.
 
 **`quality_report.md`**: contents:
 - match and cache coverage;
