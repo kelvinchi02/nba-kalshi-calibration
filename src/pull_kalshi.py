@@ -1,7 +1,8 @@
 """Stage 4: pull Kalshi trades and 1-minute candlesticks for every matched game market.
 
-Two phases per market, both from the /historical/* endpoints (all 2025-26 data is older
-than Kalshi's historical cutoff):
+Two phases per market. The 2025-26 data is older than Kalshi's historical cutoff and comes
+from the /historical/* endpoints. A later season (--season) comes from the live endpoints,
+which hold the markets settled after the cutoff:
 
   window   trades and 1-minute candles over [official tipoff - 30h, official tipoff]
   pregame  trades from market open up to the window start, so Stage 6 can compute full
@@ -24,6 +25,7 @@ Logs: logs/pull_kalshi.log (progress) and logs/pull_kalshi_failures.csv (failed 
 
 Usage:
     python src/pull_kalshi.py                   # both phases, all matched games
+    python src/pull_kalshi.py --season 2026-27  # another season (see seasons.py)
     python src/pull_kalshi.py --phase pregame   # one phase only
     python src/pull_kalshi.py --limit 4         # first 4 markets, for testing
 """
@@ -43,12 +45,11 @@ import pandas as pd
 
 from csv_io import read_csv
 from kalshi_client import KalshiClient
+from seasons import Season, add_season_argument, get_season
 
-SERIES = "KXNBAGAME"
 WINDOW_HOURS = 30
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.csv"
-MARKETS_CACHE = REPO_ROOT / "data" / "raw" / f"kalshi_markets_{SERIES}.json"
+GAME_MAP_PATH = get_season().game_map_path
 CACHE_DIRS = {
     "window": REPO_ROOT / "data" / "raw" / "kalshi" / "markets",
     "pregame": REPO_ROOT / "data" / "raw" / "kalshi" / "pregame",
@@ -59,9 +60,9 @@ FAILURES_PATH = LOG_DIR / "pull_kalshi_failures.csv"
 log = logging.getLogger("pull_kalshi")
 
 
-def build_jobs() -> list[dict]:
+def build_jobs(game_map_path: Path = GAME_MAP_PATH) -> list[dict]:
     """One job per team market of every matched game."""
-    games = read_csv(GAME_MAP_PATH)
+    games = read_csv(game_map_path)
     games = games[games["matched"]]
     jobs = []
     for g in games.itertuples(index=False):
@@ -110,14 +111,16 @@ def write_cache(phase: str, ticker: str, record: dict) -> None:
 
 # ---------------------------------------------------------------- pulls
 
-def pull_window(client: KalshiClient, job: dict, market_meta: dict) -> None:
+def pull_window(client: KalshiClient, job: dict, market_meta: dict,
+                source: str = "historical") -> None:
     """Trades and 1-minute candles from tipoff - 30h to tipoff."""
     t0, t1 = job["window_start_ts"], job["window_end_ts"]
-    trades = client.historical_trades(job["ticker"], min_ts=t0, max_ts=t1)
-    candles = client.historical_candlesticks(job["ticker"], start_ts=t0, end_ts=t1,
-                                             period_interval=1)
+    trades = client.trades(job["ticker"], min_ts=t0, max_ts=t1, source=source)
+    candles = client.candlesticks(job["ticker"], start_ts=t0, end_ts=t1, period_interval=1,
+                                  source=source)
     write_cache("window", job["ticker"], {
         **job,
+        **({} if source == "historical" else {"source": source}),
         "window_hours": WINDOW_HOURS,
         "pulled_at": datetime.now(timezone.utc).isoformat(),
         "n_trades": len(trades),
@@ -129,16 +132,18 @@ def pull_window(client: KalshiClient, job: dict, market_meta: dict) -> None:
     })
 
 
-def pull_pregame(client: KalshiClient, job: dict, market_meta: dict) -> None:
+def pull_pregame(client: KalshiClient, job: dict, market_meta: dict,
+                 source: str = "historical") -> None:
     """Trades from market open up to the window start (both ends inclusive)."""
     open_ts = int(pd.Timestamp(market_meta["open_time"]).timestamp())
     end_ts = job["window_start_ts"]
     if open_ts <= end_ts:
-        trades = client.historical_trades(job["ticker"], min_ts=open_ts, max_ts=end_ts)
+        trades = client.trades(job["ticker"], min_ts=open_ts, max_ts=end_ts, source=source)
     else:
         trades = []  # late listing: the market opened inside the 30h window
     write_cache("pregame", job["ticker"], {
         **job,
+        **({} if source == "historical" else {"source": source}),
         "pregame_start_ts": open_ts,
         "pregame_end_ts": end_ts,
         "pulled_at": datetime.now(timezone.utc).isoformat(),
@@ -164,8 +169,21 @@ def setup_logging() -> None:
         root.addHandler(handler)
 
 
+def check_source(season: Season, jobs: list[dict], meta: dict, cutoff: pd.Timestamp) -> None:
+    """Stop if the season's data is not all on the side of the cutoff its source covers."""
+    ends = [pd.Timestamp(j["tipoff_utc"]) for j in jobs]
+    if season.source == "historical" and max(ends) >= cutoff:
+        raise SystemExit(f"Some windows end after the historical cutoff {cutoff}: that data "
+                         "is on the live endpoints.")
+    opens = [pd.Timestamp(meta[j["ticker"]]["open_time"]) for j in jobs]
+    if season.source == "live" and min(opens) < cutoff:
+        raise SystemExit(f"Some markets opened before the historical cutoff {cutoff}: that "
+                         "data is on the historical endpoints.")
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
+    add_season_argument(parser)
     parser.add_argument("--phase", choices=["window", "pregame", "both"], default="both")
     parser.add_argument("--limit", type=int, help="only pull the first N markets (testing)")
     parser.add_argument("--workers", type=int, default=4,
@@ -175,13 +193,11 @@ def main() -> None:
 
     client = KalshiClient(max_requests_per_sec=10)
     cutoff = pd.Timestamp(client.historical_cutoff()["trades_created_ts"])
-    jobs = build_jobs()
-    latest_end = max(pd.Timestamp(j["tipoff_utc"]) for j in jobs)
-    if latest_end >= cutoff:
-        raise SystemExit(f"Some windows end after the historical cutoff {cutoff}; "
-                         "live endpoints would be needed and are not implemented.")
-
-    meta = {m["ticker"]: m for m in json.loads(MARKETS_CACHE.read_text(encoding="utf-8"))}
+    season = get_season(args.season)
+    jobs = build_jobs(season.game_map_path)
+    meta = {m["ticker"]: m
+            for m in json.loads(season.markets_cache_path.read_text(encoding="utf-8"))}
+    check_source(season, jobs, meta, cutoff)
     if args.limit:
         jobs = jobs[: args.limit]
     phases = ["window", "pregame"] if args.phase == "both" else [args.phase]
@@ -194,8 +210,8 @@ def main() -> None:
                  phase, len(jobs), len(jobs) - len(todo), len(todo), client.signing)
         done = 0
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
-            futures = {pool.submit(PULLERS[phase], client, j, meta[j["ticker"]]): j
-                       for j in todo}
+            futures = {pool.submit(PULLERS[phase], client, j, meta[j["ticker"]],
+                                   season.source): j for j in todo}
             for fut in as_completed(futures):
                 job = futures[fut]
                 done += 1

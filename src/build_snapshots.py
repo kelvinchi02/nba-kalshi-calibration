@@ -29,12 +29,15 @@ sides have one, else last trade, else 10-min VWAP. price_source says which. Both
 always come from the same source.
 
 Output: data/processed/snapshots.csv, one row per game per horizon, with home_win.
+With --season, the game map read and the snapshot file written carry the season in their
+names (seasons.py).
 
 Usage:
-    python src/build_snapshots.py
+    python src/build_snapshots.py [--season 2026-27]
 """
 from __future__ import annotations
 
+import argparse
 import gzip
 import json
 from pathlib import Path
@@ -43,12 +46,13 @@ import numpy as np
 import pandas as pd
 
 from csv_io import read_csv, write_csv
+from seasons import add_season_argument, get_season
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.csv"
+GAME_MAP_PATH = get_season().game_map_path
 CACHE_DIR = REPO_ROOT / "data" / "raw" / "kalshi" / "markets"
 PREGAME_DIR = REPO_ROOT / "data" / "raw" / "kalshi" / "pregame"
-OUT_PATH = REPO_ROOT / "data" / "processed" / "snapshots.csv"
+OUT_PATH = get_season().snapshots_path
 
 HORIZONS_H = (24, 6, 1, 0)
 VWAP_MINUTES = 10
@@ -81,7 +85,10 @@ def load_market(ticker: str) -> tuple[pd.DataFrame, pd.DataFrame] | None:
     trades = trades_frame(rec["trades"])
 
     def close(c: dict, side: str) -> float:
-        value = (c.get(side) or {}).get("close")
+        # The historical endpoints name the closing quote "close", the live ones
+        # "close_dollars". Both are dollar strings.
+        quote = c.get(side) or {}
+        value = quote.get("close", quote.get("close_dollars"))
         return float(value) if value is not None else np.nan
 
     candles = pd.DataFrame({
@@ -250,11 +257,15 @@ def build(game_map: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
 
 
 def main() -> None:
-    game_map = read_csv(GAME_MAP_PATH)
+    parser = argparse.ArgumentParser()
+    add_season_argument(parser)
+    season = get_season(parser.parse_args().season)
+    game_map = read_csv(season.game_map_path)
     snaps, missing = build(game_map)
-    write_csv(snaps, OUT_PATH)
+    out_path = season.snapshots_path
+    write_csv(snaps, out_path)
     print(f"Saved {len(snaps)} rows ({snaps['game_id'].nunique()} games x "
-          f"{len(HORIZONS_H)} horizons) to {OUT_PATH.relative_to(REPO_ROOT)}")
+          f"{len(HORIZONS_H)} horizons) to {out_path.relative_to(REPO_ROOT)}")
     if missing:
         print(f"WARNING: {len(missing)} markets not in the raw cache: {missing[:10]}")
     summary = snaps.groupby("horizon_h").agg(

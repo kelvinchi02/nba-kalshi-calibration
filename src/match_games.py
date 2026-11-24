@@ -1,4 +1,4 @@
-"""Stage 5: map Kalshi KXNBAGAME events to NBA 2025-26 regular-season game IDs.
+"""Stage 5: map Kalshi KXNBAGAME events to NBA regular-season game IDs (default 2025-26).
 
 Matching key: game date + away team + home team, using an explicit Kalshi -> NBA team
 code table. Kalshi event tickers look like KXNBAGAME-26JAN15MILSAS (date, AWAY, HOME).
@@ -22,8 +22,15 @@ Outputs:
   data/processed/game_map.csv         one row per NBA regular-season game
   data/processed/match_report.md
 
+With --season, the files carry the season in their names (seasons.py), and the market list
+comes from the endpoints that hold that season (historical or live).
+
+Kalshi's tipoff estimate is the market's expiration time minus 14 days. The market list
+used to call that field expiration_time. Since November 2026 it is latest_expiration_time,
+with the same values for every 2025-26 game.
+
 Usage:
-    python src/match_games.py [--refresh]
+    python src/match_games.py [--refresh] [--season 2026-27]
 """
 from __future__ import annotations
 
@@ -37,15 +44,10 @@ import pandas as pd
 
 from csv_io import read_csv, write_csv
 from kalshi_client import KalshiClient
+from seasons import SERIES, Season, add_season_argument, get_season
 
-SERIES = "KXNBAGAME"
-SEASON_START, SEASON_END = date(2025, 10, 1), date(2026, 6, 30)
 REPO_ROOT = Path(__file__).resolve().parents[1]
-NBA_PATH = REPO_ROOT / "data" / "processed" / "nba_games_2025_26.csv"
-MARKETS_CACHE = REPO_ROOT / "data" / "raw" / f"kalshi_markets_{SERIES}.json"
 TEAM_MAP_PATH = REPO_ROOT / "data" / "processed" / "team_code_map.csv"
-GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.csv"
-REPORT_PATH = REPO_ROOT / "data" / "processed" / "match_report.md"
 
 # Kalshi team code -> (NBA tricode, names Kalshi uses in yes_sub_title).
 # For 2025-26 the codes happen to be identical; the table stays explicit so a future
@@ -87,13 +89,21 @@ TIPOFF_MOVED_MIN_H, TIPOFF_MOVED_MAX_H = 1, 12
 
 # ---------------------------------------------------------------- Kalshi side
 
-def load_markets(refresh: bool) -> list[dict]:
-    if MARKETS_CACHE.exists() and not refresh:
-        return json.loads(MARKETS_CACHE.read_text(encoding="utf-8"))
-    markets = KalshiClient().historical_markets(SERIES)
-    MARKETS_CACHE.parent.mkdir(parents=True, exist_ok=True)
-    MARKETS_CACHE.write_text(json.dumps(markets), encoding="utf-8")
+def load_markets(refresh: bool, season: Season) -> list[dict]:
+    cache = season.markets_cache_path
+    if cache.exists() and not refresh:
+        return json.loads(cache.read_text(encoding="utf-8"))
+    markets = KalshiClient().markets(SERIES, season.source)
+    cache.parent.mkdir(parents=True, exist_ok=True)
+    cache.write_text(json.dumps(markets), encoding="utf-8")
     return markets
+
+
+def expiration_time(market: dict) -> pd.Timestamp:
+    """The market's expiration time: expiration_time, or latest_expiration_time where the
+    API no longer returns the old field. Missing in both: NaT."""
+    value = market.get("expiration_time") or market.get("latest_expiration_time")
+    return pd.Timestamp(value) if value else pd.NaT
 
 
 def parse_event_ticker(event_ticker: str) -> tuple[date, str, str]:
@@ -104,8 +114,8 @@ def parse_event_ticker(event_ticker: str) -> tuple[date, str, str]:
     return datetime.strptime(m.group(1), "%y%b%d").date(), m.group(2), m.group(3)
 
 
-def kalshi_events(markets: list[dict]) -> pd.DataFrame:
-    """One row per 2025-26 Kalshi event with its two team markets."""
+def kalshi_events(markets: list[dict], start: date, end: date) -> pd.DataFrame:
+    """One row per Kalshi event dated from start to end, with its two team markets."""
     by_event: dict[str, list[dict]] = {}
     for m in markets:
         by_event.setdefault(m["event_ticker"], []).append(m)
@@ -113,7 +123,7 @@ def kalshi_events(markets: list[dict]) -> pd.DataFrame:
     rows = []
     for et, ms in by_event.items():
         gdate, away, home = parse_event_ticker(et)
-        if not SEASON_START <= gdate <= SEASON_END:
+        if not start <= gdate <= end:
             continue
         by_code = {m["ticker"].rsplit("-", 1)[1]: m for m in ms}
         if set(by_code) != {away, home}:
@@ -130,7 +140,7 @@ def kalshi_events(markets: list[dict]) -> pd.DataFrame:
             "away_yes_name": a["yes_sub_title"],
             "home_result": h["result"],
             "away_result": a["result"],
-            "kalshi_tipoff_estimate": pd.Timestamp(h["expiration_time"]) - pd.Timedelta(days=14),
+            "kalshi_tipoff_estimate": expiration_time(h) - pd.Timedelta(days=14),
             "market_open_time": min(pd.Timestamp(h["open_time"]), pd.Timestamp(a["open_time"])),
             "kalshi_volume": float(h["volume_fp"]) + float(a["volume_fp"]),
         })
@@ -201,21 +211,36 @@ def match(nba: pd.DataFrame, ev: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFra
     return game_map, ev
 
 
-def season_phase(d: date) -> str:
+def season_phase(d: date, regular_start: date = date(2025, 10, 21),
+                 regular_end: date = date(2026, 4, 12),
+                 playoffs_start: date | None = date(2026, 4, 18)) -> str:
     """Provisional label for unmatched Kalshi events, by US game date."""
-    if d < date(2025, 10, 21):
+    if d < regular_start:
         return "preseason"
-    if d <= date(2026, 4, 12):
+    if d <= regular_end:
         return "regular_season"
-    if d < date(2026, 4, 18):
+    if playoffs_start is None or d < playoffs_start:
         return "play_in"
     return "playoffs"
 
 
+def phase_dates(season: Season, nba: pd.DataFrame) -> tuple[date, date, date | None]:
+    """(first regular-season date, last one, first playoff date) for the report labels.
+    A season in progress takes the first two from the NBA games file."""
+    if season.regular_start is not None:
+        return season.regular_start, season.regular_end, season.playoffs_start
+    return nba["game_date"].min(), nba["game_date"].max(), None
+
+
 # ---------------------------------------------------------------- report
 
-def write_report(game_map: pd.DataFrame, ev: pd.DataFrame, name_problems: list[str]) -> str:
-    lines = ["# Kalshi to NBA match report (2025-26 regular season)", ""]
+def write_report(game_map: pd.DataFrame, ev: pd.DataFrame, name_problems: list[str],
+                 season: Season, phases: tuple) -> str:
+    lines = [f"# Kalshi to NBA match report ({season.label} regular season)", ""]
+    if not season.complete:
+        lines += [f"Season in progress. Games and Kalshi events up to "
+                  f"{game_map['game_date'].max()}, market list from the {season.source} "
+                  "endpoints.", ""]
     n = len(game_map)
     lines += [
         f"- NBA regular-season games: {n}",
@@ -227,7 +252,7 @@ def write_report(game_map: pd.DataFrame, ev: pd.DataFrame, name_problems: list[s
         f"{game_map['tipoff_moved'].sum()}",
         f"- Kalshi settlement agrees with NBA home_win: "
         f"{(game_map['kalshi_home_win'] == game_map['home_win']).sum()} of {game_map['matched'].sum()}",
-        f"- Kalshi 2025-26 events: {len(ev)}; status counts: "
+        f"- Kalshi {season.label} events: {len(ev)}; status counts: "
         + ", ".join(f"{k} {v}" for k, v in ev["status"].value_counts().items()),
         "",
     ]
@@ -259,7 +284,8 @@ def write_report(game_map: pd.DataFrame, ev: pd.DataFrame, name_problems: list[s
                    ["event_ticker", "home_result", "away_result"])
 
     unmatched = ev[ev["status"].isin(["unmatched", "non_nba_team"])].copy()
-    unmatched["phase_by_date"] = unmatched["kalshi_game_date"].map(season_phase)
+    unmatched["phase_by_date"] = unmatched["kalshi_game_date"].map(
+        lambda d: season_phase(d, *phases))
     lines += ["## Kalshi events not matched to a regular-season game", ""]
     lines += ["Counts by phase (from game date): "
               + ", ".join(f"{k} {v}" for k, v in
@@ -274,17 +300,20 @@ def write_report(game_map: pd.DataFrame, ev: pd.DataFrame, name_problems: list[s
     lines += ([f"- {p}" for p in name_problems] if name_problems
               else ["All Kalshi team names match the aliases in team_code_map.csv."])
     text = "\n".join(lines) + "\n"
-    REPORT_PATH.write_text(text, encoding="utf-8")
+    season.match_report_path.write_text(text, encoding="utf-8")
     return text
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--refresh", action="store_true", help="re-download the Kalshi market list")
+    add_season_argument(parser)
     args = parser.parse_args()
+    season = get_season(args.season)
 
-    nba = read_csv(NBA_PATH)
-    ev = kalshi_events(load_markets(args.refresh))
+    nba = read_csv(season.nba_games_path)
+    end = season.kalshi_end or nba["game_date"].max()
+    ev = kalshi_events(load_markets(args.refresh, season), season.kalshi_start, end)
 
     pd.DataFrame([{"kalshi_code": k, "nba_tricode": v[0], "kalshi_names": "|".join(v[1])}
                   for k, v in TEAM_MAP.items()]).to_csv(TEAM_MAP_PATH, index=False,
@@ -294,10 +323,11 @@ def main() -> None:
         raise ValueError(f"TEAM_MAP values not in NBA schedule: {unknown_nba}")
 
     game_map, ev = match(nba, ev)
-    write_csv(game_map, GAME_MAP_PATH)
-    print(write_report(game_map, ev, check_team_names(ev)))
-    print(f"Saved {GAME_MAP_PATH.relative_to(REPO_ROOT)}, {TEAM_MAP_PATH.relative_to(REPO_ROOT)}, "
-          f"{REPORT_PATH.relative_to(REPO_ROOT)}")
+    write_csv(game_map, season.game_map_path)
+    print(write_report(game_map, ev, check_team_names(ev), season, phase_dates(season, nba)))
+    print(f"Saved {season.game_map_path.relative_to(REPO_ROOT)}, "
+          f"{TEAM_MAP_PATH.relative_to(REPO_ROOT)}, "
+          f"{season.match_report_path.relative_to(REPO_ROOT)}")
 
 
 if __name__ == "__main__":

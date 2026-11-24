@@ -6,6 +6,8 @@ Writing:
   * booleans: 1 or 0
   * missing values: empty cells
   * UTF-8, no index column, '\n' line endings
+  * a path ending in .gz is written gzipped, with no timestamp or file name in the gzip
+    header, so the same table always gives the same bytes
 
 Reading turns the text back into typed columns. Column types are fixed by name below,
 because a CSV cell cannot tell 0/1 booleans from integers or a zero-padded ID from a number.
@@ -13,6 +15,7 @@ Columns not listed are inferred: integers -> Int64, other numbers -> float64, el
 """
 from __future__ import annotations
 
+import gzip
 import re
 from pathlib import Path
 
@@ -23,7 +26,7 @@ DATETIME_COLUMNS = {"tipoff_utc", "snapshot_utc", "kalshi_tipoff_estimate", "mar
 DATE_COLUMNS = {"game_date", "kalshi_game_date"}
 STRING_COLUMNS = {"game_id"}  # zero-padded NBA IDs, e.g. 0022500001
 BOOL_COLUMNS = {"postponed_window", "tipoff_moved", "matched", "main_sample",
-                "market_open_before_snapshot", "cache_missing"}
+                "market_open_before_snapshot", "cache_missing", "market_open"}
 BOOL_SUFFIXES = ("_mid_carried_forward", "_one_sided")
 
 _INT_RE = re.compile(r"^-?\d+$")
@@ -52,6 +55,12 @@ def write_csv(df: pd.DataFrame, path: Path) -> None:
             out[col] = pd.to_datetime(s).dt.strftime("%Y-%m-%d").where(s.notna(), "")
         elif is_bool_column(col):
             out[col] = s.astype("boolean").astype("Int64")
+    if str(path).endswith(".gz"):
+        text = out.to_csv(index=False, na_rep="", lineterminator="\n")
+        with open(path, "wb") as raw, gzip.GzipFile(filename="", mode="wb", fileobj=raw,
+                                                    mtime=0) as f:
+            f.write(text.encode("utf-8"))
+        return
     out.to_csv(path, index=False, encoding="utf-8", na_rep="", lineterminator="\n")
 
 

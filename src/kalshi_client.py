@@ -128,22 +128,57 @@ class KalshiClient:
 
     # ------------------------------------------------------------ convenience
 
+    # Kalshi keeps settled data in two places. Markets settled before the historical cutoff
+    # are on the /historical/* endpoints, later ones on the live endpoints. `source` picks
+    # the place: "historical" or "live". The records have the same fields, except that live
+    # candles name their prices close_dollars, open_dollars, ... instead of close, open, ...
+
     def historical_cutoff(self) -> dict:
         return self.get("/historical/cutoff")
 
-    def historical_markets(self, series_ticker: str) -> list[dict]:
-        return list(self.paginate("/historical/markets", "markets",
-                                  {"series_ticker": series_ticker, "limit": 1000}))
+    def markets(self, series_ticker: str, source: str = "historical") -> list[dict]:
+        """Every market of a series. From the live endpoints, settled markets only."""
+        _check_source(source)
+        if source == "historical":
+            return list(self.paginate("/historical/markets", "markets",
+                                      {"series_ticker": series_ticker, "limit": 1000}))
+        return list(self.paginate("/markets", "markets",
+                                  {"series_ticker": series_ticker, "status": "settled",
+                                   "limit": 1000}))
 
-    def historical_trades(self, ticker: str, min_ts: int, max_ts: int) -> list[dict]:
+    def trades(self, ticker: str, min_ts: int, max_ts: int,
+               source: str = "historical") -> list[dict]:
         """Trades with min_ts <= created_time <= max_ts (unix seconds), newest first."""
-        return list(self.paginate("/historical/trades", "trades",
+        _check_source(source)
+        path = "/historical/trades" if source == "historical" else "/markets/trades"
+        return list(self.paginate(path, "trades",
                                   {"ticker": ticker, "min_ts": min_ts, "max_ts": max_ts,
                                    "limit": 1000}))
 
+    def candlesticks(self, ticker: str, start_ts: int, end_ts: int, period_interval: int = 1,
+                     source: str = "historical") -> list[dict]:
+        _check_source(source)
+        if source == "historical":
+            path = f"/historical/markets/{ticker}/candlesticks"
+        else:
+            path = f"/series/{ticker.split('-')[0]}/markets/{ticker}/candlesticks"
+        data = self.get(path, {"start_ts": start_ts, "end_ts": end_ts,
+                               "period_interval": period_interval})
+        return data.get("candlesticks") or []
+
+    # The names used before the live endpoints were added.
+
+    def historical_markets(self, series_ticker: str) -> list[dict]:
+        return self.markets(series_ticker, "historical")
+
+    def historical_trades(self, ticker: str, min_ts: int, max_ts: int) -> list[dict]:
+        return self.trades(ticker, min_ts, max_ts, "historical")
+
     def historical_candlesticks(self, ticker: str, start_ts: int, end_ts: int,
                                 period_interval: int = 1) -> list[dict]:
-        data = self.get(f"/historical/markets/{ticker}/candlesticks",
-                        {"start_ts": start_ts, "end_ts": end_ts,
-                         "period_interval": period_interval})
-        return data.get("candlesticks") or []
+        return self.candlesticks(ticker, start_ts, end_ts, period_interval, "historical")
+
+
+def _check_source(source: str) -> None:
+    if source not in ("historical", "live"):
+        raise ValueError(f"source must be 'historical' or 'live', not {source!r}")
