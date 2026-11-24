@@ -63,7 +63,9 @@ def expanding_prior_mean(long: pd.DataFrame) -> pd.DataFrame:
     out = long.sort_values(["team", "tipoff_utc"]).copy()
     by_team = out.groupby("team")["pregame_contracts"]
     out["prior_games"] = by_team.cumcount()
-    prior_sum = by_team.cumsum() - out["pregame_contracts"]
+    # The running total up to the previous game. Shifting it, instead of subtracting the
+    # current game's volume, keeps the current game out of the arithmetic altogether.
+    prior_sum = by_team.cumsum().groupby(out["team"]).shift(1).fillna(0.0)
     out["prior_mean"] = (prior_sum / out["prior_games"]).where(out["prior_games"] > 0)
     return out
 
@@ -251,3 +253,38 @@ def run_strategy(games: pd.DataFrame, name: str, gap_col: str, use_threshold: bo
     table.insert(0, "strategy", name)
     boot = bootstrap_trades(table, n_boot=n_boot, seed=seed)
     return table, results_row(name, table, boot)
+
+
+# ---------------------------------------------------------------- exploratory (plan E1, E2)
+
+def expanding_gap_sample(at0: pd.DataFrame, metro: pd.DataFrame) -> pd.DataFrame:
+    """Eligible games with the tipoff price and the past-games-only volume gap (plan E1).
+
+    One row per eligible game, in the layout popularity.analyze_measure expects, with the
+    gap in the column gap_volume_expanding.
+    """
+    games = build_games(at0, metro)
+    eligible = games.loc[games["eligible"], ["game_id", "game_date", "home_team",
+                                             "away_team", "home_win", "gap_volume"]]
+    eligible = eligible.rename(columns={"gap_volume": "gap_volume_expanding"})
+    d = eligible.merge(at0[["game_id", "p_home"]], on="game_id", validate="one_to_one")
+    d = d.dropna(subset=["p_home"])
+    return d.sort_values("game_id", ignore_index=True)
+
+
+def load_expanding_gap_sample(metro: pd.DataFrame) -> pd.DataFrame:
+    sn = read_csv(SNAP_PATH)
+    return expanding_gap_sample(sn[(sn["horizon_h"] == 0) & sn["main_sample"]], metro)
+
+
+def before_fees_table(results: pd.DataFrame) -> pd.DataFrame:
+    """Profit and return of each strategy with the fees left out (plan E2).
+
+    profit before fees = payout - cost = profit + total fees.
+    return before fees = profit before fees / total cost.
+    """
+    out = results[["strategy", "n_trades", "total_cost", "total_fees", "profit",
+                   "return_per_dollar"]].copy()
+    out["profit_before_fees"] = out["profit"] + out["total_fees"]
+    out["return_before_fees"] = out["profit_before_fees"] / out["total_cost"]
+    return out

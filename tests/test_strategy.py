@@ -228,3 +228,44 @@ def test_run_strategy_labels_the_trades_and_matches_the_parts():
     assert row["profit"] == st.summarize(plain)["profit"] and row["n_trades"] == st.summarize(plain)["n_trades"]
     boot = st.bootstrap_trades(plain, n_boot=40, seed=3)
     assert row["profit_boot_lo"] == boot["profit"].quantile(0.025)
+
+
+# ---------------------------------------------------------------- exploratory (plan E1, E2)
+
+def test_expanding_gap_sample_is_the_eligible_games_with_their_past_only_gap():
+    at0, metro = season()
+    at0["p_home"] = at0["home_ask"] - 0.01
+    d = st.expanding_gap_sample(at0, metro)
+    games = st.build_games(at0, metro)
+    eligible = games[games["eligible"]].set_index("game_id")
+    assert len(d) == len(eligible) == 90 and d["game_id"].is_unique
+    row = d.iloc[17]
+    assert row["gap_volume_expanding"] == eligible.loc[row["game_id"], "gap_volume"]
+    assert row["p_home"] == at0.set_index("game_id").loc[row["game_id"], "p_home"]
+    # a later game's volume does not change an earlier game's gap
+    last = at0["tipoff_utc"].idxmax()
+    changed = at0.copy()
+    changed.loc[last, ["home_pregame_contracts", "away_pregame_contracts"]] = 1e9
+    again = st.expanding_gap_sample(changed, metro)
+    assert again["gap_volume_expanding"].tolist() == d["gap_volume_expanding"].tolist()
+
+
+def test_expanding_gap_sample_feeds_the_9_1_model():
+    import popularity as pop
+    at0, metro = season(n_rounds=80, seed=2)
+    at0["p_home"] = at0["home_ask"] - 0.01
+    d = st.expanding_gap_sample(at0, metro)
+    out = pop.analyze_measure(d, "volume_expanding", n_boot=20, seed=1)
+    assert out["logistic"]["term"].tolist() == ["intercept_a", "slope_b", "gap_c"]
+    assert (out["logistic"]["measure"] == "volume_expanding").all()
+    assert (out["logistic"]["n"] == len(d)).all()
+
+
+def test_before_fees_table_by_hand():
+    results = pd.DataFrame([{"strategy": "x", "n_trades": 2, "total_cost": 200.0,
+                             "total_fees": 8.75, "profit": 191.25,
+                             "return_per_dollar": 191.25 / 208.75, "wins": 1}])
+    out = st.before_fees_table(results).iloc[0]
+    assert out["profit_before_fees"] == pytest.approx(200.0)     # payout 400 - cost 200
+    assert out["return_before_fees"] == pytest.approx(1.0)
+    assert out["profit"] == 191.25 and "wins" not in out.index

@@ -2,7 +2,7 @@
 
 Data pipeline for the STSCI 4981/5981 final project. The research question: are Kalshi NBA game prices before tipoff well calibrated, and are popular teams overpriced?
 
-Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. Stage 8 covers the EDA and calibration at tipoff (horizon 0). Stage 9 covers the popularity bias test, the comparison of horizons and a trading strategy backtest.
+Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. Stage 8 covers the EDA and calibration at tipoff (horizon 0). Stage 9 covers the popularity bias test, the comparison of horizons and a trading strategy backtest. Two exploratory checks were added after the Stage 9 results were seen. They are labeled as exploratory in the plan and in the notebooks.
 
 ## Setup
 
@@ -84,6 +84,8 @@ The analysis lives in `notebooks/`. Read and run them in this order:
 | `03_popularity.ipynb` | Are popular teams overpriced? Two popularity measures (trading volume and metro population), a logistic model with the popularity gap, and a date-block bootstrap. | 9.1 |
 | `04_horizons.ipynb` | How do the 24h, 6h and 1h prices compare with tipoff? Brier score and calibration at each horizon, paired bootstrap of the Brier differences, and a tight-spread check. | 9.2 |
 | `05_strategy.ipynb` | Does buying the less popular team at tipoff make money after fees? One fixed rule, a benchmark without the filter, and the same rule with metro population. | 9.3 |
+
+Notebooks 03 and 05 each end with a section headed "Exploratory (not in the Stage 9 plan)". Those sections follow the plan's "Exploratory, added after Stage 9 results" heading and were added after the planned results were seen.
 
 To run all of them from the repo root:
 
@@ -284,6 +286,10 @@ From notebook 05 (plan section 9.3). The 1,024 tradable games:
 - `strategy_sample_counts.csv`: main sample, eligible, threshold-only and tradable games.
 - `strategy_results.csv`: one row per strategy (`volume_rule`, `volume_benchmark`, `metro_rule`): trades, win rate, average ask, cost, fees (rounded and unrounded), profit, return per dollar staked, and bootstrap intervals.
 - `strategy_trades.csv`: one row per order, for all three strategies.
+
+Exploratory, added after the Stage 9 results (plan heading "Exploratory, added after Stage 9 results"):
+- `exploratory_volume_expanding_logistic.csv`, `exploratory_volume_expanding_effects.csv`, `exploratory_volume_expanding_bootstrap.csv`: the 9.1 volume model refitted with the past-games-only volume measure on the 1,074 eligible games of 9.3 (check E1, notebook 03).
+- `exploratory_strategy_before_fees.csv`: profit and return of the three strategies before fees (check E2, notebook 05).
 
 ### `data/raw/` (gitignored, needed to rebuild without re-pulling)
 
