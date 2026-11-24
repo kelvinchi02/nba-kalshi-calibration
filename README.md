@@ -4,6 +4,74 @@ Data pipeline for the STSCI 4981/5981 final project. The research question: are 
 
 Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. Stage 8 covers the EDA and calibration at tipoff (horizon 0). Stage 9 covers the popularity bias test, the comparison of horizons and a trading strategy backtest. Two exploratory checks were added after the Stage 9 results were seen. They are labeled as exploratory in the plan and in the notebooks. Stage 10 adds four extensions: line movement, information arrival (with an injury report event study), subgroups, and a replication on the start of the 2026-27 season. The 2026-27 data is frozen at git tag `data-v2`. Two more exploratory checks were added after the Stage 10 results were seen (injury events by the player's previous status, and the calibration slope by month).
 
+## For a grader: where to start
+
+Nothing needs to be installed to read the work. Every notebook is committed with its tables and figures, and GitHub shows them.
+
+### Reading the notebooks in order
+
+Open them in this order. Each one starts with its question and the plan section it follows, and each result is followed by a short explanation in plain words.
+
+1. [notebooks/01_eda.ipynb](notebooks/01_eda.ipynb): what the data looks like. No outcomes are used.
+2. [notebooks/02_calibration.ipynb](notebooks/02_calibration.ipynb): are prices at tipoff well calibrated? (Stage 8)
+3. [notebooks/03_popularity.ipynb](notebooks/03_popularity.ipynb): are popular teams overpriced? (Stage 9)
+4. [notebooks/04_horizons.ipynb](notebooks/04_horizons.ipynb): prices 24h, 6h and 1h before tipoff against the tipoff price. (Stage 9)
+5. [notebooks/05_strategy.ipynb](notebooks/05_strategy.ipynb): a trading rule after fees. (Stage 9)
+6. [notebooks/06_line_movement.ipynb](notebooks/06_line_movement.ipynb): does the price move before tipoff hold information the tipoff price missed? (Stage 10)
+7. [notebooks/07_information_arrival.ipynb](notebooks/07_information_arrival.ipynb): when prices move, and the injury report event study. (Stage 10)
+8. [notebooks/08_subgroups.ipynb](notebooks/08_subgroups.ipynb): calibration by trading volume, season half and rest. (Stage 10)
+9. [notebooks/09_replication.ipynb](notebooks/09_replication.ipynb): the same checks on the start of the 2026-27 season. (Stage 10)
+10. [notebooks/10_all_tests.ipynb](notebooks/10_all_tests.ipynb): every Stage 10 test in one table, with Holm adjusted p values. Start here for the Stage 10 summary.
+
+[ANALYSIS_PLAN.md](ANALYSIS_PLAN.md) is the plan the notebooks follow. Each stage's section was committed before its results were computed. Changes are listed at the end under "Deviations", and work added after results were seen is under the two "Exploratory" headings and in clearly labeled sections at the end of notebooks 03, 05, 07 and 08.
+
+### Running the notebooks yourself
+
+The notebooks need only the files in `data/processed/`, which are in the repo. They need no network access, no API key and no raw data.
+
+```bash
+uv sync                                   # or: python -m venv .venv, then pip install -r requirements.txt
+export PYTHONUTF8=1                       # PowerShell: $env:PYTHONUTF8 = "1"
+python scripts/run_notebooks.py           # runs 01 to 10 in order, about a minute
+python -m pytest -q                       # the tests
+```
+
+Use the Python of the project's `.venv` for both commands. `run_notebooks.py` runs every notebook top to bottom in a fresh kernel, stops with an error if any cell fails, and saves each notebook with its outputs. On unchanged data it reproduces the committed notebooks and the files in `results/` byte for byte.
+
+To run one by hand instead, open it in Jupyter or VS Code, choose the project's `.venv` as the kernel, and run all cells from the top. Run them in number order: notebook 10 reads the test tables that notebooks 06 to 09 save, and the other notebooks do not depend on each other.
+
+### Where each figure in `results/` comes from
+
+Every figure is written by one notebook cell and shown right below it. The table of that figure is saved next to it as a CSV with a matching name.
+
+| Figure in `results/` | Notebook | Section in the notebook | What it shows |
+|---|---|---|---|
+| `eda_team_pregame_volume.png` | 01 | 1. Average pregame volume by team | Each team's average contracts traded before tipoff, ranked |
+| `eda_price_path.png` | 01 | 2. Example price path | One game's two markets over the 30 hours before tipoff |
+| `eda_price_distribution.png` | 01 | 3. Distribution of the tipoff price | Games per 0.05-wide bin of the home-win price |
+| `calibration_plot.png` | 02 | Calibration plot | Observed home-win rate against price in 10 bins, 1,229 games |
+| `popularity_scatter.png` | 03 | 2. How the two measures relate across teams | Team trading volume against metro population, 30 teams |
+| `horizons_brier.png` | 04 | 3. Is the tipoff price more accurate? Paired bootstrap | Brier score at 24h, 6h, 1h and tipoff with bootstrap intervals |
+| `horizons_calibration.png` | 04 | 4. Calibration curves | The four calibration curves on one plot |
+| `line_movement_distribution.png` | 06 | 2. How large are the moves | Histogram of the price move from 24h before tipoff to tipoff |
+| `line_movement_bins.png` | 06 | 6. Win rate against the tipoff price, by size of the move | Home-win rate minus tipoff price in 10 bins of the move |
+| `arrival_by_minutes.png` | 07 | 1. Price changes per 5-minute step | Mean 5-minute price change by hours to tipoff |
+| `arrival_by_clock.png` | 07 | 2. By clock time on the game day | Mean 5-minute price change by US Eastern clock time |
+| `injury_event_path.png` | 07 | 6. The average price path around the release | A team's price around the report that rules a key player Out, 302 events |
+| `subgroups_calibration_liquidity.png` | 08 | 3. Liquidity | Calibration by low, middle and high trading volume |
+| `subgroups_calibration_season_half.png` | 08 | 4. Season half | Calibration in the early and the late half of the season |
+| `subgroups_calibration_rest.png` | 08 | 5. Rest | Calibration with and without a team on a back to back |
+| `exploratory_slope_by_month.png` | 08 | Exploratory: calibration slope by month | The calibration slope b by month (exploratory) |
+| `replication_calibration_plot.png` | 09 | 2. Calibration at tipoff | Observed home-win rate against price in 5 bins, 248 games of 2026-27 |
+
+Notebooks 05 and 10 produce tables only. The figure code is in `src/` (for example `src/calibration.py` and `src/subgroups.py`), and the notebooks call it. [Output files](#output-files) below lists every table.
+
+### Versions
+
+- `data-v1`: the 2025-26 data, frozen before any analysis.
+- `data-v2`: the 2026-27 data, pulled once on November 23, 2026.
+- `results-v1`: the commit with the final results. Commits after it change documentation only.
+
 ## Setup
 
 With [uv](https://docs.astral.sh/uv/), which installs the exact versions in `uv.lock` (Python 3.12):
