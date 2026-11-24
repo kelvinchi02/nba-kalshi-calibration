@@ -2,7 +2,7 @@
 
 Data pipeline for the STSCI 4981/5981 final project. The research question: are Kalshi NBA game prices before tipoff well calibrated, and are popular teams overpriced?
 
-Stages 2 to 7 collect and clean the data. The data used for analysis is frozen at git tag `data-v1`. Stage 8 runs the analysis pre-registered in [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which was committed before any result was computed. So far that covers calibration at tipoff (horizon 0) only.
+Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. So far that covers the EDA and calibration at tipoff (horizon 0). Notebooks 03 to 05 are placeholders until their plan is committed.
 
 ## Setup
 
@@ -41,23 +41,51 @@ Run each command from the repo root with the venv's Python and `PYTHONUTF8=1`. S
 | 3 | 4 | `python src/pull_kalshi.py` | Two resumable phases per market: `window` (trades + 1-minute candles, tipoff minus 30h to tipoff) and `pregame` (trades from market open to the window start). Cached markets are skipped. `--phase window\|pregame` runs one phase. |
 | 4 | 6 | `python src/build_snapshots.py` | Snapshot table at 24h, 6h, 1h and 0h before tipoff. |
 | 5 | 7 | `python src/quality_report.py` | Data quality report. |
-| 6 | 8 | `python src/calibration.py` | Calibration at horizon 0, exactly as in `ANALYSIS_PLAN.md`: binned calibration plot, Brier score, logistic recalibration, LR test and date-block bootstrap. Writes `results/`. |
-| 7 | 8 | `python src/eda.py` | EDA figures: one example game's 30-hour price path from the raw cache, and average pregame volume by team. `--event <ticker>` plots a different game. |
-| 8 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, and the calibration statistics (Wilson, Brier, LR test, bootstrap) on synthetic data. |
+| 6 | 8+ | `python scripts/run_notebooks.py` | Runs every notebook in `notebooks/` top to bottom, in name order, and saves each with its outputs. Writes `results/`. See [Notebooks](#notebooks). |
+| 7 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, the statistics in `stats_tools.py` (Wilson, Brier, clustered logit, LR test, block bootstrap) on synthetic data, the EDA and calibration tables, and the notebook runner. |
 
 With the raw cache present, rebuilding from Stage 3 makes no network calls apart from the Kalshi cutoff check in Stage 4:
 
 ```bash
 python src/nba_schedule.py --cached && python src/match_games.py && python src/pull_kalshi.py \
-  && python src/build_snapshots.py && python src/quality_report.py && python src/calibration.py \
-  && python src/eda.py && python -m pytest -q
+  && python src/build_snapshots.py && python src/quality_report.py \
+  && python scripts/run_notebooks.py && python -m pytest -q
 ```
 
 Whole-season runtimes on a home connection:
 - Stage 3: a few seconds.
 - Stage 4 from scratch: about 20 minutes for the window phase and 5 minutes for the pregame phase (2,460 markets at 10 requests/s).
 - Stage 6: under a minute.
-- Stage 8: about 10 seconds, most of it the 2,000 bootstrap replicates.
+- Notebooks: about 10 seconds in total, most of it the 2,000 bootstrap replicates in notebook 02.
+
+## Notebooks
+
+The analysis lives in `notebooks/`. Read and run them in this order:
+
+| Notebook | Question | Plan section |
+|---|---|---|
+| `01_eda.ipynb` | What does the data look like? Pregame volume by team, one example price path, and the distribution of the tipoff price. No outcomes are used. | 4 and 6 |
+| `02_calibration.ipynb` | Are prices at tipoff well calibrated? Calibration bins, Brier score, logistic recalibration, LR test and date-block bootstrap. | 1 to 3 |
+| `03_popularity.ipynb` | Are popular teams overpriced? | Stage 9 (not run yet) |
+| `04_horizons.ipynb` | How do 24h, 6h and 1h prices compare with tipoff? | Stage 9 (not run yet) |
+| `05_strategy.ipynb` | Does a simple trading rule make money after fees? | Stage 9 (not run yet) |
+
+To run all of them from the repo root:
+
+```bash
+python scripts/run_notebooks.py                   # every notebook, in name order
+python scripts/run_notebooks.py 02_calibration    # only the named ones
+```
+
+The script executes each notebook in a fresh kernel with nbconvert and saves it in place with its outputs. If any cell raises an error, it prints the error and exits with code 1. You can also open a notebook in Jupyter or VS Code and run it yourself. Use the project's `.venv` as the kernel.
+
+How the notebooks are organized:
+- They read only the CSVs in `data/processed/`. The one exception is the example price path in notebook 01, which reads the raw cache in `data/raw/` for one game. That folder is gitignored, so on a fresh clone you need the Stage 4 pull first.
+- The statistics are imported from `src/` and are not written out in the notebooks. `src/stats_tools.py` holds the shared ones: Wilson interval, Brier score, logistic regression with clustered standard errors, likelihood ratio test and block bootstrap by date.
+- Each notebook opens with its question and the plan section it follows. Each result is followed by a short explanation.
+- Random steps use seed 4981, as in the plan.
+- Every figure is saved as PNG and every table as CSV in `results/`.
+- Notebooks are committed with their outputs, so the figures show on GitHub. Rerunning a notebook on unchanged data gives the same file.
 
 ## Repo layout
 
@@ -69,20 +97,31 @@ nba-kalshi-calibration/
     pull_kalshi.py       Stage 4: Kalshi trades and candles (window + pregame)
     build_snapshots.py   Stage 6: 24h/6h/1h/0h snapshots
     quality_report.py    Stage 7: data quality report
-    calibration.py       Stage 8: calibration at horizon 0 (ANALYSIS_PLAN.md)
-    eda.py               Stage 8: EDA figures (example price path, pregame volume by team)
+    stats_tools.py       shared statistics: Wilson, Brier, clustered logit, LR test, block bootstrap
+    calibration.py       calibration tables and plot, used by notebook 02
+    eda.py               EDA tables and figures, used by notebook 01
     kalshi_client.py     shared: Kalshi client (rate limit, retries, pagination, optional signing)
     csv_io.py            shared: CSV read/write conventions for data/processed and results
     plot_style.py        shared: figure colors and matplotlib style
   scripts/
     check_secrets.py     reports which .env values are set, never prints them
     probe_kalshi.py      Stage 2 feasibility probe
+    run_notebooks.py     runs every notebook with nbconvert, fails if a cell errors
+  notebooks/
+    01_eda.ipynb         volume by team, example price path, tipoff price distribution
+    02_calibration.ipynb calibration at tipoff
+    03_popularity.ipynb  popularity bias test (not run yet)
+    04_horizons.ipynb    24h, 6h and 1h compared with tipoff (not run yet)
+    05_strategy.ipynb    trading strategy backtest after fees (not run yet)
   tests/
     conftest.py          puts src/ and tests/ on the import path
     fingerprint.py       type-aware DataFrame fingerprint helper
     test_snapshots.py    time windows, VWAP, spread, normalization, pregame volume
     test_csv_outputs.py  CSV round trip and equality with the replaced parquet files
     test_calibration.py  Stage 8 statistics on known values and synthetic data
+    test_stats_tools.py  every function in stats_tools.py
+    test_eda.py          EDA tables and the calibration helpers the notebooks call
+    test_run_notebooks.py  the notebook runner: outputs saved, failing cell stops the run
     fixtures/processed_fingerprint.json
   results/               committed analysis tables (CSV) and figures (PNG)
   data/
@@ -169,9 +208,9 @@ Row-level flags:
 - full pregame volume, with consistency checks;
 - pre-normalization sums.
 
-### `results/` (committed, Stage 8)
+### `results/` (committed, written by the notebooks)
 
-All of these use the main sample at horizon 0: 1,229 games, price `p_home`, outcome `home_win`. Section numbers refer to `ANALYSIS_PLAN.md`.
+From notebook 02. All of these use the main sample at horizon 0: 1,229 games, price `p_home`, outcome `home_win`. Section numbers refer to `ANALYSIS_PLAN.md`.
 
 - `calibration_bins.csv`: the 10 equal-count bins (section 2.1). Columns: n, p range, mean p, home wins, win rate, 95% Wilson interval, and the bootstrap interval with bin edges fixed (`boot_lo`, `boot_hi`).
 - `calibration_plot.png`: observed win rate against mean price per bin, with the 45° line.
@@ -180,10 +219,12 @@ All of these use the main sample at horizon 0: 1,229 games, price `p_home`, outc
 - `lr_test.csv`: likelihood ratio test of a = 0 and b = 1 jointly (section 2.4).
 - `bootstrap_summary.csv`: date-block bootstrap with B = 2,000 and seed 4981. Gives percentile intervals for every statistic above (section 3).
 
-EDA files are descriptive and use no outcomes:
+From notebook 01. EDA files are descriptive and use no outcomes:
 - `eda_price_path.png`: one example game. It shows both markets' bid/ask midpoint and band over the 30 hours before tipoff, the four snapshot times, and contracts traded per 30 minutes.
   - The default game is chosen by rule: among games with above-median pregame volume, the one whose `p_home` moved most from 24h to tipoff.
 - `eda_team_pregame_volume.csv` / `.png`: each team's average `pregame_contracts` on its own market per game, ranked. This is the popularity measure from section 4.
+- `eda_price_summary.csv`: count, mean, standard deviation and quantiles of `p_home` at tipoff, and the share of games priced above 0.5.
+- `eda_price_distribution.csv` / `.png`: games per 0.05-wide bin of `p_home` at tipoff.
 
 ### `data/raw/` (gitignored, needed to rebuild without re-pulling)
 

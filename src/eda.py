@@ -1,44 +1,38 @@
-"""Stage 8 EDA figures (descriptive only, no outcomes used).
+"""Stage 8 EDA (descriptive only, no outcomes used).
 
-1. Example game price path from the raw cache: both team markets' bid/ask midpoint over the
+Library for notebooks/01_eda.ipynb, which runs it and writes results/.
+
+1. Average pregame volume by team (ANALYSIS_PLAN.md section 4): mean over the team's
+   main-sample games of its own market's pregame_contracts, ranked.
+2. Example game price path from the raw cache: both team markets' bid/ask midpoint over the
    30 hours before the official tipoff, with the bid/ask band and the 24h/6h/1h/0h snapshot
    times, plus contracts traded per 30 minutes.
    Default game: among main-sample games with above-median pregame volume, the one whose
-   p_home moved most between the 24h snapshot and tipoff. --event picks another game.
-2. Average pregame volume by team (ANALYSIS_PLAN.md section 4): mean over the team's
-   main-sample games of its own market's pregame_contracts, ranked.
-
-Outputs in results/: eda_price_path.png, eda_team_pregame_volume.png and
-eda_team_pregame_volume.csv.
-
-Usage:
-    python src/eda.py
-    python src/eda.py --event KXNBAGAME-25DEC13SASOKC
+   p_home moved most between the 24h snapshot and tipoff.
+3. Distribution of the tipoff price p_home over the main sample: summary and histogram.
 """
 from __future__ import annotations
 
-import argparse
 from pathlib import Path
 
-import matplotlib
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
-matplotlib.use("Agg")
-import matplotlib.pyplot as plt  # noqa: E402
-import numpy as np  # noqa: E402
-import pandas as pd  # noqa: E402
-
-from build_snapshots import HORIZONS_H, load_market  # noqa: E402
-from csv_io import read_csv, write_csv  # noqa: E402
-from plot_style import COLORS, apply_style  # noqa: E402
+from build_snapshots import CACHE_DIR, HORIZONS_H, load_market
+from csv_io import read_csv
+from plot_style import COLORS, apply_style
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 SNAP_PATH = REPO_ROOT / "data" / "processed" / "snapshots.csv"
 RESULTS_DIR = REPO_ROOT / "results"
 WINDOW_HOURS = 30
 VOLUME_BUCKET_MIN = 30
+PRICE_BIN_WIDTH = 0.05
 
 
-def main_sample_at_tipoff() -> pd.DataFrame:
+def main_sample() -> pd.DataFrame:
+    """Every main-sample snapshot row: one row per game per horizon."""
     sn = read_csv(SNAP_PATH)
     return sn[sn["main_sample"]]
 
@@ -66,7 +60,18 @@ def minute_quotes(candles: pd.DataFrame, start: float, end: float) -> pd.DataFra
     return q
 
 
-def price_path_figure(sn: pd.DataFrame, event: str, path: Path) -> dict:
+def load_market_or_fail(ticker: str) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """(trades, candles) from the raw window cache, with a clear error when it is absent."""
+    market = load_market(ticker)
+    if market is None:
+        raise FileNotFoundError(
+            f"No raw cache for {ticker} in {CACHE_DIR}. data/raw/ is gitignored: "
+            "pull it with Stages 5 and 4 in the README run order.")
+    return market
+
+
+def price_path_figure(sn: pd.DataFrame, event: str, path: Path) -> tuple[plt.Figure, dict]:
+    """Save the price-path figure to `path`. Returns the figure and a few numbers on it."""
     row = sn[(sn["event_ticker"] == event) & (sn["horizon_h"] == 0)].iloc[0]
     tip = row["tipoff_utc"].timestamp()
     start = tip - WINDOW_HOURS * 3600
@@ -79,7 +84,7 @@ def price_path_figure(sn: pd.DataFrame, event: str, path: Path) -> dict:
     buckets = np.arange(-WINDOW_HOURS, 0 + 1e-9, VOLUME_BUCKET_MIN / 60)
     total = np.zeros(len(buckets) - 1)
     for side, team, ticker, color in sides:
-        trades, candles = load_market(ticker)
+        trades, candles = load_market_or_fail(ticker)
         q = minute_quotes(candles, start, tip)
         ax.fill_between(q["hours_before"], q["bid"], q["ask"], step="post", color=color,
                         alpha=0.18, lw=0)
@@ -110,11 +115,11 @@ def price_path_figure(sn: pd.DataFrame, event: str, path: Path) -> dict:
     axv.set_xlim(-WINDOW_HOURS, 1.6)
     axv.set_xticks(range(-30, 1, 3))
     fig.savefig(path, dpi=150, bbox_inches="tight")
-    plt.close(fig)
-    return {"event": event, "window_contracts": float(total.sum()),
+    info = {"event": event, "window_contracts": float(total.sum()),
             **{f"p_home_{h}h": float(sn[(sn["event_ticker"] == event) &
                                         (sn["horizon_h"] == h)]["p_home"].iloc[0])
                for h in HORIZONS_H}}
+    return fig, info
 
 
 # ---------------------------------------------------------------- 2. team volume
@@ -135,7 +140,8 @@ def team_pregame_volume(sn: pd.DataFrame) -> pd.DataFrame:
     return out
 
 
-def team_volume_figure(tv: pd.DataFrame, path: Path) -> None:
+def team_volume_figure(tv: pd.DataFrame, path: Path) -> plt.Figure:
+    """Save the ranked team-volume bar chart to `path` and return the figure."""
     apply_style()
     fig, ax = plt.subplots(figsize=(7.5, 8.2))
     y = np.arange(len(tv))[::-1]
@@ -157,28 +163,54 @@ def team_volume_figure(tv: pd.DataFrame, path: Path) -> None:
     ax.set_ylim(-0.7, len(tv) + 0.4)
     fig.tight_layout()
     fig.savefig(path, dpi=150)
-    plt.close(fig)
+    return fig
 
 
-# ---------------------------------------------------------------- main
+# ---------------------------------------------------------------- 3. price distribution
 
-def main() -> None:
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--event", help="event ticker for the price-path figure")
-    args = parser.parse_args()
-    RESULTS_DIR.mkdir(exist_ok=True)
-    sn = main_sample_at_tipoff()
-
-    event = args.event or pick_example(sn)
-    info = price_path_figure(sn, event, RESULTS_DIR / "eda_price_path.png")
-    print("Price path:", {k: round(v, 3) if isinstance(v, float) else v
-                          for k, v in info.items()})
-
-    tv = team_pregame_volume(sn)
-    write_csv(tv, RESULTS_DIR / "eda_team_pregame_volume.csv")
-    team_volume_figure(tv, RESULTS_DIR / "eda_team_pregame_volume.png")
-    print(tv.to_string(index=False, float_format="{:,.0f}".format))
+def tipoff_prices(sn: pd.DataFrame) -> pd.Series:
+    """p_home at horizon 0, one value per main-sample game, missing values dropped."""
+    return sn.loc[sn["horizon_h"] == 0, "p_home"].dropna().reset_index(drop=True)
 
 
-if __name__ == "__main__":
-    main()
+def price_summary(p: pd.Series) -> pd.DataFrame:
+    """One row: count, mean, spread and quantiles of the tipoff price."""
+    return pd.DataFrame([{
+        "n": len(p), "mean": p.mean(), "sd": p.std(ddof=1), "min": p.min(),
+        "p10": p.quantile(0.10), "p25": p.quantile(0.25), "median": p.median(),
+        "p75": p.quantile(0.75), "p90": p.quantile(0.90), "max": p.max(),
+        "share_above_half": (p > 0.5).mean()}])
+
+
+def price_bin_edges() -> np.ndarray:
+    return np.round(np.arange(0, 1 + PRICE_BIN_WIDTH / 2, PRICE_BIN_WIDTH), 10)
+
+
+def price_histogram(p: pd.Series) -> pd.DataFrame:
+    """Games per 0.05-wide price bin. Bins are [lo, hi), and the last one includes 1."""
+    edges = price_bin_edges()
+    counts = np.histogram(p, bins=edges)[0]
+    return pd.DataFrame({"bin_lo": edges[:-1], "bin_hi": edges[1:], "games": counts,
+                         "share": counts / len(p)})
+
+
+def price_distribution_figure(p: pd.Series, path: Path) -> plt.Figure:
+    """Save a histogram of the tipoff price to `path` and return the figure."""
+    apply_style()
+    fig, ax = plt.subplots(figsize=(7.5, 4.4))
+    hist = price_histogram(p)
+    ax.bar(hist["bin_lo"] + PRICE_BIN_WIDTH * 0.05, hist["games"],
+           width=PRICE_BIN_WIDTH * 0.9, align="edge", color=COLORS["series1"])
+    ax.grid(axis="x", visible=False)
+    median = p.median()
+    ax.axvline(median, color=COLORS["reference"], lw=1, ls=(0, (4, 3)))
+    ax.text(median, 1.01, f"median {median:.3f}", transform=ax.get_xaxis_transform(),
+            ha="center", va="bottom", fontsize=8.5, color=COLORS["text_secondary"])
+    ax.set_xlim(0, 1)
+    ax.set_xticks(np.arange(0, 1.01, 0.1))
+    ax.set_xlabel("Kalshi home-win price at tipoff (p_home), bins of 0.05")
+    ax.set_ylabel("Games")
+    ax.set_title(f"Distribution of the tipoff price: {len(p):,} games", loc="left", pad=18)
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    return fig
