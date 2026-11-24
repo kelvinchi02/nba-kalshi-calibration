@@ -2,7 +2,7 @@
 
 Data pipeline for the STSCI 4981/5981 final project. The research question: are Kalshi NBA game prices before tipoff well calibrated, and are popular teams overpriced?
 
-Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. So far that covers the EDA and calibration at tipoff (horizon 0). Notebooks 03 to 05 are placeholders until their plan is committed.
+Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. Stage 8 covers the EDA and calibration at tipoff (horizon 0). Stage 9 covers the popularity bias test, the comparison of horizons and a trading strategy backtest.
 
 ## Setup
 
@@ -52,15 +52,17 @@ Run each command from the repo root with the venv's Python and `PYTHONUTF8=1`. S
 | 4 | 6 | `python src/build_snapshots.py` | Snapshot table at 24h, 6h, 1h and 0h before tipoff. |
 | 5 | 7 | `python src/quality_report.py` | Data quality report. |
 | 6 | 8 | `python src/export_price_path.py` | Saves one example game's 30-hour price path (quotes and volume per minute) to `data/processed/example_price_path.csv`. This is the last step that needs the raw cache. `--event <ticker>` exports a different game. |
-| 7 | 8+ | `python scripts/run_notebooks.py` | Runs every notebook in `notebooks/` top to bottom, in name order, and saves each with its outputs. Writes `results/`. See [Notebooks](#notebooks). |
-| 8 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, the statistics in `stats_tools.py` (Wilson, Brier, clustered logit, LR test, block bootstrap) on synthetic data, the EDA and calibration tables, the notebook runner, and that `requirements.txt` matches `pyproject.toml`. |
+| 7 | 9 | `python src/metro_population.py` | Metro area population per team, from the US Census Bureau (Vintage 2025) and Statistics Canada (Toronto). Writes `data/processed/team_metro_population.csv`. The two source files are downloaded once to `data/raw/population/`. `--refresh` downloads them again. |
+| 8 | 8, 9 | `python scripts/run_notebooks.py` | Runs every notebook in `notebooks/` top to bottom, in name order, and saves each with its outputs. Writes `results/`. See [Notebooks](#notebooks). |
+| 9 | tests | `python -m pytest -q` | Tests for: no-leakage time windows, VWAP, spread, normalization, pregame de-duplication, CSV round trip, CSV-vs-parquet equality, the statistics in `stats_tools.py` (Wilson, Brier, clustered logit, LR test, block bootstrap) on synthetic data, the EDA and calibration tables, the Stage 9 code (popularity gaps and model, horizon comparison, strategy rule and fees) on hand-made data, the notebook runner, and that `requirements.txt` matches `pyproject.toml`. |
 
 With the raw cache present, rebuilding from Stage 3 makes no network calls apart from the Kalshi cutoff check in Stage 4:
 
 ```bash
 python src/nba_schedule.py --cached && python src/match_games.py && python src/pull_kalshi.py \
   && python src/build_snapshots.py && python src/quality_report.py \
-  && python src/export_price_path.py && python scripts/run_notebooks.py && python -m pytest -q
+  && python src/export_price_path.py && python src/metro_population.py \
+  && python scripts/run_notebooks.py && python -m pytest -q
 ```
 
 The notebooks and the tests need only the committed CSVs in `data/processed/`. On a clone without the raw cache, skip to `python scripts/run_notebooks.py`.
@@ -69,7 +71,7 @@ Whole-season runtimes on a home connection:
 - Stage 3: a few seconds.
 - Stage 4 from scratch: about 20 minutes for the window phase and 5 minutes for the pregame phase (2,460 markets at 10 requests/s).
 - Stage 6: under a minute.
-- Notebooks: about 10 seconds in total, most of it the 2,000 bootstrap replicates in notebook 02.
+- Notebooks: about 20 seconds in total, most of it the bootstrap replicates.
 
 ## Notebooks
 
@@ -79,9 +81,9 @@ The analysis lives in `notebooks/`. Read and run them in this order:
 |---|---|---|
 | `01_eda.ipynb` | What does the data look like? Pregame volume by team, one example price path, and the distribution of the tipoff price. No outcomes are used. | 4 and 6 |
 | `02_calibration.ipynb` | Are prices at tipoff well calibrated? Calibration bins, Brier score, logistic recalibration, LR test and date-block bootstrap. | 1 to 3 |
-| `03_popularity.ipynb` | Are popular teams overpriced? | Stage 9 (not run yet) |
-| `04_horizons.ipynb` | How do 24h, 6h and 1h prices compare with tipoff? | Stage 9 (not run yet) |
-| `05_strategy.ipynb` | Does a simple trading rule make money after fees? | Stage 9 (not run yet) |
+| `03_popularity.ipynb` | Are popular teams overpriced? Two popularity measures (trading volume and metro population), a logistic model with the popularity gap, and a date-block bootstrap. | 9.1 |
+| `04_horizons.ipynb` | How do the 24h, 6h and 1h prices compare with tipoff? Brier score and calibration at each horizon, paired bootstrap of the Brier differences, and a tight-spread check. | 9.2 |
+| `05_strategy.ipynb` | Does buying the less popular team at tipoff make money after fees? One fixed rule, a benchmark without the filter, and the same rule with metro population. | 9.3 |
 
 To run all of them from the repo root:
 
@@ -111,9 +113,13 @@ nba-kalshi-calibration/
     build_snapshots.py   Stage 6: 24h/6h/1h/0h snapshots
     quality_report.py    Stage 7: data quality report
     export_price_path.py Stage 8: example game price path, raw cache -> CSV
+    metro_population.py  Stage 9: metro area population per team (Census, Statistics Canada)
     stats_tools.py       shared statistics: Wilson, Brier, clustered logit, LR test, block bootstrap
     calibration.py       calibration tables and plot, used by notebook 02
     eda.py               EDA tables and figures, used by notebook 01
+    popularity.py        popularity gaps, model and tables, used by notebook 03
+    horizons.py          horizon comparison, used by notebook 04
+    strategy.py          trading rule, fees and backtest, used by notebook 05
     kalshi_client.py     shared: Kalshi client (rate limit, retries, pagination, optional signing)
     csv_io.py            shared: CSV read/write conventions for data/processed and results
     plot_style.py        shared: figure colors and matplotlib style
@@ -124,9 +130,9 @@ nba-kalshi-calibration/
   notebooks/
     01_eda.ipynb         volume by team, example price path, tipoff price distribution
     02_calibration.ipynb calibration at tipoff
-    03_popularity.ipynb  popularity bias test (not run yet)
-    04_horizons.ipynb    24h, 6h and 1h compared with tipoff (not run yet)
-    05_strategy.ipynb    trading strategy backtest after fees (not run yet)
+    03_popularity.ipynb  popularity bias test
+    04_horizons.ipynb    24h, 6h and 1h compared with tipoff
+    05_strategy.ipynb    trading strategy backtest after fees
   tests/
     conftest.py          puts src/ and tests/ on the import path
     fingerprint.py       type-aware DataFrame fingerprint helper
@@ -136,6 +142,9 @@ nba-kalshi-calibration/
     test_stats_tools.py  every function in stats_tools.py
     test_eda.py          EDA tables and the calibration helpers the notebooks call
     test_run_notebooks.py  the notebook runner: outputs saved, failing cell stops the run
+    test_popularity.py   popularity gaps, gap model, metro population table
+    test_horizons.py     horizon sample, metrics, paired bootstrap, spread filter
+    test_strategy.py     fee, order size, expanding mean and threshold, trades, summary
     test_dependencies.py requirements.txt and pyproject.toml list the same packages
     fixtures/processed_fingerprint.json
   results/               committed analysis tables (CSV) and figures (PNG)
@@ -223,6 +232,12 @@ Row-level flags:
 - `mid`: the bid/ask midpoint, missing when the book is one-sided.
 - `contracts`: contracts traded in the minute, from `minute_end_utc` minus 60 seconds up to but not including `minute_end_utc`.
 
+**`team_metro_population.csv`**: one row per team, written by `src/metro_population.py`. The second popularity measure of Stage 9.
+- `team`, `metro_area`, `area_type` (MSA, or CMA for Toronto) and `area_code` (CBSA code, or the Statistics Canada DGUID).
+- `population`: the official estimate for `reference_date` (July 1, 2025).
+- `source`, `source_url` and `retrieved` (the date the source files were downloaded).
+- Each team gets the metropolitan area that contains its arena. LAL and LAC share a value, and so do NYK and BKN.
+
 **`quality_report.md`**: contents:
 - match and cache coverage;
 - missing snapshots per horizon;
@@ -249,6 +264,26 @@ From notebook 01. EDA files are descriptive and use no outcomes:
 - `eda_team_pregame_volume.csv` / `.png`: each team's average `pregame_contracts` on its own market per game, ranked. This is the popularity measure from section 4.
 - `eda_price_summary.csv`: count, mean, standard deviation and quantiles of `p_home` at tipoff, and the share of games priced above 0.5.
 - `eda_price_distribution.csv` / `.png`: games per 0.05-wide bin of `p_home` at tipoff.
+
+From notebook 03 (plan section 9.1). Main sample at horizon 0, 1,229 games:
+- `popularity_team_measures.csv`: per team, season-average pregame volume and metro population, with ranks.
+- `popularity_correlation.csv` and `popularity_scatter.png`: how the two measures relate across the 30 teams.
+- `popularity_logistic.csv`: a, b and c of logit P(home win) = a + b · logit(p) + c · gap, once per measure (`volume`, `metro`), with clustered SEs, Wald tests and bootstrap intervals.
+- `popularity_effects.csv`: the standard deviation of the gap, c per standard deviation, and the average effect on win probability, with bootstrap intervals.
+- `popularity_bootstrap.csv`: the full date-block bootstrap summary.
+
+From notebook 04 (plan section 9.2). Games with a price at all four horizons, 1,222 games. Tables with a `sample` column hold two versions: all those games, and the games whose `max_spread` is at most 0.05 at every horizon.
+- `horizons_sample_counts.csv`, `horizons_price_source.csv`: games per horizon and the price source used.
+- `horizons_metrics.csv`: per horizon, the Brier score with baseline, a and b with clustered tests, and the LR test.
+- `horizons_brier_diff.csv`: Brier score of 24h, 6h and 1h minus tipoff, with paired bootstrap intervals.
+- `horizons_bootstrap.csv`: bootstrap intervals for the Brier score at each horizon and for each difference.
+- `horizons_calibration_bins.csv`: 10 equal-count bins per horizon with Wilson intervals.
+- `horizons_brier.png`, `horizons_calibration.png`: Brier score by horizon, and the four calibration curves.
+
+From notebook 05 (plan section 9.3). The 1,024 tradable games:
+- `strategy_sample_counts.csv`: main sample, eligible, threshold-only and tradable games.
+- `strategy_results.csv`: one row per strategy (`volume_rule`, `volume_benchmark`, `metro_rule`): trades, win rate, average ask, cost, fees (rounded and unrounded), profit, return per dollar staked, and bootstrap intervals.
+- `strategy_trades.csv`: one row per order, for all three strategies.
 
 ### `data/raw/` (gitignored, needed to rebuild without re-pulling)
 

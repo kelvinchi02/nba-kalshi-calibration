@@ -229,4 +229,9 @@ One rule only, fixed now. Nothing is tuned.
 
 ## Deviations
 
-None so far.
+Stage 8: none.
+
+Stage 9: sections 9.1 to 9.3 ran as planned, with 9.3 as amended before any result was computed. No planned test, sample or rule was changed after results were seen. Two details are recorded here because the plan did not settle them:
+
+- 9.1, average effect: the plan did not say which standard deviation the bootstrap uses. Every replicate keeps the step at the full-sample SD of the gap, so all replicates measure the effect of the same change.
+- 9.4, outputs: three small tables are saved in addition to the listed files, because every table shown in a notebook is saved: `horizons_sample_counts.csv`, `horizons_price_source.csv` and `strategy_sample_counts.csv`. `strategy_results.csv` also reports the average ask and the number of contracts of each strategy.
