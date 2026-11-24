@@ -27,7 +27,8 @@ comes from the endpoints that hold that season (historical or live).
 
 Kalshi's tipoff estimate is the market's expiration time minus 14 days. The market list
 used to call that field expiration_time. Since November 2026 it is latest_expiration_time,
-with the same values for every 2025-26 game.
+with the same values for every 2025-26 game. In 2026-27 Kalshi sets that time 2 days after
+the listed tipoff, not 14 (seasons.py, expiration_offset_days).
 
 Usage:
     python src/match_games.py [--refresh] [--season 2026-27]
@@ -114,7 +115,8 @@ def parse_event_ticker(event_ticker: str) -> tuple[date, str, str]:
     return datetime.strptime(m.group(1), "%y%b%d").date(), m.group(2), m.group(3)
 
 
-def kalshi_events(markets: list[dict], start: date, end: date) -> pd.DataFrame:
+def kalshi_events(markets: list[dict], start: date, end: date,
+                  expiration_offset_days: int = 14) -> pd.DataFrame:
     """One row per Kalshi event dated from start to end, with its two team markets."""
     by_event: dict[str, list[dict]] = {}
     for m in markets:
@@ -140,7 +142,8 @@ def kalshi_events(markets: list[dict], start: date, end: date) -> pd.DataFrame:
             "away_yes_name": a["yes_sub_title"],
             "home_result": h["result"],
             "away_result": a["result"],
-            "kalshi_tipoff_estimate": expiration_time(h) - pd.Timedelta(days=14),
+            "kalshi_tipoff_estimate": expiration_time(h)
+            - pd.Timedelta(days=expiration_offset_days),
             "market_open_time": min(pd.Timestamp(h["open_time"]), pd.Timestamp(a["open_time"])),
             "kalshi_volume": float(h["volume_fp"]) + float(a["volume_fp"]),
         })
@@ -240,7 +243,9 @@ def write_report(game_map: pd.DataFrame, ev: pd.DataFrame, name_problems: list[s
     if not season.complete:
         lines += [f"Season in progress. Games and Kalshi events up to "
                   f"{game_map['game_date'].max()}, market list from the {season.source} "
-                  "endpoints.", ""]
+                  "endpoints.", "",
+                  f"The listed tipoff (kalshi_tipoff_estimate) is the market's "
+                  f"latest_expiration_time minus {season.expiration_offset_days} days.", ""]
     n = len(game_map)
     lines += [
         f"- NBA regular-season games: {n}",
@@ -313,7 +318,8 @@ def main() -> None:
 
     nba = read_csv(season.nba_games_path)
     end = season.kalshi_end or nba["game_date"].max()
-    ev = kalshi_events(load_markets(args.refresh, season), season.kalshi_start, end)
+    ev = kalshi_events(load_markets(args.refresh, season), season.kalshi_start, end,
+                       season.expiration_offset_days)
 
     pd.DataFrame([{"kalshi_code": k, "nba_tricode": v[0], "kalshi_names": "|".join(v[1])}
                   for k, v in TEAM_MAP.items()]).to_csv(TEAM_MAP_PATH, index=False,

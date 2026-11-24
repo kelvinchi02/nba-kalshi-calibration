@@ -100,6 +100,11 @@ def test_kalshi_events_keeps_only_the_seasons_dates():
     assert (row["kalshi_away"], row["kalshi_home"]) == ("BOS", "NYK")
     assert row["kalshi_tipoff_estimate"] == pd.Timestamp("2026-11-01T00:30:00Z")
     assert row["kalshi_volume"] == 20.0
+    two_days = match_games.kalshi_events(markets, date(2026, 10, 1), date(2026, 11, 2),
+                                         expiration_offset_days=2)
+    assert two_days.iloc[0]["kalshi_tipoff_estimate"] == pd.Timestamp("2026-11-13T00:30:00Z")
+    assert seasons.get_season().expiration_offset_days == 14
+    assert seasons.get_season("2026-27").expiration_offset_days == 2
 
 
 def test_season_phase_defaults_are_2025_26_and_a_season_in_progress_uses_its_games():
@@ -149,9 +154,12 @@ def test_client_uses_the_endpoints_of_the_source():
 
 def test_check_source_stops_when_the_data_is_on_the_other_side_of_the_cutoff():
     cutoff = pd.Timestamp("2026-09-24T00:00:00Z")
-    old_job = [{"ticker": "A", "tipoff_utc": "2026-04-12T22:00:00+00:00"}]
-    new_job = [{"ticker": "B", "tipoff_utc": "2026-11-20T00:00:00+00:00"}]
-    meta = {"A": {"open_time": "2026-04-10T00:00:00Z"}, "B": {"open_time": "2026-11-17T00:00:00Z"}}
+    old_job = [{"ticker": "A", "tipoff_utc": "2026-04-12T22:00:00+00:00",
+                "window_start_ts": 1775923200}]                       # 2026-04-11
+    new_job = [{"ticker": "B", "tipoff_utc": "2026-11-20T00:00:00+00:00",
+                "window_start_ts": 1795024800}]                       # 2026-11-18
+    # B opened before the cutoff. That is allowed: only its window must come after it.
+    meta = {"A": {"open_time": "2026-04-10T00:00:00Z"}, "B": {"open_time": "2026-08-17T00:00:00Z"}}
     pull_kalshi.check_source(seasons.get_season(), old_job, meta, cutoff)
     pull_kalshi.check_source(seasons.get_season("2026-27"), new_job, meta, cutoff)
     with pytest.raises(SystemExit, match="live endpoints"):
@@ -177,3 +185,29 @@ def test_load_market_reads_both_candle_formats(tmp_path, monkeypatch):
     assert candles["ask"].tolist()[:2] == [0.62, 0.63]
     assert candles[["bid", "ask"]].iloc[2].isna().all()
     assert build_snapshots.load_market("MISSING") is None
+
+
+def test_pregame_trades_reads_both_sides_of_the_cutoff_once():
+    class Client:
+        def __init__(self):
+            self.calls = []
+
+        def trades(self, ticker, min_ts, max_ts, source="historical"):
+            self.calls.append((source, min_ts, max_ts))
+            if source == "live":
+                return [{"trade_id": "b"}, {"trade_id": "c"}]
+            return [{"trade_id": "a"}, {"trade_id": "b"}]
+
+    c = Client()
+    # opened at 100, cutoff at 500, window starts at 900
+    out = pull_kalshi.pregame_trades(c, "T", 100, 900, "live", 500)
+    assert [t["trade_id"] for t in out] == ["b", "c", "a"]
+    assert c.calls == [("live", 100, 900), ("historical", 100, 500)]
+    # opened after the cutoff: the live endpoints only
+    c = Client()
+    pull_kalshi.pregame_trades(c, "T", 600, 900, "live", 500)
+    assert c.calls == [("live", 600, 900)]
+    # a historical season never asks the live endpoints
+    c = Client()
+    pull_kalshi.pregame_trades(c, "T", 100, 900, "historical", 500)
+    assert c.calls == [("historical", 100, 900)]

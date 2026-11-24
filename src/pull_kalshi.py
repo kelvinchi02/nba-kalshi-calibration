@@ -112,7 +112,7 @@ def write_cache(phase: str, ticker: str, record: dict) -> None:
 # ---------------------------------------------------------------- pulls
 
 def pull_window(client: KalshiClient, job: dict, market_meta: dict,
-                source: str = "historical") -> None:
+                source: str = "historical", cutoff_ts: int | None = None) -> None:
     """Trades and 1-minute candles from tipoff - 30h to tipoff."""
     t0, t1 = job["window_start_ts"], job["window_end_ts"]
     trades = client.trades(job["ticker"], min_ts=t0, max_ts=t1, source=source)
@@ -132,13 +132,27 @@ def pull_window(client: KalshiClient, job: dict, market_meta: dict,
     })
 
 
+def pregame_trades(client: KalshiClient, ticker: str, open_ts: int, end_ts: int,
+                   source: str, cutoff_ts: int | None) -> list[dict]:
+    """Trades from open_ts to end_ts. A market of a live season that opened before the
+    historical cutoff has its earliest trades on the historical endpoints: both are read
+    and a trade returned by both is kept once."""
+    trades = client.trades(ticker, min_ts=open_ts, max_ts=end_ts, source=source)
+    if source == "live" and cutoff_ts is not None and open_ts < cutoff_ts:
+        early = client.trades(ticker, min_ts=open_ts, max_ts=min(end_ts, cutoff_ts),
+                              source="historical")
+        seen = {t["trade_id"] for t in trades}
+        trades = trades + [t for t in early if t["trade_id"] not in seen]
+    return trades
+
+
 def pull_pregame(client: KalshiClient, job: dict, market_meta: dict,
-                 source: str = "historical") -> None:
+                 source: str = "historical", cutoff_ts: int | None = None) -> None:
     """Trades from market open up to the window start (both ends inclusive)."""
     open_ts = int(pd.Timestamp(market_meta["open_time"]).timestamp())
     end_ts = job["window_start_ts"]
     if open_ts <= end_ts:
-        trades = client.trades(job["ticker"], min_ts=open_ts, max_ts=end_ts, source=source)
+        trades = pregame_trades(client, job["ticker"], open_ts, end_ts, source, cutoff_ts)
     else:
         trades = []  # late listing: the market opened inside the 30h window
     write_cache("pregame", job["ticker"], {
@@ -175,9 +189,9 @@ def check_source(season: Season, jobs: list[dict], meta: dict, cutoff: pd.Timest
     if season.source == "historical" and max(ends) >= cutoff:
         raise SystemExit(f"Some windows end after the historical cutoff {cutoff}: that data "
                          "is on the live endpoints.")
-    opens = [pd.Timestamp(meta[j["ticker"]]["open_time"]) for j in jobs]
-    if season.source == "live" and min(opens) < cutoff:
-        raise SystemExit(f"Some markets opened before the historical cutoff {cutoff}: that "
+    starts = [pd.Timestamp(j["window_start_ts"], unit="s", tz="UTC") for j in jobs]
+    if season.source == "live" and min(starts) < cutoff:
+        raise SystemExit(f"Some windows start before the historical cutoff {cutoff}: that "
                          "data is on the historical endpoints.")
 
 
@@ -211,7 +225,8 @@ def main() -> None:
         done = 0
         with ThreadPoolExecutor(max_workers=args.workers) as pool:
             futures = {pool.submit(PULLERS[phase], client, j, meta[j["ticker"]],
-                                   season.source): j for j in todo}
+                                   season.source, int(cutoff.timestamp())): j
+                       for j in todo}
             for fut in as_completed(futures):
                 job = futures[fut]
                 done += 1

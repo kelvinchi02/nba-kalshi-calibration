@@ -4,26 +4,25 @@ Covers coverage and data quality only: match counts, cache coverage, missing sna
 quote staleness, low-volume games and two-sided price sums. It deliberately does NOT
 compare prices with outcomes (no calibration, Brier scores or regressions).
 
-Output: data/processed/quality_report.md
+Output: data/processed/quality_report.md (quality_report_<season>.md with --season)
 
 Usage:
-    python src/quality_report.py
+    python src/quality_report.py [--season 2026-27]
 """
 from __future__ import annotations
 
+import argparse
 import csv
 from pathlib import Path
 
 import pandas as pd
 
 from csv_io import read_csv
+from seasons import add_season_argument, get_season
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GAME_MAP_PATH = REPO_ROOT / "data" / "processed" / "game_map.csv"
-SNAP_PATH = REPO_ROOT / "data" / "processed" / "snapshots.csv"
 CACHE_DIR = REPO_ROOT / "data" / "raw" / "kalshi" / "markets"
 FAILURES_PATH = REPO_ROOT / "logs" / "pull_kalshi_failures.csv"
-OUT_PATH = REPO_ROOT / "data" / "processed" / "quality_report.md"
 
 SUM_TOLERANCES = (0.05, 0.10)
 LOW_VOLUME_QUANTILE = 0.02
@@ -42,9 +41,12 @@ def md_table(df: pd.DataFrame, floatfmt: str = "{:.3f}") -> list[str]:
 
 
 def main() -> None:
-    gm = read_csv(GAME_MAP_PATH)
-    sn = read_csv(SNAP_PATH)
-    L = ["# Data quality report (2025-26 regular season)", "",
+    parser = argparse.ArgumentParser()
+    add_season_argument(parser)
+    season = get_season(parser.parse_args().season)
+    gm = read_csv(season.game_map_path)
+    sn = read_csv(season.snapshots_path)
+    L = [f"# Data quality report ({season.label} regular season)", "",
          "Coverage and data quality only. No calibration results.", ""]
 
     # ------------------------------------------------------------ matching and cache
@@ -181,7 +183,8 @@ def main() -> None:
          "sum_mid"]]
     L += ["## Flagged games: snapshot availability", ""] + md_table(flagged)
 
-    OUT_PATH.write_text("\n".join(L) + "\n", encoding="utf-8")
+    out_path = season.quality_report_path
+    out_path.write_text("\n".join(L) + "\n", encoding="utf-8")
     print("\n".join(L))
 
 

@@ -34,6 +34,8 @@ class Season:
     expected_games: int | None       # 1230 for a complete season, None while in progress
     source: str                      # Kalshi endpoints holding the data: "historical" or "live"
     legacy_names: bool = False       # True: file names without the season
+    expiration_offset_days: int = 14  # Kalshi sets a market's latest expiration this many
+                                      # days after the listed tipoff (14 in 2025-26)
 
     @property
     def suffix(self) -> str:
@@ -89,7 +91,7 @@ SEASONS = {
     "2026-27": Season(
         label="2026-27", kalshi_start=date(2026, 10, 1), kalshi_end=None,
         regular_start=None, regular_end=None, playoffs_start=None, expected_games=None,
-        source="live"),
+        source="live", expiration_offset_days=2),
 }
 
 
