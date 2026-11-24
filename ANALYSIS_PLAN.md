@@ -473,3 +473,12 @@ Stage 9: sections 9.1 to 9.3 ran as planned, with 9.3 as amended before any resu
 
 - 9.1, average effect: the plan did not say which standard deviation the bootstrap uses. Every replicate keeps the step at the full-sample SD of the gap, so all replicates measure the effect of the same change.
 - 9.4, outputs: three small tables are saved in addition to the listed files, because every table shown in a notebook is saved: `horizons_sample_counts.csv`, `horizons_price_source.csv` and `strategy_sample_counts.csv`. `strategy_results.csv` also reports the average ask and the number of contracts of each strategy.
+
+Stage 10, recorded part by part as each one is run.
+
+Data (10.2), run on 2026-11-23:
+
+- The rebuilt `game_map.csv` and `snapshots.csv` are byte identical to the committed files.
+- Kalshi's market list no longer returns the field `expiration_time`, which the match uses for `kalshi_tipoff_estimate`. The same time is now in `latest_expiration_time`: minus 14 days, it equals the committed `kalshi_tipoff_estimate` for all 1,230 games. `src/match_games.py` reads the old field and falls back to the new one. No data changed.
+
+Line movement (10.3) and subgroups (10.5), run on 2026-11-23: both ran as planned. No test, sample, split or cut point was changed after results were seen. Two tables are saved in addition to the listed files, because every table shown or used in a notebook is saved: `line_movement_sample_counts.csv` and `subgroups_bootstrap.csv`.

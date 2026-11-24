@@ -10,6 +10,9 @@
   date_blocks        row positions of each date
   block_bootstrap    block bootstrap that resamples whole dates
   percentile_summary percentile intervals from bootstrap replicates
+  bootstrap_p_value  two-sided p value from bootstrap replicates
+  wald_joint         joint Wald chi-square test that several coefficients are 0
+  holm               Holm adjusted p values
 
 Nothing here reads a file or knows a column name, so the same code serves every notebook.
 """
@@ -120,3 +123,44 @@ def percentile_summary(boot: pd.DataFrame, point: Mapping[str, float], n_dates: 
                      "boot_hi": x.quantile(0.975), "B": len(x), "n_dates": n_dates,
                      "seed": seed})
     return pd.DataFrame(rows)
+
+
+def bootstrap_p_value(replicates, null: float = 0.0) -> float:
+    """Two-sided bootstrap p value for the hypothesis that the statistic equals `null`.
+
+    p = min(1, 2 * min((1 + #{x <= null}) / (B + 1), (1 + #{x >= null}) / (B + 1))),
+    where x are the replicates and B is their number. Missing replicates are left out.
+    """
+    x = np.asarray(replicates, dtype=float)
+    x = x[~np.isnan(x)]
+    if len(x) == 0:
+        return np.nan
+    below = (1 + np.sum(x <= null)) / (len(x) + 1)
+    above = (1 + np.sum(x >= null)) / (len(x) + 1)
+    return float(min(1.0, 2 * min(below, above)))
+
+
+def wald_joint(params, cov, index) -> dict:
+    """Wald chi-square test that the coefficients at the positions in `index` are all 0."""
+    index = list(index)
+    b = np.asarray(params, dtype=float)[index]
+    v = np.asarray(cov, dtype=float)[np.ix_(index, index)]
+    stat = float(b @ np.linalg.solve(v, b))
+    return {"chi2": stat, "df": len(index), "p_value": float(stats.chi2.sf(stat, len(index)))}
+
+
+def holm(p_values) -> np.ndarray:
+    """Holm adjusted p values, in the order given.
+
+    With the m p values sorted, p(1) <= ... <= p(m), the adjusted value of p(i) is the
+    largest of min(1, (m - j + 1) * p(j)) over j <= i.
+    """
+    p = np.asarray(p_values, dtype=float)
+    if np.isnan(p).any():
+        raise ValueError("Holm needs every p value")
+    m = len(p)
+    order = np.argsort(p, kind="stable")
+    stepped = np.minimum(1.0, (m - np.arange(m)) * p[order])
+    adjusted = np.empty(m)
+    adjusted[order] = np.maximum.accumulate(stepped)
+    return adjusted

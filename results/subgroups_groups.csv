@@ -1,0 +1,8 @@
+split,group,games,game_dates,first_game_date,last_game_date,contracts_min,contracts_max
+liquidity,low,410,122,2025-10-22,2026-04-12,108232.0,541080.0
+liquidity,middle,410,148,2025-10-22,2026-04-12,542806.0,1013313.0
+liquidity,high,409,148,2025-10-21,2026-04-12,1013718.0,5100644.0
+season_half,early,611,84,2025-10-21,2026-01-15,,
+season_half,late,618,80,2026-01-16,2026-04-12,,
+rest,rested,858,162,2025-10-21,2026-04-12,,
+rest,back_to_back,371,127,2025-10-24,2026-04-10,,

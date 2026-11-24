@@ -43,8 +43,10 @@ def run(path: Path) -> None:
     warnings.filterwarnings("ignore", message="Proactor event loop does not implement")
     # record_timing=False keeps timestamps out of the file, so a rerun gives the same bytes.
     # --log-level=ERROR keeps the kernel's start-up warnings out of the console.
+    # coalesce_streams joins the pieces of a cell's printed output, which otherwise arrive
+    # in one or two chunks depending on timing.
     executor = ExecutePreprocessor(timeout=CELL_TIMEOUT_S, kernel_name="python3",
-                                   record_timing=False,
+                                   record_timing=False, coalesce_streams=True,
                                    extra_arguments=["--log-level=ERROR"])
     executor.preprocess(nb, {"metadata": {"path": str(path.parent)}})
     nbformat.write(nb, path)
