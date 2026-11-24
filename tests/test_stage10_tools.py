@@ -126,3 +126,23 @@ def test_table_refuses_a_missing_p_value():
     row = all_tests.wald_row("x", "t", "d", "null", 10, 0.5, 0.1, np.nan)
     with pytest.raises(ValueError, match="raw p value"):
         all_tests.table([row])
+
+
+def test_exploratory_tests_are_listed_but_never_adjusted():
+    a, b = part_tables()
+    extra = all_tests.mark_exploratory(all_tests.table([
+        all_tests.wald_row("x", "exploratory_one", "d", "null", 40, 0.5, 0.1, 0.00001),
+        all_tests.bootstrap_row("y", "exploratory_two", "d", "null", 30, 0.2,
+                                np.linspace(-1, 3, 401), unit="events")]))
+    assert (extra["role"] == "exploratory").all()
+    out = all_tests.combine([a, b, extra])
+    base = all_tests.combine([a, b])
+    primary = out[out["role"] == "primary"].set_index("test_id")["p_holm"]
+    assert primary.to_dict() == base[base["role"] == "primary"].set_index(
+        "test_id")["p_holm"].to_dict()                  # the tiny exploratory p changes nothing
+    exploratory = out[out["role"] == "exploratory"]
+    assert len(exploratory) == 2 and exploratory["p_holm"].isna().all()
+    assert exploratory["holm_family_size"].isna().all()
+    assert exploratory["significant_holm"].isna().all()
+    with pytest.raises(ValueError, match="primary"):
+        all_tests.mark_exploratory(a)

@@ -387,3 +387,54 @@ def path_figure(path_table: pd.DataFrame, n_events: int, path: Path) -> plt.Figu
     fig.tight_layout()
     fig.savefig(path, dpi=150)
     return fig
+
+
+# ================================================================ exploratory (plan X1)
+
+STATUS_GROUPS = ("Questionable", "Doubtful", "not listed")
+STATUS_WINDOWS = (("main", "change", "5 minutes before to 30 minutes after release"),
+                  ("anticipation", "anticipation_change", "60 to 5 minutes before release"))
+
+
+def previous_status_group(prev_statuses: str) -> str:
+    """The group of an event: the previous status shared by all its key players
+    (Questionable, Doubtful or not listed), else "other"."""
+    statuses = {s.strip() for s in prev_statuses.split(";")}
+    if len(statuses) == 1 and next(iter(statuses)) in STATUS_GROUPS:
+        return next(iter(statuses))
+    return "other"
+
+
+def status_split(changes: pd.DataFrame, n_boot: int = B,
+                 seed: int = SEED) -> tuple[pd.DataFrame, pd.DataFrame]:
+    """Mean change by previous status, in the main and the anticipation window (plan X1).
+
+    Returns (results table, tests in the common layout, marked exploratory). The events
+    are the main-window events of 10.4. Events in no group are counted in the results
+    table (group "other") and get no test.
+    """
+    main = study_samples(changes)["main"].copy()
+    main["status_group"] = main["prev_statuses"].map(previous_status_group)
+    results, rows = [], []
+    for group in (*STATUS_GROUPS, "other"):
+        g = main[main["status_group"] == group]
+        for window, column, text in STATUS_WINDOWS:
+            x = g.dropna(subset=[column])
+            rec = {"status_group": group, "window": window, "n_events": len(x),
+                   "n_dates": x["game_date"].nunique(),
+                   "mean": float(x[column].mean()) if len(x) else np.nan,
+                   "median": float(x[column].median()) if len(x) else np.nan,
+                   "share_negative": float((x[column] < 0).mean()) if len(x) else np.nan,
+                   "boot_lo": np.nan, "boot_hi": np.nan, "p_bootstrap": np.nan}
+            if group != "other" and len(x):
+                boot = bootstrap_mean(x, column, n_boot=n_boot, seed=seed)
+                rec |= {"boot_lo": float(boot.quantile(0.025)),
+                        "boot_hi": float(boot.quantile(0.975)),
+                        "p_bootstrap": bootstrap_p_value(boot)}
+                slug = group.lower().replace(" ", "_")
+                rows.append(all_tests.bootstrap_row(
+                    PART, f"exploratory_injury_{slug}_{window}",
+                    f"previous status {group}: mean change of the affected team's price, "
+                    f"{text}", "the mean is 0", len(x), rec["mean"], boot, unit="events"))
+            results.append(rec)
+    return pd.DataFrame(results), all_tests.mark_exploratory(all_tests.table(rows))

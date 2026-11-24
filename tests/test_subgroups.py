@@ -185,3 +185,52 @@ def test_bootstrap_keeps_group_labels_fixed_and_survives_a_failed_fit():
     assert boot2["brier_late"].notna().all()
     assert boot2["slope_shift_late"].isna().all()
     assert boot2["slope_b"].isna().all()
+
+
+# ---------------------------------------------------------------- exploratory (plan X2)
+
+def month_dates(counts: dict) -> pd.Series:
+    """Game dates with the given number of games per month, e.g. {"2025-10": 3}."""
+    out = []
+    for month, n in counts.items():
+        y, m = int(month[:4]), int(month[5:])
+        out += [date(y, m, 1 + i % 28) for i in range(n)]
+    return pd.Series(out)
+
+
+def test_month_group_joins_a_small_first_or_last_month_with_its_neighbor():
+    dates = month_dates({"2025-10": 3, "2025-11": 6, "2025-12": 6, "2026-01": 6, "2026-04": 2})
+    g = sg.month_group(dates, min_games=5)
+    assert g.value_counts().to_dict() == {"2025-10 to 2025-11": 9, "2025-12": 6,
+                                          "2026-01 to 2026-04": 8}
+    assert sg.month_group(dates, min_games=2).nunique() == 5      # nothing is small
+    # A small month in the middle stays as it is: only the ends are joined.
+    middle = month_dates({"2025-11": 6, "2025-12": 1, "2026-01": 6})
+    assert sorted(sg.month_group(middle, min_games=5).unique()) == ["2025-11", "2025-12",
+                                                                    "2026-01"]
+
+
+def test_month_title():
+    assert sg.month_title("2026-01") == "Jan"
+    assert sg.month_title("2025-10 to 2025-11") == "Oct to Nov"
+
+
+def test_monthly_slopes_match_a_direct_fit_and_tests_are_exploratory():
+    d = synthetic()                                  # 150 days from January 1, 6 games a day
+    table = sg.monthly_slopes(d, min_games=185)       # May has 180 games: it joins April
+    assert table["n"].sum() == len(d)
+    assert table["month"].tolist() == ["2026-01", "2026-02", "2026-03", "2026-04 to 2026-05"]
+    feb = d[pd.to_datetime(d["game_date"]).dt.month == 2]
+    fit = fit_logit(feb["p_home"], feb["home_win"], groups=feb["home_team"])
+    row = table.set_index("month").loc["2026-02"]
+    assert row["n"] == len(feb) and row["month_label"] == "Feb"
+    assert row["slope_b"] == pytest.approx(fit.params[1])
+    assert row["b_se_cluster"] == pytest.approx(fit.bse[1])
+    assert row["b_ci_hi"] == pytest.approx(fit.params[1] + 1.96 * fit.bse[1])
+    tests = sg.monthly_tests(table)
+    assert (tests["role"] == "exploratory").all() and len(tests) == 4
+    assert tests["test_id"].tolist()[0] == "exploratory_slope_2026_01"
+    assert tests["test_id"].tolist()[-1] == "exploratory_slope_2026_04_2026_05"
+    assert (tests["null_hypothesis"] == "b = 1").all()
+    feb_test = tests.set_index("test_id").loc["exploratory_slope_2026_02"]
+    assert feb_test["statistic"] == pytest.approx((fit.params[1] - 1) / fit.bse[1])

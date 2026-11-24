@@ -6,7 +6,9 @@ primary tests and writes results/stage10_all_tests.csv.
 
 One row per test:
   part, test_id        plan section and a unique name
-  role                 "primary" (in the Holm family) or "secondary"
+  role                 "primary" (in the Holm family), "secondary", or "exploratory" (added
+                       after the Stage 10 results, plan heading "Exploratory, added after
+                       Stage 10 results"; never adjusted)
   description, null_hypothesis
   n, unit              sample size and what it counts (games, events, trades)
   estimate             the estimated quantity (empty for a joint test)
@@ -41,6 +43,8 @@ PRIMARY = (
     "replication_opposite_return",
 )
 PARTS = ("line_movement", "information_arrival", "subgroups", "replication")
+# Files of the exploratory checks, added after the Stage 10 results (plan X1 and X2).
+EXPLORATORY_FILES = ("exploratory_information_arrival", "exploratory_subgroups")
 COLUMNS = ["part", "test_id", "role", "description", "null_hypothesis", "n", "unit",
            "estimate", "ci_lo", "ci_hi", "interval_type", "boot_lo", "boot_hi",
            "statistic", "statistic_name", "df", "p_raw", "p_method"]
@@ -102,6 +106,14 @@ def table(rows: list[dict]) -> pd.DataFrame:
         raise ValueError("every test needs a raw p value")
     out["df"] = out["df"].astype("Int64")
     return out
+
+
+def mark_exploratory(tests: pd.DataFrame) -> pd.DataFrame:
+    """The same tests with the role "exploratory". They are reported with raw p values and
+    are never part of the Holm family."""
+    if (tests["role"] == "primary").any():
+        raise ValueError("a primary test cannot be marked exploratory")
+    return tests.assign(role="exploratory")
 
 
 def bonferroni_bound(p_raw, family_size: int = len(PRIMARY)):

@@ -1,0 +1,6 @@
+part,test_id,role,description,null_hypothesis,n,unit,estimate,ci_lo,ci_hi,interval_type,boot_lo,boot_hi,statistic,statistic_name,df,p_raw,p_method
+subgroups,exploratory_slope_2025_10_2025_11,exploratory,calibration slope b in Oct to Nov (2025-10 to 2025-11),b = 1,299,games,1.1260433686663598,0.8118796561899562,1.4402070811427634,clustered Wald,,,0.786357535180389,z,,0.43165805413735325,clustered Wald z
+subgroups,exploratory_slope_2025_12,exploratory,calibration slope b in Dec (2025-12),b = 1,197,games,0.511106799014819,0.23887834119686835,0.7833352568327697,clustered Wald,,,-3.519950418158557,z,,0.00043162747739093507,clustered Wald z
+subgroups,exploratory_slope_2026_01,exploratory,calibration slope b in Jan (2026-01),b = 1,232,games,0.8336117141662425,0.5204694382150166,1.1467539901174684,clustered Wald,,,-1.0414468606754343,z,,0.2976682035838635,clustered Wald z
+subgroups,exploratory_slope_2026_02,exploratory,calibration slope b in Feb (2026-02),b = 1,166,games,1.3892833222616927,0.9102501535699854,1.8683164909534,clustered Wald,,,1.592781797796471,z,,0.11120914989439659,clustered Wald z
+subgroups,exploratory_slope_2026_03_2026_04,exploratory,calibration slope b in Mar to Apr (2026-03 to 2026-04),b = 1,335,games,1.2981859387712453,1.0389590091107863,1.5574128684317043,clustered Wald,,,2.2545668413276303,z,,0.024160530731955957,clustered Wald z

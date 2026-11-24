@@ -205,3 +205,50 @@ def test_event_paths_line_up_on_the_step_before_and_stop_at_tipoff():
     assert avg.loc[120, "mean_relative_price"] == pytest.approx(-0.10)
     assert avg.loc[-5, "mean_relative_price"] == 0.0
     assert avg.loc[0, "boot_lo"] <= avg.loc[0, "mean_relative_price"] <= avg.loc[0, "boot_hi"]
+
+
+# ---------------------------------------------------------------- exploratory (plan X1)
+
+@pytest.mark.parametrize("text, group", [
+    ("Questionable", "Questionable"), ("Doubtful", "Doubtful"), ("not listed", "not listed"),
+    ("Questionable; Questionable", "Questionable"), ("Doubtful; Doubtful", "Doubtful"),
+    ("Questionable; Doubtful", "other"), ("Probable", "other"), ("Available", "other"),
+    ("not listed; Questionable", "other"),
+])
+def test_previous_status_group(text, group):
+    assert ia.previous_status_group(text) == group
+
+
+def status_changes() -> pd.DataFrame:
+    rows = [("Questionable", -0.02, -0.01), ("Questionable", -0.04, 0.00),
+            ("Questionable; Questionable", -0.06, -0.02), ("Doubtful", 0.00, -0.01),
+            ("Doubtful", -0.01, np.nan), ("not listed", -0.08, 0.00), ("Probable", -0.03, 0.0),
+            ("Questionable; Doubtful", -0.05, 0.0), ("Questionable", np.nan, -0.5)]
+    return pd.DataFrame({
+        "event_id": range(1, len(rows) + 1),
+        "game_date": [date(2026, 1, 1) + timedelta(days=i % 4) for i in range(len(rows))],
+        "prev_statuses": [r[0] for r in rows], "change": [r[1] for r in rows],
+        "anticipation_change": [r[2] for r in rows]})
+
+
+def test_status_split_means_counts_and_roles():
+    results, tests = ia.status_split(status_changes(), n_boot=40, seed=1)
+    r = results.set_index(["status_group", "window"])
+    # The event without a main-window change is in no group at all (not a main event).
+    assert r.loc[("Questionable", "main"), "n_events"] == 3
+    assert r.loc[("Questionable", "main"), "mean"] == pytest.approx(-0.04)
+    assert r.loc[("Questionable", "anticipation"), "mean"] == pytest.approx(-0.01)
+    assert r.loc[("Doubtful", "main"), "n_events"] == 2
+    assert r.loc[("Doubtful", "anticipation"), "n_events"] == 1      # one has no midpoint
+    assert r.loc[("not listed", "main"), "mean"] == pytest.approx(-0.08)
+    assert r.loc[("other", "main"), "n_events"] == 2
+    assert np.isnan(r.loc[("other", "main"), "boot_lo"])             # counted, not tested
+    q = r.loc[("Questionable", "main")]
+    assert q["boot_lo"] <= q["mean"] <= q["boot_hi"]
+    assert len(results) == 8
+    assert len(tests) == 6 and (tests["role"] == "exploratory").all()
+    assert set(tests["test_id"]) == {
+        f"exploratory_injury_{g}_{w}" for g in ("questionable", "doubtful", "not_listed")
+        for w in ("main", "anticipation")}
+    t = tests.set_index("test_id").loc["exploratory_injury_questionable_main"]
+    assert t["n"] == 3 and t["unit"] == "events" and t["estimate"] == pytest.approx(-0.04)

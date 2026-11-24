@@ -511,6 +511,8 @@ Stage 9: sections 9.1 to 9.3 ran as planned, with 9.3 as amended before any resu
 - 9.1, average effect: the plan did not say which standard deviation the bootstrap uses. Every replicate keeps the step at the full-sample SD of the gap, so all replicates measure the effect of the same change.
 - 9.4, outputs: three small tables are saved in addition to the listed files, because every table shown in a notebook is saved: `horizons_sample_counts.csv`, `horizons_price_source.csv` and `strategy_sample_counts.csv`. `strategy_results.csv` also reports the average ask and the number of contracts of each strategy.
 
+Exploratory checks X1 and X2 (after Stage 10), run on 2026-11-24: both ran as written. In X2, October (80 games) and April (96 games) are each under 100 games, so October is combined with November and April with March, which gives five groups. The planned Stage 10 files are unchanged, apart from the exploratory rows added to `stage10_all_tests.csv`.
+
 Stage 10, recorded part by part as each one is run.
 
 Data (10.2), run on 2026-11-23:

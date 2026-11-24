@@ -415,3 +415,87 @@ def calibration_figure(bins: pd.DataFrame, metrics: pd.DataFrame, split: str,
     fig.tight_layout()
     fig.savefig(path, dpi=150)
     return fig
+
+
+# ================================================================ exploratory (plan X2)
+
+MIN_MONTH_GAMES = 100          # a smaller first or last month joins the month next to it
+MONTH_NAMES = ("January", "February", "March", "April", "May", "June", "July", "August",
+               "September", "October", "November", "December")
+
+
+def month_group(game_date: pd.Series, min_games: int = MIN_MONTH_GAMES) -> pd.Series:
+    """Calendar month of each game, as "2025-10". A first or last month with fewer than
+    min_games games is combined with its neighbor and labeled "2025-10 to 2025-11"."""
+    month = pd.to_datetime(game_date).dt.strftime("%Y-%m")
+    order = sorted(month.unique())
+    counts = month.value_counts()
+    label = {m: m for m in order}
+    if len(order) > 1 and counts[order[0]] < min_games:
+        label[order[0]] = label[order[1]] = f"{order[0]} to {order[1]}"
+    if len(order) > 2 and counts[order[-1]] < min_games:
+        joined = f"{order[-2]} to {order[-1]}"
+        label[order[-1]] = label[order[-2]] = joined
+    return month.map(label)
+
+
+def month_title(label: str) -> str:
+    """"2025-10 to 2025-11" -> "Oct to Nov", "2026-01" -> "Jan"."""
+    return " to ".join(MONTH_NAMES[int(part[5:7]) - 1][:3] for part in label.split(" to "))
+
+
+def monthly_slopes(d: pd.DataFrame, min_games: int = MIN_MONTH_GAMES) -> pd.DataFrame:
+    """a and b of the recalibration fit within each calendar month (plan X2), with
+    standard errors clustered by home team, 95% intervals and the Wald test of b = 1."""
+    groups = month_group(d["game_date"], min_games)
+    rows = []
+    for label in sorted(groups.unique()):
+        x = d[groups == label]
+        logi = logistic_table(fit_logit(x["p_home"], x["home_win"], groups=x["home_team"]),
+                              x["home_team"].nunique()).set_index("term")
+        a, b = logi.loc["intercept_a"], logi.loc["slope_b"]
+        rows.append({"month": label, "month_label": month_title(label), "n": len(x),
+                     "first_game_date": str(x["game_date"].min()),
+                     "last_game_date": str(x["game_date"].max()),
+                     "home_win_rate": float(x["home_win"].mean()),
+                     "n_clusters": int(b["n_clusters"]),
+                     "intercept_a": a["estimate"], "a_se_cluster": a["se_cluster"],
+                     "a_ci_lo": a["ci_lo"], "a_ci_hi": a["ci_hi"], "a_p_value": a["p_value"],
+                     "slope_b": b["estimate"], "b_se_cluster": b["se_cluster"],
+                     "b_ci_lo": b["ci_lo"], "b_ci_hi": b["ci_hi"], "b_p_value": b["p_value"]})
+    return pd.DataFrame(rows)
+
+
+def monthly_tests(table: pd.DataFrame) -> pd.DataFrame:
+    """The Wald tests of b = 1 by month in the common layout, marked exploratory."""
+    rows = [all_tests.wald_row(
+        PART, f"exploratory_slope_{r.month.replace(' to ', '_').replace('-', '_')}",
+        f"calibration slope b in {r.month_label} ({r.month})", "b = 1", r.n, r.slope_b,
+        r.b_se_cluster, r.b_p_value, null_value=1.0) for r in table.itertuples(index=False)]
+    return all_tests.mark_exploratory(all_tests.table(rows))
+
+
+def monthly_figure(table: pd.DataFrame, path: Path) -> plt.Figure:
+    """The slope b in each month with its clustered 95% interval."""
+    apply_style()
+    fig, ax = plt.subplots(figsize=(7.8, 4.6))
+    x = np.arange(len(table))
+    b = table["slope_b"].to_numpy()
+    yerr = np.vstack([b - table["b_ci_lo"], table["b_ci_hi"] - b])
+    ax.axhline(1, color=COLORS["reference"], lw=1.2, ls=(0, (4, 3)), zorder=1,
+               label="b = 1: calibrated")
+    ax.errorbar(x, b, yerr=yerr, fmt="o", ms=8, color=COLORS["series1"],
+                ecolor=COLORS["series1"], elinewidth=2, capsize=0, mec=COLORS["surface"],
+                mew=2, zorder=3, label="Slope b, clustered 95% interval")
+    for xi, v in zip(x, b):
+        ax.annotate(f"{v:.2f}", (xi, v), xytext=(9, 0), textcoords="offset points",
+                    va="center", fontsize=8.5, color=COLORS["text_secondary"])
+    ax.set_xticks(x, [f"{r.month_label}\n{r.n} games" for r in table.itertuples()])
+    ax.set_xlim(-0.5, len(table) - 0.4)
+    ax.grid(axis="x", visible=False)
+    ax.set_ylabel("Calibration slope b")
+    ax.set_title("Exploratory: calibration slope at tipoff by month, 2025-26", loc="left")
+    ax.legend(loc="upper left", frameon=False, fontsize=9)
+    fig.tight_layout()
+    fig.savefig(path, dpi=150)
+    return fig

@@ -2,7 +2,7 @@
 
 Data pipeline for the STSCI 4981/5981 final project. The research question: are Kalshi NBA game prices before tipoff well calibrated, and are popular teams overpriced?
 
-Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. Stage 8 covers the EDA and calibration at tipoff (horizon 0). Stage 9 covers the popularity bias test, the comparison of horizons and a trading strategy backtest. Two exploratory checks were added after the Stage 9 results were seen. They are labeled as exploratory in the plan and in the notebooks. Stage 10 adds four extensions: line movement, information arrival (with an injury report event study), subgroups, and a replication on the start of the 2026-27 season. The 2026-27 data is frozen at git tag `data-v2`.
+Stages 2 to 7 collect and clean the data, as scripts. The data used for analysis is frozen at git tag `data-v1`. The analysis runs in the notebooks in [notebooks/](notebooks/) and follows [ANALYSIS_PLAN.md](ANALYSIS_PLAN.md), which is committed before any result is computed. Stage 8 covers the EDA and calibration at tipoff (horizon 0). Stage 9 covers the popularity bias test, the comparison of horizons and a trading strategy backtest. Two exploratory checks were added after the Stage 9 results were seen. They are labeled as exploratory in the plan and in the notebooks. Stage 10 adds four extensions: line movement, information arrival (with an injury report event study), subgroups, and a replication on the start of the 2026-27 season. The 2026-27 data is frozen at git tag `data-v2`. Two more exploratory checks were added after the Stage 10 results were seen (injury events by the player's previous status, and the calibration slope by month).
 
 ## Setup
 
@@ -124,7 +124,7 @@ The analysis lives in `notebooks/`. Read and run them in this order:
 | `09_replication.ipynb` | Do calibration, the popularity effect and the opposite trading rule hold on the start of 2026-27? | 10.6 |
 | `10_all_tests.ipynb` | Every Stage 10 test in one table, with Holm adjusted p values across the 8 primary tests. Fits no model. | 10.1, 10.7 |
 
-Notebooks 03 and 05 each end with a section headed "Exploratory (not in the Stage 9 plan)". Those sections follow the plan's "Exploratory, added after Stage 9 results" heading and were added after the planned results were seen.
+Notebooks 03 and 05 each end with a section headed "Exploratory (not in the Stage 9 plan)". Those sections follow the plan's "Exploratory, added after Stage 9 results" heading and were added after the planned results were seen. Notebooks 07 and 08 each end with a section headed "Exploratory (not in the Stage 10 plan)", which follows the plan's "Exploratory, added after Stage 10 results" heading.
 
 To run all of them from the repo root:
 
@@ -372,11 +372,16 @@ Exploratory, added after the Stage 9 results (plan heading "Exploratory, added a
 - `exploratory_strategy_before_fees.csv`: profit and return of the three strategies before fees (check E2, notebook 05).
 
 Stage 10 (plan sections 10.3 to 10.7):
-- `stage10_all_tests.csv`: every Stage 10 test with its estimate, interval, raw p value and, for the 8 primary tests, the Holm adjusted p value (notebook 10). `stage10_tests_<part>.csv` are the same rows per notebook, before the adjustment.
+- `stage10_all_tests.csv`: every Stage 10 test with its estimate, interval, raw p value and, for the 8 primary tests, the Holm adjusted p value (notebook 10). The column `role` says whether a test is `primary`, `secondary` or `exploratory`. `stage10_tests_<part>.csv` are the same rows per notebook, before the adjustment.
 - Notebook 06, 1,222 games: `line_movement_sample_counts.csv`, `line_movement_summary.csv` and `line_movement_distribution.png` (the moves), `line_movement_logistic.csv`, `line_movement_effects.csv` and `line_movement_bootstrap.csv` (a, b and d of the four models), `line_movement_bins.csv` and `line_movement_bins.png` (win rate minus tipoff price by size of the move).
 - Notebook 07: `arrival_by_minutes.csv` / `.png`, `arrival_by_clock.csv` / `.png` and `arrival_window_shares.csv` (when prices move); `injury_reliability.csv`, `injury_event_counts.csv`, `injury_events.csv` (one row per event, with its release time and price changes), `injury_event_test.csv`, `injury_event_path.csv` and `injury_event_path.png` (the event study).
 - Notebook 08, 1,229 games: `subgroups_groups.csv` (the groups), `subgroups_metrics.csv` (Brier, a and b per group), `subgroups_interaction.csv` (the interaction models), `subgroups_brier_diff.csv`, `subgroups_bootstrap.csv`, `subgroups_calibration_bins.csv` and one calibration figure per split.
 - Notebook 09, 248 games of 2026-27: `replication_sample_counts.csv`, `replication_brier.csv`, `replication_logistic.csv`, `replication_lr_test.csv`, `replication_bootstrap.csv`, `replication_calibration_bins.csv` and `replication_calibration_plot.png` (calibration); `replication_popularity_*.csv` (the popularity model); `replication_opposite_rule.csv` and `replication_opposite_trades.csv` (the opposite rule and its benchmark); `replication_slope_width.csv`.
+
+Exploratory, added after the Stage 10 results (plan heading "Exploratory, added after Stage 10 results"):
+- `exploratory_injury_by_status.csv`: the injury events split by the player's previous status (Questionable, Doubtful, not listed), with the mean change in the main and the anticipation window (check X1, notebook 07).
+- `exploratory_slope_by_month.csv` and `exploratory_slope_by_month.png`: the calibration slope b by calendar month of 2025-26, with clustered intervals (check X2, notebook 08).
+- `stage10_tests_exploratory_information_arrival.csv`, `stage10_tests_exploratory_subgroups.csv`: the tests of the two checks in the common layout. They are in `stage10_all_tests.csv` with the role `exploratory` and no Holm adjustment.
 
 ### `data/raw/` (gitignored, needed to rebuild without re-pulling)
 
