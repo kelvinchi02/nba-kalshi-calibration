@@ -1,0 +1,7 @@
+group,count,first_game_date,cutoff_date
+final regular-season games up to the cutoff date,248,2026-10-20,2026-11-22
+matched to a settled Kalshi event,248,2026-10-20,2026-11-22
+"main sample (matched, not postponed_window)",248,2026-10-20,2026-11-22
+main sample games with p_home missing at tipoff (dropped),0,2026-10-20,2026-11-22
+games in the analysis,248,2026-10-20,2026-11-22
+game dates in the analysis,33,2026-10-20,2026-11-22

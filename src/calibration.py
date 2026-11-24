@@ -14,6 +14,7 @@ the calibration tables and figure.
 """
 from __future__ import annotations
 
+import warnings
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -84,19 +85,39 @@ def logistic_table(fit, n_clusters: int) -> pd.DataFrame:
 
 # ---------------------------------------------------------------- bootstrap
 
-def block_bootstrap(d: pd.DataFrame, n_boot: int = B, seed: int = SEED) -> pd.DataFrame:
+def replicate_statistics(pb, yb, bb, n_bins: int = N_BINS,
+                         tolerate_failed_fit: bool = False) -> dict:
+    """The statistics of one bootstrap replicate: Brier, a, b, the LR statistic and the
+    win rate per bin.
+
+    With tolerate_failed_fit (small samples, plan 10.1), a replicate whose model cannot be
+    fitted keeps its Brier scores and bin rates and gets missing a, b and LR.
+    """
+    rec = dict(brier(pb, yb))
+    try:
+        with warnings.catch_warnings():
+            if tolerate_failed_fit:
+                warnings.simplefilter("error")      # separation or no convergence: no fit
+            fit = fit_logit(pb, yb)
+        rec |= {"intercept_a": fit.params[0], "slope_b": fit.params[1],
+                "lr_stat": lr_test(pb, yb, fit)["lr_stat"]}
+    except Exception:  # noqa: BLE001 - re-raised unless the caller asked to tolerate it
+        if not tolerate_failed_fit:
+            raise
+        rec |= {"intercept_a": np.nan, "slope_b": np.nan, "lr_stat": np.nan}
+    for k in range(n_bins):
+        mask = bb == k
+        rec[f"bin{k + 1}_win_rate"] = yb[mask].mean() if mask.any() else np.nan
+    return rec
+
+
+def block_bootstrap(d: pd.DataFrame, n_boot: int = B, seed: int = SEED, n_bins: int = N_BINS,
+                    tolerate_failed_fit: bool = False) -> pd.DataFrame:
     """Resample whole game dates with replacement. Bins keep their full-sample assignment."""
     p, y, bins = d["p_home"].to_numpy(), d["home_win"].to_numpy(), d["bin"].to_numpy()
 
     def replicate(idx: np.ndarray) -> dict:
-        pb, yb, bb = p[idx], y[idx], bins[idx]
-        fit = fit_logit(pb, yb)
-        rec = {**brier(pb, yb), "intercept_a": fit.params[0], "slope_b": fit.params[1],
-               "lr_stat": lr_test(pb, yb, fit)["lr_stat"]}
-        for k in range(N_BINS):
-            mask = bb == k
-            rec[f"bin{k + 1}_win_rate"] = yb[mask].mean() if mask.any() else np.nan
-        return rec
+        return replicate_statistics(p[idx], y[idx], bins[idx], n_bins, tolerate_failed_fit)
 
     return stats_tools.block_bootstrap(d["game_date"], replicate, n_boot=n_boot, seed=seed)
 
@@ -125,7 +146,7 @@ def add_bootstrap_intervals(bins: pd.DataFrame, summary: pd.DataFrame) -> pd.Dat
 # ---------------------------------------------------------------- figure
 
 def calibration_plot(bins: pd.DataFrame, bs: dict, lr: dict, logi: pd.DataFrame,
-                     path: Path) -> plt.Figure:
+                     path: Path, title: str | None = None) -> plt.Figure:
     """Save the calibration plot to `path` and return the figure."""
     apply_style()
     fig, ax = plt.subplots(figsize=(6.4, 6.4))
@@ -141,7 +162,7 @@ def calibration_plot(bins: pd.DataFrame, bs: dict, lr: dict, logi: pd.DataFrame,
     ax.set_aspect("equal")
     ax.set_xlabel("Kalshi home-win price at tipoff (bin mean of p_home)")
     ax.set_ylabel("Observed home-win rate")
-    ax.set_title(f"Calibration at tipoff: {bs['n']:,} games in 10 equal-count bins",
+    ax.set_title(title or f"Calibration at tipoff: {bs['n']:,} games in 10 equal-count bins",
                  loc="left")
     a, b = logi.set_index("term")["estimate"]
     ax.text(0.98, 0.04,

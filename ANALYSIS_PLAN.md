@@ -481,4 +481,11 @@ Data (10.2), run on 2026-11-23:
 - The rebuilt `game_map.csv` and `snapshots.csv` are byte identical to the committed files.
 - Kalshi's market list no longer returns the field `expiration_time`, which the match uses for `kalshi_tipoff_estimate`. The same time is now in `latest_expiration_time`: minus 14 days, it equals the committed `kalshi_tipoff_estimate` for all 1,230 games. `src/match_games.py` reads the old field and falls back to the new one. No data changed.
 
+Replication (10.6), pulled and run on 2026-11-23: the tests ran as planned. The cutoff date is 2026-11-22 and the sample is 248 games. No test, measure, threshold or rule was changed after results were seen. Four points on the data are recorded here:
+
+- `tipoff_moved` is computed for 2026-27, not left empty. The live market list has `latest_expiration_time`, the field that replaced `expiration_time`. But in 2026-27 Kalshi sets it 2 days after the listed tipoff, not 14: it is exactly 48 hours after the official tipoff in 246 of the 248 games. With that 2-day rule, the other two games are flagged `tipoff_moved` (official tipoff 1 hour and 1.5 hours from the listed time). Both stay in the sample, as planned. The rule is a season setting in `src/seasons.py` and is named in the match report.
+- Some 2026-27 markets opened before Kalshi's historical cutoff (2026-09-24). Their trades before the cutoff are on the historical endpoints and the later ones on the live endpoints. The pull reads both and keeps each trade once. Every 30h window lies after the cutoff.
+- The live candles name their prices `close_dollars`, not `close`. The loader reads both.
+- One table is saved in addition to the listed files: `replication_slope_width.csv` (the interval widths of 10.6, step 4). A data quality report for the new season is saved as `data/processed/quality_report_2026_27.md`.
+
 Line movement (10.3) and subgroups (10.5), run on 2026-11-23: both ran as planned. No test, sample, split or cut point was changed after results were seen. Two tables are saved in addition to the listed files, because every table shown or used in a notebook is saved: `line_movement_sample_counts.csv` and `subgroups_bootstrap.csv`.

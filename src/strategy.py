@@ -144,20 +144,33 @@ def taker_fee(contracts: int, ask: float) -> tuple[float, float]:
 
 # ---------------------------------------------------------------- trades
 
-def make_trades(games: pd.DataFrame, gap_col: str, use_threshold: bool) -> pd.DataFrame:
+BUY_SIDES = ("less_popular", "more_popular")
+
+
+def make_trades(games: pd.DataFrame, gap_col: str, use_threshold: bool,
+                buy: str = "less_popular", threshold: float | None = None) -> pd.DataFrame:
     """One row per tradable game, with the order placed in it, if any.
 
-    With use_threshold, a game trades only when |gap| is at or above its expanding
-    threshold. Without it (the benchmark), every tradable game trades. The contracts bought
-    are on the team with the lower measure. Columns cost, fee and profit are 0 where there
-    is no trade.
+    With use_threshold, a game trades only when |gap| is at or above its threshold. Without
+    it (the benchmark), every tradable game trades. The threshold is the expanding one of
+    plan 9.3, unless a fixed number is given (plan 10.6, where it comes from the season
+    before). The contracts bought are on the team with the lower measure, or with
+    buy="more_popular" on the team with the higher one. Columns cost, fee and profit are 0
+    where there is no trade.
     """
-    threshold = expanding_threshold(games, gap_col)
+    if buy not in BUY_SIDES:
+        raise ValueError(f"buy must be one of {BUY_SIDES}")
+    if threshold is None:
+        threshold = expanding_threshold(games, gap_col)
+    else:
+        threshold = pd.Series(float(threshold), index=games.index)
     rows = []
     for i, g in games[games["tradable"]].iterrows():
         gap = g[gap_col]
         signal = (abs(gap) >= threshold[i]) if use_threshold else True
-        side = "away" if gap > 0 else "home" if gap < 0 else None
+        side = "away" if gap > 0 else "home" if gap < 0 else None   # the less popular team
+        if buy == "more_popular" and side is not None:
+            side = "home" if side == "away" else "away"
         rec = {"game_id": g["game_id"], "game_date": g["game_date"],
                "tipoff_utc": g["tipoff_utc"], "home_team": g["home_team"],
                "away_team": g["away_team"], "gap": gap,
