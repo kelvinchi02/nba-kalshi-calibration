@@ -465,6 +465,43 @@ Tests:
 - The opposite rule on the 2025-26 season.
 - Any model or test not listed above. Ideas that come up are listed as suggestions and are not run.
 
+## Exploratory, added after Stage 10 results
+
+Added on 2026-11-23, after the Stage 10 results were seen. Nothing in this section was planned in advance, so its results are exploratory and carry less weight than the planned tests of Stage 10. This text was committed before either check was run. The planned results and their files are not changed, with one exception: `results/stage10_all_tests.csv` gains the rows of these checks, marked `exploratory`. They get no Holm adjustment, and the Holm family stays the 8 primary tests of 10.1.
+
+Also decided on 2026-11-23, after the Stage 10 results: `tipoff_moved` for 2026-27 stays as computed, with the 2-day rule recorded under "Deviations".
+
+### X1. Injury events by the player's previous status (notebook 07)
+
+Reason: the event study of 10.4 pools events in which the player was Questionable, Doubtful or not listed before he was ruled Out. A player who was Doubtful was already expected to miss the game, and one who was not listed was not. This check asks whether the size of the price change, at the release and in the hour before it, goes with how much of a surprise the news was.
+
+- Events: the 302 events of the main window in 10.4. Nothing about the events, the windows or the release times changes.
+- Groups, by the previous status of the event's key players:
+  - Questionable: every key player of the event was Questionable in the snapshot before;
+  - Doubtful: every key player was Doubtful;
+  - not listed: every key player was not listed, while the team had already submitted.
+  - Events that fit none of the three (a previous status of Probable or Available, or several key players with different statuses) are left out. Their count is reported.
+- For each group and for each of the two windows (main: 5 minutes before the release to 30 minutes after; anticipation: 60 to 5 minutes before): the number of events and game dates, the mean and median change, the 95% bootstrap interval of the mean and the bootstrap p value against zero. The block bootstrap is by game date within the group, B = 2,000, seed 4981.
+- That is 6 means. No test of a difference between the groups is run, and no placebo is recomputed by group.
+- Limit on the reading: the not listed group is small, and the groups can differ in other ways, such as how long before tipoff the report came out and which players are in them.
+
+### X2. Calibration slope by calendar month (notebook 08)
+
+Reason: the season-half test of 10.5 found a lower slope in the early half of 2025-26 than in the late half. A cut at one date cannot show whether the slope changed at one point or drifted over the season. This check shows the slope month by month.
+
+- Sample: the main sample at tipoff, 1,229 games, as in 10.5.
+- Groups: the calendar month of `game_date` (US Eastern). A first or last month with fewer than 100 games is combined with the month next to it (October with November, April with March). The number of games in each group is reported.
+- For each group: the recalibration fit logit P(y = 1) = a + b · logit(p) within the group, with standard errors clustered by home team. Report a and b, their clustered standard errors and 95% intervals, and the Wald test of b = 1.
+- Figure: b by month with its clustered 95% interval and a reference line at 1.
+- No test of a difference between months is run, and no other grouping of the dates is tried.
+- Limit on the reading: these are 5 to 7 unadjusted tests on small groups, so a single month with p below 0.05 is weak evidence. January holds both halves of the 10.5 split, whose cut is January 16.
+
+### Outputs
+
+- Notebook 07: `results/exploratory_injury_by_status.csv`.
+- Notebook 08: `results/exploratory_slope_by_month.csv`, `results/exploratory_slope_by_month.png`.
+- The tests of the two checks are saved in the common layout as `results/stage10_tests_exploratory_information_arrival.csv` and `results/stage10_tests_exploratory_subgroups.csv`, with the role `exploratory`. Notebook 10 adds them to `results/stage10_all_tests.csv`.
+
 ## Deviations
 
 Stage 8: none.
